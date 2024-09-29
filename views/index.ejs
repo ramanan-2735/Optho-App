@@ -1,0 +1,47 @@
+<%- include('partials/header.ejs') %>
+
+    <div class="container contpat">
+        <% name.map((n)=> {%>
+            <div class="patients row">
+                <div class="pd col" data-id="<%= n.id %>">
+                    <p>Patient ID: <%= n.id %>
+                    </p>
+                    <p>Patient Name: <%= n.name %>
+                    </p>
+                </div>
+                <div class="container col-3 ">
+                    <div class="opr-btn row-col-2 grid gap-0 row-gap-1">
+                        <div class="g-col-12 w-100">
+                            <button class="btn btn-primary w-100 ">UPDATE</button>
+                        </div>
+                        <div class="g-col-12 w-100 mt-1 boom">
+                            <form action="/deletePat" method="post">
+                                <input type="hidden" name="dd">
+                                <button class="btn btn-danger w-100" type="submit">DELETE</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+    </div>
+
+
+
+    <script>
+        // Add a click event listener to each patient div
+        document.querySelectorAll('.pd').forEach(div => {
+            div.addEventListener('click', function () {
+                const patientId = this.getAttribute('data-id');
+                // Open a new tab with the patient's details
+                window.open(`/patientDet/${patientId}`, '_blank');
+            });
+        });
+
+        document.querySelectorAll('.boom').forEach(div => {
+            div.addEventListener('click', function () {
+
+            });
+        });
+    </script>
+    <%- include('partials/footer.ejs') %>

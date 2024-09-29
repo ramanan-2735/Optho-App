@@ -1,0 +1,7 @@
+1. Soft Blues and Whites
+
+    Primary Color: Soft Blue (#A3C1DA)
+    Secondary Color: Navy Blue (#003A70)
+    Accent Color: Light Gray (#F0F4F8)
+    Background Color: White (#FFFFFF)
+    Text Color: Dark Gray (#333333)

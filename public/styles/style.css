@@ -1,0 +1,66 @@
+* {
+    padding: 0;
+    margin: 0;
+
+}
+
+body {
+    /* background-image: url('/assests/white.jpg'); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+}
+
+#header span {
+    padding: 0px 30px;
+
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 2.5rem !important;
+}
+
+.contpat {
+    /* padding: 0%; */
+    /* background-color: yellow; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+}
+
+.patients {
+    width: 45%;
+    height: 100px;
+    align-self: center;
+
+
+
+    margin: 20px;
+    padding: 10px;
+
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px;
+
+    cursor: pointer;
+
+}
+
+.patients a {
+    color: black !important;
+    text-decoration: none;
+}
+
+.pd {
+    /* background-color: yellow; */
+}
+
+.opr-btn {
+    height: 100%;
+    /* background-color: cyan; */
+    /* border: 1px solid black; */
+    /* border-radius: 10px; */
+    /* display: grid; */
+}

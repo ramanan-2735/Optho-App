@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= det.name%> Details[Optho-App]
+    </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            width: 400px;
+            /* Increased width */
+            padding: 20px;
+            /* Added padding */
+        }
+
+        .patient-photo {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .card-content {
+            padding: 15px 0;
+        }
+
+        .patient-name {
+            margin: 0;
+            font-size: 28px;
+            /* Increased font size */
+            color: #333;
+        }
+
+        .patient-age {
+            font-size: 18px;
+            /* Increased font size */
+            color: #777;
+        }
+
+        .patient-description,
+        .patient-history,
+        .patient-allergies,
+        .patient-contact {
+            color: #555;
+            margin-top: 10px;
+            font-size: 16px;
+            /* Increased font size */
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 15px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <img src="patient-photo.jpg" alt="Patient Photo" class="patient-photo">
+        <div class="card-content">
+            <h2 class="patient-name">
+                <%= det.name%>
+            </h2>
+            <p class="patient-age">Age: 30</p>
+            <p class="patient-description">John is a regular patient with no significant health issues.</p>
+
+            <div class="section-title">Medical History:</div>
+            <p class="patient-history">No chronic illnesses. Previous surgeries: Appendectomy.</p>
+
+            <div class="section-title">Allergies:</div>
+            <p class="patient-allergies">Allergic to penicillin.</p>
+
+            <div class="section-title">Contact Information:</div>
+            <p class="patient-contact">Phone: (555) 123-4567</p>
+            <p class="patient-contact">Email: johndoe@example.com</p>
+        </div>
+    </div>
+</body>
+
+</html>
