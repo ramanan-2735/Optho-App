@@ -30,7 +30,7 @@ app.get('/', async (req, res) => {
     } catch (e) {
         console.log(e);
     }
-    console.log(name.rows);
+    // console.log(name.rows);
     res.render("index.ejs", { name: name.rows });
 })
 
@@ -57,9 +57,14 @@ app.post("/addPat", (req, res) => {
     res.redirect("/")
 });
 
-app.post("/deletePat", (req, res) => {
-    console.log(req.body);
-
+app.post("/deletePat/:id", (req, res) => {
+    const delId = (req.params.id);
+    try {
+        db.query('delete from patients where id = ($1)', [delId]);
+        console.log("Row with ID "+delId+" deleted successfully");
+    } catch (e) {
+        console.log(e)
+    }
     res.redirect("/");
 })
 
