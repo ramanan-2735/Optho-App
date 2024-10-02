@@ -26,7 +26,7 @@ let name;
 // GET
 app.get('/', async (req, res) => {
     try {
-        name = await db.query("select * from patients");
+        name = await db.query("select * from details");
     } catch (e) {
         console.log(e);
     }
@@ -35,9 +35,9 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/patientDet/:id', (req, res) => {
-    // console.log(req.params.id)
-    const patedet = name.rows.find(x => x.id == req.params.id)
-    res.render("patientDet.ejs", { det: patedet });
+    const patdet = name.rows.find(x => x.id == req.params.id)
+    // console.log(patdet);
+    res.render("patientDet.ejs", { det: patdet });
 })
 
 app.get("/addPat", (req, res) => {
@@ -48,9 +48,10 @@ app.get("/addPat", (req, res) => {
 
 // POST
 app.post("/addPat", (req, res) => {
-    const nam = req.body.name;
+    const det = req.body;
+    console.log(det);
     try {
-        db.query("insert into patients(name) values($1)", [nam]);
+        db.query("insert into details(name,registration_number,age_sex,contact_number,diabetes_type,insulin,OHA_count,HBA1c,BCVA_right,BCVA_left, IOP_right,IOP_left, DR_right, macular_edema_right, oct_right, DR_left, macular_edema_left, oct_left, advice_right,advice_left) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)", [det.name, det.registration_no, det.age_gender, det.contact, det.type, det.insulin, det.oha_count, det.HBA1c, det.bcva_right, det.bcva_left, det.iop_right, det.iop_left, det.dr_right, det.macular_edema_right, det.oct_finding_right, det.dr_left, det.macular_edema_left, det.oct_finding_left, det.right_eye_advice, det.left_eye_advice]);
     } catch (e) {
         console.log(e);
     }
@@ -61,7 +62,7 @@ app.post("/deletePat/:id", (req, res) => {
     const delId = (req.params.id);
     try {
         db.query('delete from patients where id = ($1)', [delId]);
-        console.log("Row with ID "+delId+" deleted successfully");
+        console.log("Row with ID " + delId + " deleted successfully");
     } catch (e) {
         console.log(e)
     }
