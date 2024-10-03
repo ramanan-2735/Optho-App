@@ -64,7 +64,7 @@ app.post("/addPat", (req, res) => {
 app.post("/deletePat/:id", (req, res) => {
     const delId = (req.params.id);
     try {
-        db.query('delete from patients where id = ($1)', [delId]);
+        db.query('delete from details where id = ($1)', [delId]);
         console.log("Row with ID " + delId + " deleted successfully");
     } catch (e) {
         console.log(e)
