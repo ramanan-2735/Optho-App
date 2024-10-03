@@ -37,8 +37,8 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/patientDet/:id', (req, res) => {
-    // console.log(name)
-    const patdet = name.rows.find(x => x.id == req.params.id)
+    const patRow = name.rows;
+    const patdet = patRow.find(x => x.id == req.params.id)
 
     res.render("patientDet.ejs", { det: patdet });
 })
@@ -70,6 +70,13 @@ app.post("/deletePat/:id", (req, res) => {
         console.log(e)
     }
     res.redirect("/");
+});
+
+app.post("/updatePat/:id", (req, res) => {
+    const updRow = name.rows;
+    const updPat = updRow.find(x => x.id == req.params.id)
+    console.log(updPat);
+    res.render("updPat.ejs", { updPat });
 })
 
 
