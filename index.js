@@ -21,22 +21,25 @@ app.use(express.static('public/'));
 
 let name;
 
-
-
-// GET
-app.get('/', async (req, res) => {
+function pats() {
     try {
-        name = await db.query("select * from details");
+        return db.query("select * from details");
     } catch (e) {
         console.log(e);
     }
+}
+
+// GET
+app.get('/', async (req, res) => {
+    name = await pats();
     // console.log(name.rows);
     res.render("index.ejs", { name: name.rows });
 })
 
 app.get('/patientDet/:id', (req, res) => {
+    // console.log(name)
     const patdet = name.rows.find(x => x.id == req.params.id)
-    // console.log(patdet);
+
     res.render("patientDet.ejs", { det: patdet });
 })
 

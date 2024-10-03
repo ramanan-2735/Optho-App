@@ -77,26 +77,46 @@
             <h2 class="patient-name">
                 <%= det.name%>
             </h2>
-            <p>Registration No: </p>
-            <p>Age/Sex: </p>
-            <p>Contact No: 91+</p>
-            <p>Type of Diabetes:</p>
-            <p>Insulin:</p>
-            <p>No. of OHA(Oral Hypoglycemic): </p>
-            <p>HBA1c:</p>
-            <!-- <div>Ocular examination:</div> -->
-            <p>Visual Acuity of Right Eye:</p>
-            <p>Visual Acuity of Left Eye:</p>
-            <p>IOP of Right Eye:</p>
-            <p>IOP of Left Eye:</p>
-            <p>ETDRS Grade of Right Eye:</p>
-            <p>Macular Edema of Right Eye:</p>
-            <p>OCT finding of Right Eye:</p>
-            <p>ETDRS Grade of Left Eye:</p>
-            <p>Macular Edema of Left Eye:</p>
-            <p>OCT finding of Left Eye:</p>
-            <p>Right Eye Treatment advice:</p>
-            <p>Left Eye Treatment advice:</p>
+            <p>Registration No: <%= det.registration_number %>
+            </p>
+            <p>Age/Sex: <%= det.age_sex%>
+            </p>
+            <p>Contact No: 91+<%= det.contact_number%>
+            </p>
+            <p>Type of Diabetes: <%= det.diabetes_type%>
+            </p>
+            <p>Insulin: <%= det.insulin%>
+            </p>
+            <p>No. of OHA(Oral Hypoglycemic): <%= det.oha_count%>
+            </p>
+            <p>HBA1c: <%= det.hba1c%>
+            </p>
+            <p>Visual Acuity of Right Eye: <%= det.bcva_right%>
+            </p>
+            <p>Visual Acuity of Left Eye: <%= det.bcva_left%>
+            </p>
+            <p>IOP of Right Eye: <%= det.iop_right%>
+            </p>
+            <p>IOP of Left Eye: <%= det.iop_left%>
+            </p>
+            <p>ETDRS Grade of Right Eye: <%= det.dr_right%>
+            </p>
+            <p>Macular Edema of Right Eye: <%= det.macular_edema_right%>
+            </p>
+            <p>OCT finding of Right Eye: <%= det.oct_right%>
+            </p>
+            <p>ETDRS Grade of Left Eye: <%= det.dr_left%>
+            </p>
+            <p>Macular Edema of Left Eye: <%= det.macular_edema_left%>
+            </p>
+            <p>OCT finding of Left Eye: <%= det.oct_left%>
+            </p>
+            <p>Right Eye Treatment advice: <%= det.advice_right%>
+            </p>
+            <p>Left Eye Treatment advice: <%= det.advice_left%>
+            </p>
+            <p>Follow Up: <%= det.follow_up%>
+            </p>
         </div>
     </div>
 </body>
