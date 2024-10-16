@@ -6,11 +6,37 @@
 
 body {
     /* background-image: url('/assests/white.jpg'); */
+    background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
+    animation: gradient-shift 10s infinite;
+
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: 100vh;
+    height: fit-content;
 }
+
+@keyframes gradient-shift {
+
+    0% {
+
+        background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
+
+    }
+
+    50% {
+
+        background-image: linear-gradient(to bottom, #6495ed, #08C2FF);
+
+    }
+
+    100% {
+
+        background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
+
+    }
+
+}
+
 
 #header span {
     padding: 0px 30px;
@@ -27,25 +53,61 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    /* justify-content: center; */
+    justify-content: flex-start;
+    align-content: flex-start;
+    /* justify-content: space-between; */
+}
+
+#home {
+    /* margin-top: 2rem; */
+    min-height: 90vh;
+    height: auto;
+    overflow: auto;
+}
+
+#home>.container {
+    background-color: white;
+    height: 95%;
+    border-radius: 20px;
+
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px, rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 
 .patients {
-    width: 45%;
-    height: 100px;
-    align-self: center;
+    width: 24%;
+    height: max-content;
 
-
-
-    margin: 20px;
+    margin: 20px 5px 0px 5px;
     padding: 10px;
 
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px, rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 
     cursor: pointer;
+    overflow: hidden;
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0;
 
+    transition: transform 200ms ease, box-shadow 500ms ease;
+}
+
+.patients:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes appear {
+    from {
+        scale: 0.5;
+        opacity: 0;
+    }
+
+    to {
+        scale: 1;
+        opacity: 1;
+    }
 }
 
 .patients a {
@@ -53,13 +115,23 @@ body {
     text-decoration: none;
 }
 
-.pd {
-    /* background-color: yellow; */
+.btn-danger {
+    color: rgb(255, 0, 0) !important;
+    font-weight: bold;
+    background-color: rgba(225, 0, 0, 0.2) !important;
+    backdrop-filter: blur(10px);
+}
+
+.btn-primary {
+    color: blue !important;
+    font-weight: bold;
+    background-color: rgba(13, 110, 253, 0.2) !important;
+    backdrop-filter: blur(10px);
 }
 
 .opr-btn {
     height: 100%;
-    /* background-color: cyan; */
+    background-color: cyan;
     /* border: 1px solid black; */
     /* border-radius: 10px; */
     /* display: grid; */

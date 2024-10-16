@@ -1,36 +1,63 @@
 <%- include('partials/header.ejs') %>
 
-    <div class="container contpat">
-        <% name.map((n)=> {%>
-            <div class="patients row">
-                <div class="pd col" data-id="<%= n.id %>">
-                    <p>Patient ID: <%= n.id %>
-                    </p>
-                    <p>Patient Name: <%= n.name %>
-                    </p>
-                </div>
-                <div class="container col-3 ">
-                    <div class="opr-btn row-col-2 grid gap-0 row-gap-1">
-                        <div class="g-col-12 w-100">
-                            <form action="/updatePat/<%= n.id %>" method="post">
-                                <button class="btn btn-primary w-100 ">UPDATE</button>
-                            </form>
-                        </div>
-                        <div class="g-col-12 w-100 mt-1">
-                            <form action="/deletePat/<%= n.id %>" method="post">
-                                <input type="hidden">
-                                <button class="btn btn-danger w-100 " type="submit">DELETE</button>
-                            </form>
-                        </div>
+    <div class="top-4 left-4 mx-5">
+        <h1 class="text-white text-4xl" style="font-family: 'Pacifico', cursive;color: black;">Optho~app</h1>
+    </div>
+    <li class="nav-item"><a href="../addPat" class="nav-link active" aria-current="page">ADD</a></li>
+    <!-- <div class="top-4 right-4 mx-5">
+        <button class="btn btn-primary">ADD</button>
+    </div> -->
+
+
+    <div id="home">
+        <div class="container contpat">
+            <% name.map((n)=> {%>
+                <div class="patients row gx-1">
+                    <div class="pd col-12" data-id="<%= n.id %>">
+                        <p class="mb-1">Patient ID: <%= n.id %>
+                        </p>
+                        <p class="mb-1">Patient Name: <%= n.name %>
+                        </p>
                     </div>
+                    <!-- <div class="container col-3 ">
+                        <div class="opr-btn row-col-2 grid gap-0 row-gap-1">
+                            <div class="g-col-12 w-100">
+                                <form action="/updatePat/<%= n.id %>" method="post">
+                                    <button class="btn btn-primary w-100 ">UPDATE</button>
+                                </form>
+                            </div>
+                            <div class="g-col-12 w-100 mt-1">
+                                <form action="/deletePat/<%= n.id %>" method="post">
+                                    <input type="hidden">
+                                    <button class="btn btn-danger w-100 " type="submit">DELETE</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col w-100">
+                        <form action="/deletePat/<%= n.id %>" method="post">
+                            <input type="hidden">
+                            <button class="btn btn-danger w-100" type="submit">DELETE</button>
+                        </form>
+                    </div>
+
+                    <div class="col w-100">
+                        <form action="/updatePat/<%= n.id %>" method="post">
+                            <button class="btn btn-primary w-100">UPDATE</button>
+                        </form>
+                    </div>
+
+
                 </div>
-            </div>
-            <% }); %>
+                <% }); %>
+        </div>
     </div>
 
 
 
+
     <script>
+        //New Window opening function
         document.querySelectorAll('.pd').forEach(div => {
             div.addEventListener('click', function () {
                 const patientId = this.getAttribute('data-id');
@@ -38,5 +65,18 @@
             });
         });
 
+        //Resizing
+        const resizableDiv = document.querySelector('#home');
+        function adjustDivHeight() {
+            if (resizableDiv.scrollHeight > window.innerHeight * 0.9) {
+                resizableDiv.style.height = 'auto';
+            } else {
+                resizableDiv.style.height = '95vh';
+            }
+        }
+        adjustDivHeight();
+        window.addEventListener('resize', adjustDivHeight);
+
     </script>
+
     <%- include('partials/footer.ejs') %>
