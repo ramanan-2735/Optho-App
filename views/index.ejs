@@ -1,12 +1,22 @@
 <%- include('partials/header.ejs') %>
 
-    <div class="top-4 left-4 mx-5">
-        <h1 class="text-white text-4xl" style="font-family: 'Pacifico', cursive;color: black;">Optho~app</h1>
+   <div id="header" class="mb-4 mt-1">
+    <div class="container border-bottom rounded-bottom-4 ">
+        <header class="d-flex flex-wrap justify-content-center py-1 border-top border-top-5">
+          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <span class="fs-4">Optho-app</span>
+          </a>
+    
+          <ul class="nav nav-pills py-2">
+            <button type="button" class="btn btn-outline-light" onclick="window.location.href='http://localhost:3000/addPat'">ADD</button>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+              </form>
+          </ul>
+        </header>
     </div>
-    <li class="nav-item"><a href="../addPat" class="nav-link active" aria-current="page">ADD</a></li>
-    <!-- <div class="top-4 right-4 mx-5">
-        <button class="btn btn-primary">ADD</button>
-    </div> -->
+   </div>
 
 
     <div id="home">

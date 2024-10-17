@@ -1,4 +1,5 @@
-<html>
+<!-- <html>
+
 
 <head>
     <meta charset="UTF-8">
@@ -189,4 +190,156 @@
     </div>
 </body>
 
+</html> -->
+
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-full mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold text-blue-600">Patients Details</h1>
+            <div>
+                <button class="bg-red-500 text-white px-4 py-2 rounded mr-2">Delete</button>
+                <button class="bg-green-500 text-white px-4 py-2 rounded">Update</button>
+            </div>
+        </div>
+        <div class="grid grid-cols-6 gap-4 mb-4">
+            <div class="col-span-2">
+                <label class="block text-gray-700">Full Name :</label>
+                <input type="text" value="<%= det.name%>" class="w-full p-2 border rounded" />
+            </div>
+            <div>
+                <label class="block text-gray-700">Registration No.</label>
+                <input type="text" value="<%= det.registration_number %>" class="w-full p-2 border rounded" />
+            </div>
+            <div>
+                <label class="block text-gray-700">Contact No.</label>
+                <input type="text" value="<%= det.contact_number%>" class="w-full p-2 border rounded" />
+            </div>
+            <div>
+                <label class="block text-gray-700">Age</label>
+                <input type="text" class="w-full p-2 border rounded" value="<%= det.age%>"/>
+            </div>
+        </div>
+        <div class="grid grid-cols-6 gap-4 mb-4">
+            <div>
+                <label class="block text-gray-700">Sex :</label>
+                <input type="text" value="Male" class="w-full p-2 border rounded" />
+            </div>
+            <div>
+                <label class="block text-gray-700">Type Of Diabetes :</label>
+                <input type="text" value="Type 1" class="w-full p-2 border rounded" />
+            </div>
+            <div>
+                <label class="block text-gray-700">Insulin :</label>
+                <input type="text" value="Yes" class="w-full p-2 border rounded" />
+            </div>
+            <div>
+                <label class="block text-gray-700">No. of OHA(Oral Hypoglycemic)</label>
+                <input type="text" class="w-full p-2 border rounded" />
+            </div>
+            <div>
+                <label class="block text-gray-700">HBA1c</label>
+                <input type="text" class="w-full p-2 border rounded" />
+            </div>
+        </div>
+        <div class="mb-4">
+            <button class="bg-purple-400 text-white px-4 py-2 rounded">Ocular Examination</button>
+        </div>
+        <div class="grid grid-cols-3 gap-4 mb-4">
+            <div class="col-span-2">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">Right Eye</label>
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">Left Eye</label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">Visual Acuity (BCVA)</label>
+                        <input type="text" value="Value" class="w-full p-2 border rounded" />
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">Visual Acuity (BCVA)</label>
+                        <input type="text" value="Value" class="w-full p-2 border rounded" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">IOP (mmHg)</label>
+                        <input type="text" value="Value" class="w-full p-2 border rounded" />
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">IOP (mmHg)</label>
+                        <input type="text" value="Value" class="w-full p-2 border rounded" />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="bg-purple-400 text-white px-4 py-2 rounded">Treatement Advice</button>
+                <div class="mt-2">
+                    <label class="block text-gray-700">RE :</label>
+                    <input type="text" class="w-full p-2 border rounded mb-2" />
+                    <label class="block text-gray-700">LE :</label>
+                    <input type="text" class="w-full p-2 border rounded" />
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <button class="bg-purple-400 text-white px-4 py-2 rounded">Fundus Examination</button>
+        </div>
+        <div class="grid grid-cols-1 gap-4">
+            <div class="bg-blue-100 p-4 rounded">
+                <label class="block text-gray-700">Diagnosis</label>
+            </div>
+            <div class="grid grid-cols-4 gap-4">
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">Eye</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">DR (ETDRS grade)</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">Macular Edema (Yes / No)</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">OCT Finding (CMT in Microns)</label>
+                </div>
+            </div>
+            <div class="grid grid-cols-4 gap-4 mt-2">
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">Right Eye</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <input type="text" class="w-full p-2 border rounded" />
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <input type="text" class="w-full p-2 border rounded" />
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <input type="text" class="w-full p-2 border rounded" />
+                </div>
+            </div>
+            <div class="grid grid-cols-4 gap-4 mt-2">
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">Left Eye</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <input type="text" class="w-full p-2 border rounded" />
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <input type="text" class="w-full p-2 border rounded" />
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <input type="text" class="w-full p-2 border rounded" />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

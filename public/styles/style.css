@@ -16,35 +16,40 @@ body {
 }
 
 @keyframes gradient-shift {
-
     0% {
-
         background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
-
     }
-
     50% {
-
         background-image: linear-gradient(to bottom, #6495ed, #08C2FF);
-
     }
 
-    100% {
-
+    75% {
         background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
-
     }
-
+    100%{
+        background-image: linear-gradient(to bottom, #6495ed,  #08C2FF);
+    }
 }
 
-
 #header span {
-    padding: 0px 30px;
+    padding: 0px 0px;
 
     font-family: "Pacifico", cursive;
     font-weight: 400;
     font-style: normal;
     font-size: 2.5rem !important;
+}
+#header .form-control{
+height: 100%;
+margin: 0 10px;
+}
+
+.btn-outline-secondary a{
+    /* color: !important; */
+    transition: color 200ms ease-in;
+}
+ .btn-outline-secondary:hover a{
+    color: black!important;
 }
 
 .contpat {
@@ -143,5 +148,5 @@ body {
     border: none;
     border: 1px solid rgba(225, 225, 225, 0.50) !important;
     box-shadow: 0px 0px 5px blueviolet;
-    border-radius: 20px;
+    border-radius:7px;
 }

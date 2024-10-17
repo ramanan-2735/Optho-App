@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -24,9 +24,7 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             width: 400px;
-            /* Increased width */
             padding: 20px;
-            /* Added padding */
         }
 
         .patient-photo {
@@ -42,13 +40,11 @@
         .patient-name {
             margin: 0;
             font-size: 28px;
-            /* Increased font size */
             color: #333;
         }
 
         .patient-age {
             font-size: 18px;
-            /* Increased font size */
             color: #777;
         }
 
@@ -59,7 +55,6 @@
             color: #555;
             margin-top: 10px;
             font-size: 16px;
-            /* Increased font size */
         }
 
         .section-title {
@@ -72,14 +67,13 @@
 
 <body>
     <div class="card">
-        <!-- <img src="patient-photo.jpg" alt="Patient Photo" class="patient-photo"> -->
         <div class="card-content">
             <h2 class="patient-name">
                 <%= det.name%>
             </h2>
             <p>Registration No: <%= det.registration_number %>
             </p>
-            <p>Age/Sex: <%= det.age_sex%>
+            <p>Age/Sex: <%= det.age%>
             </p>
             <p>Contact No: 91+<%= det.contact_number%>
             </p>
@@ -120,5 +114,189 @@
         </div>
     </div>
 </body>
+</html> -->
 
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+    /* background-image: url('/assests/white.jpg'); */
+    background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
+    animation: gradient-shift 10s infinite;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: fit-content;
+}
+
+@keyframes gradient-shift {
+
+    0% {
+
+        background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
+
+    }
+
+    50% {
+
+        background-image: linear-gradient(to bottom, #6495ed, #08C2FF);
+
+    }
+
+    100% {
+
+        background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
+
+    }
+
+}
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-full mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold text-blue-600">Patients Details</h1>
+            <div>
+                <button class="bg-red-500 text-white px-4 py-2 rounded mr-2">Delete</button>
+                <button class="bg-green-500 text-white px-4 py-2 rounded">Update</button>
+            </div>
+        </div>
+        <div class="grid grid-cols-6 gap-4 mb-4">
+            <div class="col-span-2">
+                <label class="block text-gray-700">Full Name :</label>
+                <p class="w-full p-2 border rounded bg-gray-200"><%= det.name%></p>
+            </div>
+            <div>
+                <label class="block text-gray-700">Registration No.</label>
+                <p class="w-full p-2 border rounded bg-gray-200"><%= det.registration_number %></p>
+            </div>
+            <div>
+                <label class="block text-gray-700">Contact No.</label>
+                <p class="w-full p-2 border rounded bg-gray-200"><%= det.contact_number%></p>
+            </div>
+            <div>
+                <label class="block text-gray-700">Age</label>
+                <p class="w-full p-2 border rounded bg-gray-200"><%= det.age%></p>
+            </div>
+        </div>
+        <div class="grid grid-cols-6 gap-4 mb-4">
+            <div>
+                <label class="block text-gray-700">Sex :</label>
+                <p class="w-full p-2 border rounded bg-gray-200"><%= det.sex%></p>
+            </div>
+            <div>
+                <label class="block text-gray-700">Type Of Diabetes :</label>
+                <p class="w-full p-2 border rounded bg-gray-200"><%= det.diabetes_type%></p>
+            </div>
+            <div>
+                <label class="block text-gray-700">Insulin :</label>
+                <p class="w-full p-2 border rounded bg-gray-200"><%= det.insulin%></p>
+            </div>
+            <div>
+                <label class="block text-gray-700">No. of OHA</label>
+                <p class="w-full p-2 border rounded bg-gray-200"><%= det.oha_count%></p>
+            </div>
+            <div>
+                <label class="block text-gray-700">HBA1c</label>
+                <p class="w-full p-2 border rounded bg-gray-200"><%= det.hba1c%></p>
+            </div>
+        </div>
+        <div class="mb-4">
+            <button class="bg-purple-400 text-white px-4 py-2 rounded">Ocular Examination</button>
+        </div>
+        <div class="grid grid-cols-3 gap-4 mb-4">
+            <div class="col-span-2">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">Right Eye</label>
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">Left Eye</label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">Visual Acuity (BCVA)</label>
+                        <p class="w-full p-2 border rounded bg-gray-200"><%= det.bcva_right%></p>
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">Visual Acuity (BCVA)</label>
+                        <p class="w-full p-2 border rounded bg-gray-200"><%= det.bcva_left%></p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">IOP (mmHg)</label>
+                        <p class="w-full p-2 border rounded bg-gray-200"><%= det.iop_right%></p>
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded">
+                        <label class="block text-gray-700">IOP (mmHg)</label>
+                        <p class="w-full p-2 border rounded bg-gray-200"><%= det.iop_left%></p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="bg-purple-400 text-white px-4 py-2 rounded">Treatement Advice</button>
+                <div class="mt-2">
+                    <label class="block text-gray-700">RE :</label>
+                    <p class="w-full p-2 border rounded bg-gray-200 mb-2"><%= det.advice_right%></p>
+                    <label class="block text-gray-700">LE :</label>
+                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.advice_left%></p>
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <button class="bg-purple-400 text-white px-4 py-2 rounded">Fundus Examination</button>
+        </div>
+        <div class="grid grid-cols-1 gap-4">
+            
+            <div class="grid grid-cols-4 gap-4">
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">Diagnosis</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">DR (ETDRS grade)</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">Macular Edema (Yes / No)</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">OCT Finding (CMT in Microns)</label>
+                </div>
+            </div>
+            <div class="grid grid-cols-4 gap-4 mt-2">
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">Right Eye</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.dr_right%></p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.macular_edema_right%></p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.oct_right%></p>
+                </div>
+            </div>
+            <div class="grid grid-cols-4 gap-4 mt-2">
+                <div class="bg-blue-100 p-4 rounded">
+                    <label class="block text-gray-700">Left Eye</label>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.dr_left%></p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <p class="w-full p-2 border rounded bg-gray-200"> <%= det.macular_edema_left%></p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded">
+                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.oct_left%></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

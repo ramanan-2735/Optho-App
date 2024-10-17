@@ -11,7 +11,7 @@ CREATE TABLE details (
     id serial PRIMARY KEY,
     name text,
     registration_number text,
-    age_sex text NULL,
+    age text NULL,
     contact_number VARCHAR(15) CHECK (LENGTH(contact_number) BETWEEN 10 AND 15),
     diabetes_type text NULL,
     insulin text NULL,
@@ -29,7 +29,8 @@ CREATE TABLE details (
     oct_left text,
     advice_right text NULL,
     advice_left text NULL,
-    follow_up text NULL
+    follow_up text NULL,
+    sex text NULL
 );
 
 
