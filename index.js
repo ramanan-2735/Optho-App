@@ -32,7 +32,6 @@ function pats() {
 // GET
 app.get('/', async (req, res) => {
     name = await pats();
-    // console.log(name.rows);
     res.render("index.ejs", { name: name.rows });
 })
 
@@ -44,7 +43,23 @@ app.get('/patientDet/:id', (req, res) => {
 })
 
 app.get("/addPat", (req, res) => {
-    res.render('addPat.ejs');
+    function generateRegNumber() {
+        const date = new Date();
+        const year = date.getFullYear().toString(); // Last 2 digits of the year
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Month
+        const day = String(date.getDate()).padStart(2, '0'); // Day
+
+        // Generate a random 4-digit number
+        const randomNum = Math.floor(1000 + Math.random() * 9000);
+
+        // Create the registration number
+        const regNumber = `${year}${month}${day}-${randomNum}`;
+        return regNumber;
+    }
+
+    const reg = generateRegNumber();
+    console.log(reg);
+    res.render('addPat.ejs', {reg});
 });
 
 
