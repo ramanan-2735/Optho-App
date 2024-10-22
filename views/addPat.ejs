@@ -122,10 +122,163 @@
                 </div>
             </div>
             <div class="oclr">
-                
+                <!-- <h3>Visual Acuity</h3> -->
+                <label for="BCVA_right">BCVA Right Eye:</label>
+                <select id="BCVA_right" name="BCVA_right">
+                    <option value="6/6">6/6</option>
+                    <option value="6/9">6/9</option>
+                    <option value="6/12">6/12</option>
+                    <option value="6/18">6/18</option>
+                    <option value="6/24">6/24</option>
+                    <option value="6/36">6/36</option>
+                    <option value="6/60">6/60</option>
+                    <option value="5/60">5/60</option>
+                    <option value="4/60">4/60</option>
+                    <option value="3/60">3/60</option>
+                    <option value="2/60">2/60</option>
+                    <option value="1/60">1/60</option>
+                    <option value="PL+">PL+</option>
+                    <option value="PL-">PL-</option>
+                </select>
+
+                <label for="BCVA_left">BCVA Left Eye:</label>
+                <select id="BCVA_left" name="BCVA_left">
+                    <option value="6/6">6/6</option>
+                    <option value="6/9">6/9</option>
+                    <option value="6/12">6/12</option>
+                    <option value="6/18">6/18</option>
+                    <option value="6/24">6/24</option>
+                    <option value="6/36">6/36</option>
+                    <option value="6/60">6/60</option>
+                    <option value="5/60">5/60</option>
+                    <option value="4/60">4/60</option>
+                    <option value="3/60">3/60</option>
+                    <option value="2/60">2/60</option>
+                    <option value="1/60">1/60</option>
+                    <option value="PL+">PL+</option>
+                    <option value="PL-">PL-</option>
+                </select>
+
+                <label for="IOP_right">IOP Right Eye (mmHg):</label>
+                <input type="text" id="IOP_right" name="IOP_right" placeholder="Enter IOP">
+
+                <label for="IOP_left">IOP Left Eye (mmHg):</label>
+                <input type="text" id="IOP_left" name="IOP_left" placeholder="Enter IOP">
+
             </div>
-            <div class="fnds"></div>
-            <div class="adv"></div>
+            <div class="fnds">
+                <label for="dr-right">DR Right Eye:</label>
+                <select id="dr-right" name="dr-right">
+                    <option value="No DR at present">No DR at present</option>
+                    <option value="Mild NPDR">Mild NPDR</option>
+                    <option value="Moderate NPDR">Moderate NPDR</option>
+                    <option value="Severe NPDR">Severe NPDR</option>
+                    <option value="Very severe NPDR">Very severe NPDR</option>
+                    <option value="PDR without HRC">PDR without HRC</option>
+                    <option value="PDR with HRC">PDR with HRC</option>
+                </select>
+                <br><br>
+
+                <!-- DR Left Eye -->
+                <label for="dr-left">DR Left Eye:</label>
+                <select id="dr-left" name="dr-left">
+                    <option value="No DR at present">No DR at present</option>
+                    <option value="Mild NPDR">Mild NPDR</option>
+                    <option value="Moderate NPDR">Moderate NPDR</option>
+                    <option value="Severe NPDR">Severe NPDR</option>
+                    <option value="Very severe NPDR">Very severe NPDR</option>
+                    <option value="PDR without HRC">PDR without HRC</option>
+                    <option value="PDR with HRC">PDR with HRC</option>
+                </select>
+                <br><br>
+
+                <!-- Macular Edema Right Eye -->
+                <label for="macular-edema-right">Macular Edema Right Eye:</label>
+                <select id="macular-edema-right" name="macular-edema-right">
+                    <option value="Center involving">Center involving</option>
+                    <option value="Non Center involving">Non Center involving</option>
+                    <option value="Other (like cataract)">Other (like cataract)</option>
+                </select>
+                <br><br>
+
+                <!-- Macular Edema Left Eye -->
+                <label for="macular-edema-left">Macular Edema Left Eye:</label>
+                <select id="macular-edema-left" name="macular-edema-left">
+                    <option value="Center involving">Center involving</option>
+                    <option value="Non Center involving">Non Center involving</option>
+                    <option value="Other (like cataract)">Other (like cataract)</option>
+                </select>
+                <br><br>
+
+                <!-- OCT Right Eye -->
+                <label for="oct-right">OCT Right Eye:</label>
+                <input type="text" id="oct-right" name="oct-right" placeholder="Enter OCT value">
+                <br><br>
+
+                <!-- OCT Left Eye -->
+                <label for="oct-left">OCT Left Eye:</label>
+                <input type="text" id="oct-left" name="oct-left" placeholder="Enter OCT value">
+                <br><br>
+            </div>
+            <div class="adv">
+
+                <label for="">Advice</label>
+
+                <p>
+                    <!-- Checkbox for Follow up, continue same treatment -->
+                <p>
+                    <label>
+                        <input type="checkbox" name="advice" value="Follow up, continue same treatment">
+                        Follow up, continue same treatment
+                    </label>
+
+                </p>
+
+                <!-- Checkbox for Follow up, start on new medications advised -->
+                <p>
+                    <label>
+                        <input type="checkbox" name="advice" value="Follow up, start on new medications advised">
+                        Follow up, start on new medications advised
+                    </label>
+
+                </p>
+
+                <!-- Checkbox for PRP -->
+                <p>
+                    <label>
+                        <input type="checkbox" name="advice" value="PRP">
+                        PRP
+                    </label>
+                </p>
+
+
+                <!-- Checkbox for Intravitreal injection -->
+                <p>
+                    <label>
+                        <input type="checkbox" name="advice" value="Intravitreal injection">
+                        Intravitreal injection
+                    </label>
+                </p>
+
+
+                <!-- Checkbox for Vitreoretinal Surgery -->
+                <p>
+                    <label>
+                        <input type="checkbox" name="advice" value="Vitreoretinal Surgery">
+                        Vitreoretinal Surgery
+                    </label>
+                </p>
+
+                </p>
+
+                <!-- Follow-Up Date Input -->
+                <label for="follow-up-date">Follow-up Date:</label>
+                <input type="date" id="follow-up-date" name="follow-up-date">
+
+                <br><br>
+
+                <button type="submit">Submit</button>
+            </div>
         </form>
     </div>
 </body>

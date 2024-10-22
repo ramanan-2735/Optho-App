@@ -16,7 +16,7 @@ body {
     width: 95%;
     height: 95%;
 
-    background-color: rgba(255, 255, 255, 0.45);
+    background-color: rgba(255, 255, 255, 0.2);
     border: none;
     border-radius: 20px;
     border: 1px solid white;
@@ -130,7 +130,6 @@ input[type="radio"],
 input[type="checkbox"] {
     margin-right: 10px;
     accent-color: #2c3e50;
-    /* Change color for radio and checkbox */
 }
 
 select {
@@ -142,4 +141,19 @@ select {
     border-radius: 5px;
     padding: 10px;
     font-size: 16px;
+}
+
+#follow-up-date {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #4ca8af;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+#follow-up-date:focus {
+    background-color: #e0ffe0;
+    border-color: #3e5a8e;
+    outline: none;
 }
