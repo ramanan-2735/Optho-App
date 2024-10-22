@@ -1,0 +1,145 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(to bottom, #2A6B9B, #00A8E0, #A1E3D5, #B0E0E6);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.wrapper {
+    width: 95%;
+    height: 95%;
+
+    background-color: rgba(255, 255, 255, 0.45);
+    border: none;
+    border-radius: 20px;
+    border: 1px solid white;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+
+}
+
+.wrapper form {
+    height: 98%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 5px 0;
+}
+
+.hstry {
+    margin-left: 10px !important;
+}
+
+.none {
+    width: 100% !important;
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.oha {
+    width: 100% !important;
+    height: fit-content !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    background-color: transparent !important;
+}
+
+.oha>p {
+    width: 100%;
+}
+
+.oha input {
+    width: 70% !important;
+}
+
+.oha input[type="radio"] {
+    width: auto !important;
+}
+
+.oha select {
+    width: 80% !important;
+    /* background-color: yellow; */
+}
+
+.obtn {
+    width: 100% !important;
+    height: fit-content !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+
+    background-color: transparent !important;
+}
+
+.wrapper form div {
+    height: 95%;
+    width: 24%;
+    background-color: rgba(255, 255, 255, 0.411);
+    margin: 5px 5px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+
+    justify-content: space-evenly;
+}
+
+
+
+
+label {
+    /* font-weight: bold; */
+    color: #333333;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    /* color: #333; */
+}
+
+input[type="text"],
+select {
+    width: 85%;
+    padding: 10px;
+    /* margin-bottom: 15px; */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    color: #34495e;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #2c3e50;
+    /* Change color for radio and checkbox */
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}

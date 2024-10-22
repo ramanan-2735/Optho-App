@@ -16,7 +16,7 @@ body {
 #header>div {
     width: auto;
     margin: 0 50px;
-    padding: 0 10px;    
+    padding: 0 10px;
     background-color: rgba(255, 255, 255, 0.2);
     /* background: linear-gradient(to right, #2A6B9B,rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),rgba(255, 255, 255, 0.2),#2A6B9B); */
 
@@ -33,9 +33,10 @@ body {
     font-size: 2.5rem !important;
     transition: transform 200ms ease-in-out, filter 150ms ease-in-out;
 }
+
 #header span:hover {
-   transform: scale(1.1);
-   filter: drop-shadow(0px 0 20px  rgb(185, 243, 253));
+    transform: scale(1.1);
+    filter: drop-shadow(0px 0 20px rgb(185, 243, 253));
 }
 
 #header .form-control {
@@ -61,8 +62,8 @@ body {
     justify-content: flex-start;
     align-content: flex-start;
 
-    width: 100%!important;
-    margin: 0 50px!important;
+    width: 100% !important;
+    margin: 0 50px !important;
     /* justify-content: space-between; */
 }
 
@@ -75,14 +76,25 @@ body {
 }
 
 #home>.container {
-    max-width: 1483px!important;
+    /* max-width: 1483px!important; */
     width: 100%;
     height: 95%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.3));
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.3));
     /* backdrop-filter: blur(1000px); */
     border-radius: 20px;
     border: 1px solid white;
     /* box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px, rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset; */
+}
+
+@media (min-width: 1200px) {
+
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+        max-width: 93% !important;
+    }
 }
 
 .patients {
@@ -96,8 +108,8 @@ body {
     border: 1px white solid;
     border-radius: 10px;
     /* box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px, rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset; */
-    color: black!important;
-    font-weight:600!important;
+    color: black !important;
+    font-weight: 600 !important;
     cursor: pointer;
     overflow: hidden;
     animation: appear linear;
@@ -133,15 +145,16 @@ body {
 }
 
 .btn-danger {
-    color: rgba(255, 0, 0, 0.75)!important;
+    color: rgba(255, 0, 0, 0.75) !important;
     font-weight: bold;
     background-color: rgba(216, 112, 147, 0.582) !important;
     backdrop-filter: blur(10px);
-    transition: color 100ms ease-in-out!important ,background-color 100ms ease-in-out!important;
+    transition: color 100ms ease-in-out !important, background-color 100ms ease-in-out !important;
 }
+
 .btn-danger:hover {
-   color: white!important;
-   background-color: #DC143C!important ;
+    color: white !important;
+    background-color: #DC143C !important;
 }
 
 
@@ -151,10 +164,12 @@ body {
     font-weight: bold;
     background-color: rgba(13, 110, 253, 0.2) !important;
     backdrop-filter: blur(10px);
-}.btn-primary:hover {
-    color: white!important;
-    background-color: #007BFF!important ;
- }
+}
+
+.btn-primary:hover {
+    color: white !important;
+    background-color: #007BFF !important;
+}
 
 .opr-btn {
     height: 100%;
@@ -169,7 +184,7 @@ body {
     border-radius: 7px;
 }
 
-#header input::placeholder{
+#header input::placeholder {
 
     color: white !important;
 }
