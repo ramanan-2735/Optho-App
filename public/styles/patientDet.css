@@ -1,0 +1,122 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(to bottom, #2A6B9B, #00A8E0, #A1E3D5, #B0E0E6);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.wrapper {
+    width: 95%;
+    height: 95%;
+
+    padding: 10px;
+
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 10px;
+    border: 1px solid white;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.wrapper>span {
+    width: fit-content;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.4);
+    /* margin-top: 15px; */
+    padding: 0 5px;
+
+    font-weight: 500;
+    font-size: xx-large;
+    /* filter: drop-shadow(0 0 10px black); */
+    border: none;
+    /* border: 1px solid rgba(255, 255, 255, 0.527); */
+    border-radius: 10px;
+}
+
+.wrapper>div {
+    width: 100%;
+    height: 43%;
+    /* background-color: rgba(0, 238, 255, 0.219); */
+    background-color: rgba(255, 255, 255, 0.4);
+
+    border: none;
+    /* border: 1px solid black; */
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.wrapper .hstry>p {
+    padding: 10px;
+    width: 20%;
+
+    flex: 1 1 calc(20% - 10px);
+    margin: 5px;
+    box-sizing: border-box;
+
+    font-weight: 500;
+}
+
+.wrapper div>div {
+    width: 32.75%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    /* background-color: #00A8E0; */
+    border: none;
+    border-radius: 10px;
+    /* border: 1px solid black; */
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.oclr {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+
+    font-weight: 500;
+}
+
+.fnds {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto auto;
+
+    font-weight: 500;
+}
+
+.adv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.adv p {
+    /* align-self: center; */
+    font-weight: 500;
+}
+
+.scnd {
+    background-color: transparent !important;
+}

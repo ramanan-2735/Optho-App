@@ -1,302 +1,128 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= det.name%> Details[Optho-App]
-    </title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: fit-content;
-            margin: 0;
-        }
-
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            width: 400px;
-            padding: 20px;
-        }
-
-        .patient-photo {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-
-        .card-content {
-            padding: 15px 0;
-        }
-
-        .patient-name {
-            margin: 0;
-            font-size: 28px;
-            color: #333;
-        }
-
-        .patient-age {
-            font-size: 18px;
-            color: #777;
-        }
-
-        .patient-description,
-        .patient-history,
-        .patient-allergies,
-        .patient-contact {
-            color: #555;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .section-title {
-            font-weight: bold;
-            margin-top: 15px;
-            color: #333;
-        }
-    </style>
+    <title>Optho-App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/patientDet.css">
 </head>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 
 <body>
-    <div class="card">
-        <div class="card-content">
-            <h2 class="patient-name">
-                <%= det.name%>
-            </h2>
-            <p>Registration No: <%= det.registration_number %>
+
+    <div class="wrapper">
+        <span>
+            <%= det.name%> Details
+        </span>
+        <div class="hstry">
+            <p>Name: <%= det.name %>
             </p>
-            <p>Age/Sex: <%= det.age%>
+            <p>Registration No.: <%= det.reg %>
             </p>
-            <p>Contact No: 91+<%= det.contact_number%>
+            <p>Age: <%= det.age %>
             </p>
-            <p>Type of Diabetes: <%= det.diabetes_type%>
+            <P>Sex: <%= det.sex %>
+            </P>
+            <p>Contact: <%= det.contact %>
             </p>
-            <p>Insulin: <%= det.insulin%>
+            <P>Beneficiary: <%= det.beneficiary%>
+            </P>
+            <p>Type of Diabetes: <%= det.dtype %>
             </p>
-            <p>No. of OHA(Oral Hypoglycemic): <%= det.oha_count%>
+            <p>Duration of Diabetes: <%= det.ddur %>
             </p>
-            <p>HBA1c: <%= det.hba1c%>
+            <p>Insulin: <%= det.insulin %>
             </p>
-            <p>Visual Acuity of Right Eye: <%= det.bcva_right%>
+            <p>No. of OHA: <%= det.oha %>
             </p>
-            <p>Visual Acuity of Left Eye: <%= det.bcva_left%>
+            <p>HBA1c: <%= det.hba1c %>
             </p>
-            <p>IOP of Right Eye: <%= det.iop_right%>
+            <p>Treatment Obtained:
+
+            <p>
+                <%treatmentArray.forEach(trtmnt=> { %>
+                    <li>
+                        <%= trtmnt %>
+                    </li>
+                    <% }) %>
             </p>
-            <p>IOP of Left Eye: <%= det.iop_left%>
+
+
             </p>
-            <p>ETDRS Grade of Right Eye: <%= det.dr_right%>
-            </p>
-            <p>Macular Edema of Right Eye: <%= det.macular_edema_right%>
-            </p>
-            <p>OCT finding of Right Eye: <%= det.oct_right%>
-            </p>
-            <p>ETDRS Grade of Left Eye: <%= det.dr_left%>
-            </p>
-            <p>Macular Edema of Left Eye: <%= det.macular_edema_left%>
-            </p>
-            <p>OCT finding of Left Eye: <%= det.oct_left%>
-            </p>
-            <p>Right Eye Treatment advice: <%= det.advice_right%>
-            </p>
-            <p>Left Eye Treatment advice: <%= det.advice_left%>
-            </p>
-            <p>Follow Up: <%= det.follow_up%>
-            </p>
+
+
         </div>
-    </div>
-</body>
-</html> -->
-
-<html>
-<head>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-    <style>
-        body {
-    /* background-image: url('/assests/white.jpg'); */
-    background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
-    animation: gradient-shift 10s infinite;
-
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: fit-content;
-}
-
-@keyframes gradient-shift {
-
-    0% {
-
-        background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
-
-    }
-
-    50% {
-
-        background-image: linear-gradient(to bottom, #6495ed, #08C2FF);
-
-    }
-
-    100% {
-
-        background-image: linear-gradient(to bottom, #08C2FF, #6495ed);
-
-    }
-
-}
-    </style>
-</head>
-<body class="bg-gray-100 p-4">
-    <div class="max-w-full mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-bold text-blue-600">Patients Details</h1>
-            <div>
-                <button class="bg-red-500 text-white px-4 py-2 rounded mr-2">Delete</button>
-                <button class="bg-green-500 text-white px-4 py-2 rounded">Update</button>
+        <div class="scnd">
+            <div class="oclr">
+                <p class="col"></p>
+                <p class="col">Left Eye</p>
+                <p class="col">Right Eye</p>
+                <p class="col">BCVA</p>
+                <p class="col">
+                    <%= det.bcval %>
+                </p>
+                <p class="col">
+                    <%= det.bcvar %>
+                </p>
+                <p class="col">IOP</p>
+                <p>
+                    <%= det.iopl %>
+                </p>
+                <p>
+                    <%= det.iopr %>
+                </p>
             </div>
-        </div>
-        <div class="grid grid-cols-6 gap-4 mb-4">
-            <div class="col-span-2">
-                <label class="block text-gray-700">Full Name :</label>
-                <p class="w-full p-2 border rounded bg-gray-200"><%= det.name%></p>
+            <div class="fnds">
+                <p></p>
+                <p>Left Eye</p>
+                <p>Right Eye</p>
+                <p>DR(ETDRS grade)</p>
+                <p>
+                    <%= det.drl %>
+                </p>
+                <p>
+                    <%= det.drr %>
+                </p>
+                <p>Macular Edema</p>
+                <p>
+                    <%= det.mel %>
+                </p>
+                <p>
+                    <%= det.mer %>
+                </p>
+                <p>OCT Finding</p>
+                <p>
+                    <%= det.octl %>
+                </p>
+                <p>
+                    <%= det.octr %>
+                </p>
             </div>
-            <div>
-                <label class="block text-gray-700">Registration No.</label>
-                <p class="w-full p-2 border rounded bg-gray-200"><%= det.registration_number %></p>
-            </div>
-            <div>
-                <label class="block text-gray-700">Contact No.</label>
-                <p class="w-full p-2 border rounded bg-gray-200"><%= det.contact_number%></p>
-            </div>
-            <div>
-                <label class="block text-gray-700">Age</label>
-                <p class="w-full p-2 border rounded bg-gray-200"><%= det.age%></p>
-            </div>
-        </div>
-        <div class="grid grid-cols-6 gap-4 mb-4">
-            <div>
-                <label class="block text-gray-700">Sex :</label>
-                <p class="w-full p-2 border rounded bg-gray-200"><%= det.sex%></p>
-            </div>
-            <div>
-                <label class="block text-gray-700">Type Of Diabetes :</label>
-                <p class="w-full p-2 border rounded bg-gray-200"><%= det.diabetes_type%></p>
-            </div>
-            <div>
-                <label class="block text-gray-700">Insulin :</label>
-                <p class="w-full p-2 border rounded bg-gray-200"><%= det.insulin%></p>
-            </div>
-            <div>
-                <label class="block text-gray-700">No. of OHA</label>
-                <p class="w-full p-2 border rounded bg-gray-200"><%= det.oha_count%></p>
-            </div>
-            <div>
-                <label class="block text-gray-700">HBA1c</label>
-                <p class="w-full p-2 border rounded bg-gray-200"><%= det.hba1c%></p>
-            </div>
-        </div>
-        <div class="mb-4">
-            <button class="bg-purple-400 text-white px-4 py-2 rounded">Ocular Examination</button>
-        </div>
-        <div class="grid grid-cols-3 gap-4 mb-4">
-            <div class="col-span-2">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-blue-100 p-4 rounded">
-                        <label class="block text-gray-700">Right Eye</label>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded">
-                        <label class="block text-gray-700">Left Eye</label>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4 mt-2">
-                    <div class="bg-blue-100 p-4 rounded">
-                        <label class="block text-gray-700">Visual Acuity (BCVA)</label>
-                        <p class="w-full p-2 border rounded bg-gray-200"><%= det.bcva_right%></p>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded">
-                        <label class="block text-gray-700">Visual Acuity (BCVA)</label>
-                        <p class="w-full p-2 border rounded bg-gray-200"><%= det.bcva_left%></p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4 mt-2">
-                    <div class="bg-blue-100 p-4 rounded">
-                        <label class="block text-gray-700">IOP (mmHg)</label>
-                        <p class="w-full p-2 border rounded bg-gray-200"><%= det.iop_right%></p>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded">
-                        <label class="block text-gray-700">IOP (mmHg)</label>
-                        <p class="w-full p-2 border rounded bg-gray-200"><%= det.iop_left%></p>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button class="bg-purple-400 text-white px-4 py-2 rounded">Treatement Advice</button>
-                <div class="mt-2">
-                    <label class="block text-gray-700">RE :</label>
-                    <p class="w-full p-2 border rounded bg-gray-200 mb-2"><%= det.advice_right%></p>
-                    <label class="block text-gray-700">LE :</label>
-                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.advice_left%></p>
-                </div>
-            </div>
-        </div>
-        <div class="mb-4">
-            <button class="bg-purple-400 text-white px-4 py-2 rounded">Fundus Examination</button>
-        </div>
-        <div class="grid grid-cols-1 gap-4">
-            
-            <div class="grid grid-cols-4 gap-4">
-                <div class="bg-blue-100 p-4 rounded">
-                    <label class="block text-gray-700">Diagnosis</label>
-                </div>
-                <div class="bg-blue-100 p-4 rounded">
-                    <label class="block text-gray-700">DR (ETDRS grade)</label>
-                </div>
-                <div class="bg-blue-100 p-4 rounded">
-                    <label class="block text-gray-700">Macular Edema (Yes / No)</label>
-                </div>
-                <div class="bg-blue-100 p-4 rounded">
-                    <label class="block text-gray-700">OCT Finding (CMT in Microns)</label>
-                </div>
-            </div>
-            <div class="grid grid-cols-4 gap-4 mt-2">
-                <div class="bg-blue-100 p-4 rounded">
-                    <label class="block text-gray-700">Right Eye</label>
-                </div>
-                <div class="bg-blue-100 p-4 rounded">
-                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.dr_right%></p>
-                </div>
-                <div class="bg-blue-100 p-4 rounded">
-                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.macular_edema_right%></p>
-                </div>
-                <div class="bg-blue-100 p-4 rounded">
-                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.oct_right%></p>
-                </div>
-            </div>
-            <div class="grid grid-cols-4 gap-4 mt-2">
-                <div class="bg-blue-100 p-4 rounded">
-                    <label class="block text-gray-700">Left Eye</label>
-                </div>
-                <div class="bg-blue-100 p-4 rounded">
-                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.dr_left%></p>
-                </div>
-                <div class="bg-blue-100 p-4 rounded">
-                    <p class="w-full p-2 border rounded bg-gray-200"> <%= det.macular_edema_left%></p>
-                </div>
-                <div class="bg-blue-100 p-4 rounded">
-                    <p class="w-full p-2 border rounded bg-gray-200"><%= det.oct_left%></p>
-                </div>
+            <div class="adv">
+                <p>Treatment:</p>
+                <% adviceArray.forEach(adv=> { %>
+                    <li>
+                        <%= adv%>
+                    </li>
+                    <% }) %>
+                        <p>
+                        <p>Follow Up:
+                        <p>
+                            <%= det.fllwp %>
+                        </p>
+                        </p>
             </div>
         </div>
     </div>
+
 </body>
+
 </html>

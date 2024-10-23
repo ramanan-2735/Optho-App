@@ -157,3 +157,28 @@ select {
     border-color: #3e5a8e;
     outline: none;
 }
+
+button.submit-btn {
+    background-color: #28a745; /* Forest green */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  button.submit-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+  }
+  
+  button.submit-btn:active {
+    background-color: #1e7e34; /* Even darker green when clicked */
+    transform: scale(0.98); /* Slight scale effect on click */
+  }
+  
+  button.submit-btn:focus {
+    outline: none; /* Remove focus outline */
+  }
+  

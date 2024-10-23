@@ -39,7 +39,18 @@ app.get('/patientDet/:id', (req, res) => {
     const patRow = name.rows;
     const patdet = patRow.find(x => x.id == req.params.id)
 
-    res.render("patientDet.ejs", { det: patdet });
+    let str = patdet.treatment;
+    str = str.replace(/{/g, '[').replace(/}/g, ']');
+    let treatmentArray = JSON.parse(str);
+
+
+    let btr = patdet.advice;
+    btr = btr.replace(/{/g, '[').replace(/}/g, ']');
+    btr = btr.replace(/'/g, '"');
+    console.log(btr);
+    let adviceArray = JSON.parse(btr);
+
+    res.render("patientDet.ejs", { det: patdet, treatmentArray, adviceArray });
 })
 
 app.get("/addPat", (req, res) => {
@@ -59,7 +70,7 @@ app.get("/addPat", (req, res) => {
 
     const reg = generateRegNumber();
     console.log(reg);
-    res.render('addPat.ejs', {reg});
+    res.render('addPat.ejs', { reg });
 });
 
 
@@ -69,9 +80,12 @@ app.post("/addPat", (req, res) => {
     const det = req.body;
     console.log(det);
     try {
-        db.query("insert into details(name,registration_number,age,contact_number,diabetes_type,insulin,OHA_count,HBA1c,BCVA_right,BCVA_left, IOP_right,IOP_left, DR_right, macular_edema_right, oct_right, DR_left, macular_edema_left, oct_left, advice_right,advice_left, follow_up,sex) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22)", [det.name, det.registration_no, det.age_gender, det.contact, det.type, det.insulin, det.oha_count, det.HBA1c, det.bcva_right, det.bcva_left, det.iop_right, det.iop_left, det.dr_right, det.macular_edema_right, det.oct_finding_right, det.dr_left, det.macular_edema_left, det.oct_finding_left, det.right_eye_advice, det.left_eye_advice, det.follow_up, det.sex]);
+        db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c,
+        det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl,
+        det.advice, det.fllwp]);
     } catch (e) {
         console.log(e);
+        console.log("Kaand");
     }
     res.redirect("/")
 });
@@ -94,7 +108,7 @@ app.post("/updatePat/:id", (req, res) => {
     const patRow = name.rows;
     const patdet = patRow.find(x => x.id == req.params.id)
     console.log(updPat);
-    res.render("updPat.ejs", {det: updPat });
+    res.render("updPat.ejs", { det: updPat });
 })
 
 

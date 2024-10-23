@@ -15,11 +15,10 @@
         <form action="/addPat" method="post">
             <div class="hstry">
                 <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required autofocus placeholder="Patient Name">
+                <input type="text" id="name" name="name" required autofocus placeholder="Patient Name" required>
 
                 <label for="reg">Registration Number:</label>
-                <input type="text" id="reg" name="registration_number" required placeholder="Registration Number"
-                    value="<%= reg%>">
+                <input type="text" id="reg" name="reg" required placeholder="Registration Number" value="<%= reg%>">
 
                 <div class="oha">
                     <p>
@@ -42,7 +41,7 @@
                 </div>
 
                 <label for="contact">Contact:</label>
-                <input type="text" id="contact" name="contact_number" placeholder="Contact Number">
+                <input type="text" id="contact" name="contact" placeholder="Contact Number" required>
 
                 <div class="oha">
                     <p>
@@ -55,8 +54,8 @@
                     </p>
 
                     <p>
-                        <label for="diabetes_type">Type of Diabetes:</label>
-                        <select id="diabetes_type" name="diabetes_type">
+                        <label for="dtype">Type of Diabetes:</label>
+                        <select id="dtype" name="dtype">
                             <option value="type1" selected>Type 1</option>
                             <option value="type2">Type 2</option>
                             <option value="mody">MODY</option>
@@ -66,12 +65,12 @@
 
                 <div class="oha">
                     <p>
-                        <label for="diabetes_duration"> Diabetes Duration:</label>
-                        <select id="diabetes_duration" name="diabetes_duration">
-                            <option value="type1" selected>Newly diagnosed(1year) </option>
-                            <option value="type2">Less than 5 years</option>
-                            <option value="mody">Between 5 years and 10 years</option>
-                            <option value="mody">More than 10 years</option>
+                        <label for="ddur"> Diabetes Duration:</label>
+                        <select id="ddur" name="ddur">
+                            <option value="Newly diagnosed(1year)" selected>Newly diagnosed(1year) </option>
+                            <option value="Less than 5 years">Less than 5 years</option>
+                            <option value="Between 5 years and 10 years">Between 5 years and 10 years</option>
+                            <option value="More than 10 years">More than 10 years</option>
                         </select>
                     </p>
                     <div class="none">
@@ -88,7 +87,7 @@
                 </div>
                 <div class="oha">
                     <p><label for="OHA_count">No. of OHA:</label>
-                        <input type="text" id="OHA_count" name="OHA_count" placeholder="No. of OHA">
+                        <input type="text" id="OHA_count" name="oha" placeholder="No. of OHA">
                     </p>
 
                     <p>
@@ -123,8 +122,8 @@
             </div>
             <div class="oclr">
                 <!-- <h3>Visual Acuity</h3> -->
-                <label for="BCVA_right">BCVA Right Eye:</label>
-                <select id="BCVA_right" name="BCVA_right">
+                <label for="bcvar">BCVA Right Eye:</label>
+                <select id="bcvar" name="bcvar">
                     <option value="6/6">6/6</option>
                     <option value="6/9">6/9</option>
                     <option value="6/12">6/12</option>
@@ -141,8 +140,8 @@
                     <option value="PL-">PL-</option>
                 </select>
 
-                <label for="BCVA_left">BCVA Left Eye:</label>
-                <select id="BCVA_left" name="BCVA_left">
+                <label for="bcval">BCVA Left Eye:</label>
+                <select id="bcval" name="bcval">
                     <option value="6/6">6/6</option>
                     <option value="6/9">6/9</option>
                     <option value="6/12">6/12</option>
@@ -159,16 +158,16 @@
                     <option value="PL-">PL-</option>
                 </select>
 
-                <label for="IOP_right">IOP Right Eye (mmHg):</label>
-                <input type="text" id="IOP_right" name="IOP_right" placeholder="Enter IOP">
+                <label for="iopr">IOP Right Eye (mmHg):</label>
+                <input type="text" id="iopr" name="iopr" placeholder="Enter IOP">
 
-                <label for="IOP_left">IOP Left Eye (mmHg):</label>
-                <input type="text" id="IOP_left" name="IOP_left" placeholder="Enter IOP">
+                <label for="iopl">IOP Left Eye (mmHg):</label>
+                <input type="text" id="iopl" name="iopl" placeholder="Enter IOP">
 
             </div>
             <div class="fnds">
-                <label for="dr-right">DR Right Eye:</label>
-                <select id="dr-right" name="dr-right">
+                <label for="drr">DR Right Eye:</label>
+                <select id="drr" name="drr">
                     <option value="No DR at present">No DR at present</option>
                     <option value="Mild NPDR">Mild NPDR</option>
                     <option value="Moderate NPDR">Moderate NPDR</option>
@@ -180,8 +179,8 @@
                 <br><br>
 
                 <!-- DR Left Eye -->
-                <label for="dr-left">DR Left Eye:</label>
-                <select id="dr-left" name="dr-left">
+                <label for="drl">DR Left Eye:</label>
+                <select id="drl" name="drl">
                     <option value="No DR at present">No DR at present</option>
                     <option value="Mild NPDR">Mild NPDR</option>
                     <option value="Moderate NPDR">Moderate NPDR</option>
@@ -193,8 +192,8 @@
                 <br><br>
 
                 <!-- Macular Edema Right Eye -->
-                <label for="macular-edema-right">Macular Edema Right Eye:</label>
-                <select id="macular-edema-right" name="macular-edema-right">
+                <label for="mer">Macular Edema Right Eye:</label>
+                <select id="mer" name="mer">
                     <option value="Center involving">Center involving</option>
                     <option value="Non Center involving">Non Center involving</option>
                     <option value="Other (like cataract)">Other (like cataract)</option>
@@ -202,8 +201,8 @@
                 <br><br>
 
                 <!-- Macular Edema Left Eye -->
-                <label for="macular-edema-left">Macular Edema Left Eye:</label>
-                <select id="macular-edema-left" name="macular-edema-left">
+                <label for="mel">Macular Edema Left Eye:</label>
+                <select id="mel" name="mel">
                     <option value="Center involving">Center involving</option>
                     <option value="Non Center involving">Non Center involving</option>
                     <option value="Other (like cataract)">Other (like cataract)</option>
@@ -211,13 +210,13 @@
                 <br><br>
 
                 <!-- OCT Right Eye -->
-                <label for="oct-right">OCT Right Eye:</label>
-                <input type="text" id="oct-right" name="oct-right" placeholder="Enter OCT value">
+                <label for="octr">OCT Right Eye:</label>
+                <input type="text" id="octr" name="octr" placeholder="Enter OCT value">
                 <br><br>
 
                 <!-- OCT Left Eye -->
-                <label for="oct-left">OCT Left Eye:</label>
-                <input type="text" id="oct-left" name="oct-left" placeholder="Enter OCT value">
+                <label for="octl">OCT Left Eye:</label>
+                <input type="text" id="octl" name="octl" placeholder="Enter OCT value">
                 <br><br>
             </div>
             <div class="adv">
@@ -225,7 +224,7 @@
                 <label for="">Advice</label>
 
                 <p>
-                    <!-- Checkbox for Follow up, continue same treatment -->
+
                 <p>
                     <label>
                         <input type="checkbox" name="advice" value="Follow up, continue same treatment">
@@ -272,12 +271,12 @@
                 </p>
 
                 <!-- Follow-Up Date Input -->
-                <label for="follow-up-date">Follow-up Date:</label>
-                <input type="date" id="follow-up-date" name="follow-up-date">
+                <label for="fllwp">Follow-up Date:</label>
+                <input type="date" id="fllwp" name="fllwp">
 
-                <br><br>
 
-                <button type="submit">Submit</button>
+
+                <button type="submit" class="submit-btn">Submit</button>
             </div>
         </form>
     </div>
