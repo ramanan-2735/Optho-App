@@ -301,8 +301,8 @@ passport.use("local", new Strategy(async function verify(username, password, cb)
 
 passport.use("google",
     new GoogleStrategy({
-        clientID: "404892579762-jrd75ohfrqjjlcch6aig2funbmv9isd8.apps.googleusercontent.com",
-        clientSecret: "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",
+        // clientID: ,
+        // clientSecret: ,
         callbackURL: "http://localhost:3000/auth/google/",
         userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     }, async (accessToken, refreshToken, profile, cb) => {
