@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            max-width: 400px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid #dfe6e9;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 26px;
+            color: #2d3436;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #b2bec3;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            background-color: #0984e3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #74b9ff;
+        }
+
+        .oauth-btn {
+            background-color: #ffffff;
+            color: #2d3436;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border: 1px solid #dfe6e9;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .oauth-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .oauth-btn:hover {
+            background-color: #f0f4f8;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 15px;
+            display: block;
+            color: #0984e3;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Register</h2>
+        <form action="/register" method="POST">
+            <input type="email" name="username" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Register</button>
+        </form>
+
+        <!-- Google OAuth Button -->
+        <a href="/auth/google">
+            <button class="oauth-btn">
+
+                Register with Google
+            </button>
+        </a>
+
+        <a href="/login" class="link">Already have an account? Login here</a>
+    </div>
+</body>
+
+</html>

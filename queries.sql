@@ -29,6 +29,13 @@ CREATE TABLE details (
     fllwp text NULL
 );
 
+-- USERS
+CREATE TABLE users(
+    id serial PRIMARY KEY,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100)
+);
+
 
 
 

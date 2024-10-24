@@ -5,3 +5,6 @@
     Accent Color: Light Gray (#F0F4F8)
     Background Color: White (#FFFFFF)
     Text Color: Dark Gray (#333333)
+
+    cid: 404892579762-jrd75ohfrqjjlcch6aig2funbmv9isd8.apps.googleusercontent.com
+    csec: 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

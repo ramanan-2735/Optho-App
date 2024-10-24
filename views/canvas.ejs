@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optho X-ray Editor</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body,
+        html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            /* Prevent scrolling */
+        }
+
+        .container-fluid {
+            height: 100vh;
+        }
+
+        .tools {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e4e4e4;
+        }
+
+        #canvas {
+            border: 1px solid black;
+            cursor: crosshair;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row h-100">
+            <!-- Tools Section -->
+            <div class="col-3 tools d-flex flex-column justify-content-center gap-3">
+                <!-- Color Picker -->
+                <div>
+                    <label for="colorPicker" class="form-label">Color:</label>
+                    <input type="color" id="colorPicker" class="form-control form-control-color" value="#000000">
+                </div>
+
+                <!-- Brush Size Slider -->
+                <div>
+                    <label for="brushSize" class="form-label">Brush Size:</label>
+                    <input type="range" id="brushSize" class="form-range" min="1" max="30" value="5">
+                </div>
+
+                <!-- Eraser -->
+                <div>
+                    <button id="eraserBtn" class="btn btn-warning w-100">Eraser</button>
+                </div>
+
+                <!-- Clear Canvas -->
+                <div>
+                    <button id="clearBtn" class="btn btn-danger w-100">Clear</button>
+                </div>
+
+                <!-- Upload X-ray -->
+                <div>
+                    <label for="xray-input" class="form-label">Upload X-ray:</label>
+                    <input type="file" id="xray-input" class="form-control" accept="image/*">
+                </div>
+
+                <!-- Download Button -->
+                <div>
+                    <button onclick="downloadImage()" class="btn btn-primary w-100">Download Annotated Image</button>
+                </div>
+            </div>
+
+            <!-- Canvas Section -->
+            <div class="col-9 canvas-container">
+                <canvas id="canvas" width="800" height="600"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        let currentColor = document.getElementById('colorPicker').value;
+        let currentBrushSize = document.getElementById('brushSize').value;
+        let eraserMode = false;
+        let backgroundImage = null; // Store the uploaded image
+
+        // File Upload
+        document.getElementById('xray-input').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.onload = function () {
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        backgroundImage = img; // Store the image as background
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Drawing on the canvas
+        canvas.addEventListener('mousedown', (e) => {
+            drawing = true;
+            draw(e.offsetX, e.offsetY);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (drawing) {
+                draw(e.offsetX, e.offsetY);
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+            ctx.beginPath();
+        });
+
+        function draw(x, y) {
+            ctx.fillStyle = eraserMode ? 'rgba(0, 0, 0, 0)' : currentColor; // Use transparent for eraser
+            ctx.globalCompositeOperation = eraserMode ? 'destination-out' : 'source-over'; // Eraser uses destination-out mode
+            ctx.beginPath();
+            ctx.arc(x, y, currentBrushSize / 2, 0, Math.PI * 2); // Draw a circle
+            ctx.fill(); // Fill the circle
+        }
+
+        // Color Picker
+        document.getElementById('colorPicker').addEventListener('input', (e) => {
+            currentColor = e.target.value;
+            eraserMode = false; // Switch to drawing mode
+        });
+
+        // Brush Size
+        document.getElementById('brushSize').addEventListener('input', (e) => {
+            currentBrushSize = e.target.value;
+        });
+
+        // Eraser Button
+        document.getElementById('eraserBtn').addEventListener('click', () => {
+            eraserMode = true;
+            currentColor = 'rgba(0,0,0,0)'; // Optional: Change current color to transparent while eraser is active
+        });
+
+        // Clear Canvas (Only clears the ink, not the uploaded image)
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            if (backgroundImage) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear everything
+                ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Redraw the background
+            }
+        });
+
+        // Download the final image
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'annotated-xray.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+
+    <!-- Bootstrap JS (Optional for Bootstrap functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

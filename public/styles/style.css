@@ -41,7 +41,8 @@ body {
 
 #header .form-control {
     height: 100%;
-    margin: 0 10px;
+    /* margin: 0 10px; */
+    /* padding: 5px !important; */
 }
 
 .btn-outline-secondary a {
