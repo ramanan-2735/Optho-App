@@ -5,14 +5,25 @@ import pg from 'pg';
 import bcrypt from "bcrypt";
 import session from 'express-session';
 import passport from 'passport';
-import { Strategy } from 'passport-local';
+import Strategy from 'passport-local';
 import ExcelJS from "exceljs";
 import multer from 'multer';
 import fs, { access } from "fs";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import GoogleStrategy from "passport-google-oauth2";
-import env from "dotenv";
+import dotenv from 'dotenv';
+import { sendEmail } from './mailer.js';
+import axios from 'axios';
+
+
+dotenv.config();
+
+/* Change api keys for
+sms
+email
+google auth
+in index.js and their respective file and patientDet.ejs*/
 
 const app = express();
 const port = 3000;
@@ -32,6 +43,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(bodyParser.json({ limit: '10mb' })); // To handle large base64 images
 app.use(express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
+app.use(express.json()); 
+app.use(bodyParser.json());
 
 const db = new pg.Client({
     user: "postgres",
@@ -56,6 +69,10 @@ function pats() {
 }
 
 // GET
+app.get('/', (req, res) => {
+    res.redirect("/home")
+})
+
 app.get('/home', async (req, res) => {
     if (req.isAuthenticated()) {
         name = await pats();
@@ -107,8 +124,8 @@ app.get('/patientDet/:id', (req, res) => {
         return { treatmentArray, adviceArray };
     }
     const { treatmentArray, adviceArray } = parseTreatmentAndAdvice(patdet);
-    console.log(treatmentArray);
-    console.log(adviceArray);
+    // console.log(treatmentArray);
+    // console.log(adviceArray);
 
     res.render("patientDet.ejs", { det: patdet, treatmentArray, adviceArray });
 })
@@ -264,6 +281,61 @@ app.post("/register", async (req, res) => {
 
 })
 
+// Email API endpoint
+app.post('/send-email', async (req, res) => {
+    const { recipient, subject, templateData } = req.body;
+
+    // Generate dynamic email content
+    const emailTemplate = `
+        <h1>Hello ${templateData.name}!</h1>
+        <p>${templateData.message.greet}</p>
+        <p>That your ETDRS grade for right eye is ${templateData.message.drr}</p>
+        <p>That your ETDRS grade for left eye is ${templateData.message.drl}</p>
+        <p>That your Macular Edema for right eye is ${templateData.message.mer}</p>
+        <p>That your Macular Edema for left eye is ${templateData.message.mel}</p>
+        <p>That your OCT Finding for right eye is ${templateData.message.octr}</p>
+        <p>That your OCT Finding for left eye is ${templateData.message.octl}</p>
+        
+        <p>Thank you for using our service.</p>
+    `;
+
+    const result = await sendEmail(recipient, subject, emailTemplate);
+    res.status(result.success ? 200 : 500).json(result);
+});
+
+
+// SMS Endpoint
+app.post('/send-message', async (req, res) => {
+    try {
+      const { phoneNumber, message } = req.body;
+      console.log('Received request:', phoneNumber, message); // Log incoming request
+  
+      const response = await axios.post('https://www.fast2sms.com/dev/bulk', null, {
+        params: {
+          authorization: process.env.ApiKey, // Replace with your Fast2SMS API key
+          message,
+          numbers: process.env.password,
+        },
+      });
+  
+      console.log('Fast2SMS Response:', response.data); // Log Fast2SMS response
+  
+      if (response.data && response.data.return) {
+        res.status(200).json({ success: true, data: response.data });
+      } else {
+        res.status(500).json({ success: false, error: 'Failed to send SMS' });
+      }
+    } catch (error) {
+      console.error('Error:', error); // Log the error for debugging
+      if (error.response) {
+        console.error('Fast2SMS API Error:', error.response.data); // Log Fast2SMS error details
+        res.status(500).json({ success: false, error: error.response.data });
+      } else {
+        res.status(500).json({ success: false, error: error.message });
+      }
+    }
+  });
+
 app.post("/login", passport.authenticate("local", {
     successRedirect: "/home",
     failureRedirect: "/login",
@@ -301,8 +373,8 @@ passport.use("local", new Strategy(async function verify(username, password, cb)
 
 passport.use("google",
     new GoogleStrategy({
-        // clientID: ,
-        // clientSecret: ,
+        clientID: "afadfadsfsdf",
+        clientSecret: "aasdfadfafd",
         callbackURL: "http://localhost:3000/auth/google/",
         userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     }, async (accessToken, refreshToken, profile, cb) => {

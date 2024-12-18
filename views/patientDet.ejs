@@ -21,6 +21,8 @@
     <div class="wrapper">
         <span>
             <%= det.name%> Details
+            <button id="send-email" type="button" class="btn btn-light">Send Email</button>
+            <button id="sendButton" type="button" class="btn btn-secondary">Send SMS</button>   
         </span>
         <div class="hstry">
             <p>Name: <%= det.name %>
@@ -125,7 +127,73 @@
 
 
 
+<script>
+    document.getElementById('send-email').addEventListener('click', async () => {
+    const templateData = {
+        name: "<%= det.name %>",
+        message: {
+            greet: "This message is Dynamically generated!.",
+            drr: "<%= det.ddr %>",
+            drl:"<%= det.drl %>",
+            mer:"<%= det.mer %>",
+            mel:"<%= det.mel %>",
+            octr:"<%= det.octr %>",
+            octl:"<%= det.octl %>",
+        },
+    };
 
+    try {
+        const response = await fetch('http://localhost:3000/send-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                recipient: 'pandeydhruv411@gmail.com',
+                subject: 'Eye Report',
+                templateData,
+            }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert('Email sent successfully!');
+        } else {
+            alert('Failed to send email: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error sending email. Check console for details.');
+    }
+});
+
+</script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="module">
+    document.getElementById('sendButton').addEventListener('click', async () => {
+        try {
+            const phoneNumber = '8693858222'; // Replace with the phone number
+            const message = 'Hello, this is a test message!';
+
+            const response = await axios.post('http://localhost:3000/send-message', {
+                phoneNumber,
+                message,
+            });
+
+            console.log('Response:', response); // Log the response for debugging
+
+            if (response.data.success) {
+                alert('Message sent successfully!');
+            } else {
+                alert('Failed to send message');
+            }
+        } catch (error) {
+            console.error('Error sending message:', error); // Log the error
+            alert(`Error sending message: ${error.message || error}`);
+        }
+    });
+</script> -->
 
 </body>
 
