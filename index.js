@@ -15,9 +15,17 @@ import GoogleStrategy from "passport-google-oauth2";
 import dotenv from 'dotenv';
 import { sendEmail } from './mailer.js';
 import axios from 'axios';
+import { initializeClient, sendMessage } from './whatsapp.js';
+
+
 
 
 dotenv.config();
+if (!process.env.UNAME) {
+    console.error('Failed to load environment variables from .env');
+  } else {
+    console.log('Environment variables loaded successfully');
+  }
 
 /* Change api keys for
 sms
@@ -335,6 +343,28 @@ app.post('/send-message', async (req, res) => {
       }
     }
   });
+
+//Whatsapp
+// Initialize WhatsApp client when the server starts
+initializeClient();
+
+// Example route to send a WhatsApp message
+app.post('/whatsapp-message', async (req, res) => {
+    const { phoneNumber, message } = req.body;
+    
+    // Validate input data
+    if (!phoneNumber || !message) {
+        return res.status(400).json({ error: 'Phone number and message are required' });
+    }
+    
+    try {
+        await sendMessage("918693858222", "Hello world!");
+        res.status(200).json({ message: 'Message sent successfully!' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error sending message' });
+    }
+});
+
 
 app.post("/login", passport.authenticate("local", {
     successRedirect: "/home",

@@ -23,6 +23,7 @@
             <%= det.name%> Details
             <button id="send-email" type="button" class="btn btn-light">Send Email</button>
             <button id="sendButton" type="button" class="btn btn-secondary">Send SMS</button>   
+            <button id="sendMessageButton">Send Message</button>
         </span>
         <div class="hstry">
             <p>Name: <%= det.name %>
@@ -166,8 +167,9 @@
         alert('Error sending email. Check console for details.');
     }
 });
-
 </script>
+<!-- Whatsapp -->
+
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="module">
