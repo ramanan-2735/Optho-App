@@ -6,94 +6,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Optho-App</title>
 
-    <link rel="stylesheet" href="styles/addPat.css">
+    <!-- <link rel="stylesheet" href="styles/addPat.css"> -->
+    <link rel="stylesheet" href="styles/tailstyle.css">
 </head>
 
-<body>
-    <div class="wrapper">
+<body class="h-svh">
+    <div class="wrapper w-full h-svh  bg-blue-300">
         <!-- <h6>Add Patients</h6> -->
-        <form action="/addPat" method="post">
-            <div class="hstry">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required autofocus placeholder="Patient Name" required>
+        <form action="/addPat" method="post" class="w-fit h-screen flex justify-around bg-white/50 backdrop-blur-xl">
+            <div class="hstry w-fit h-fit bg-slate-200 flex-col justify-between">
 
-                <label for="reg">Registration Number:</label>
-                <input type="text" id="reg" name="reg" required placeholder="Registration Number" value="<%= reg%>">
+                <div>
+                    <label class="font-medium text-xl" for="name">Name: </label>
+                    <input class="w-60 block rounded-sm p-1 text-base" type="text" id="name" name="name" required autofocus placeholder="Patient Name"
+                        required>
+                </div>
 
-                <div class="oha">
-                    <p>
+
+                <div class="">
+                    <label class="font-medium text-xl" for="reg">Registration Number:</label>
+                    <input class="w-60 block rounded-sm p-1 text-base" type="text" id="reg" name="reg" required placeholder="Registration Number"
+                        value="<%= reg%>">
+                </div>
+
+                <div class="oha flex">
+                    <div class="w-fit">
+
                         <label for="age">Age:</label>
-                        <input type="text" id="age" name="age" placeholder="Age">
-                    </p>
+                        <input class="w-60 block rounded-sm p-1 text-base" type="text" id="age" name="age" placeholder="Age">
 
-                    <div class="none">
+                    </div>
+
+                    <div class="none flex-col">
                         <p>
                             <label>Sex:</label>
-                        <p>
-                            <label for="male">M</label>
-                            <input type="radio" id="male" name="sex" value="male" checked>
+                        </p>
+                        <div class="flex">
 
-                            <label for="female">F</label>
-                            <input type="radio" id="female" name="sex" value="female">
-                        </p>
-                        </p>
+                            <div class="flex"><label for="male">M</label>
+                                <input type="radio" id="male" name="sex" value="male" checked>
+                            </div>
+
+                            <div class="flex"><label for="female">F</label>
+                                <input type="radio" id="female" name="sex" value="female">
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
-                <label for="contact">Contact:</label>
-                <input type="text" id="contact" name="contact" placeholder="Contact Number" required>
+                <div class=""><label for="contact">Contact:</label>
+                    <input class="block" type="text" id="contact" name="contact" placeholder="Contact Number" required>
+                </div>
 
-                <div class="oha">
-                    <p>
+                <div class="oha flex">
+                    <div class="">
                         <label for="beneficiary">Beneficiary:</label>
-                        <select id="beneficiary" name="beneficiary">
+                        <select class="block" id="beneficiary" name="beneficiary">
                             <option value="self" selected>Employee</option>
                             <option value="family">Retired Employee</option>
                             <option value="other">Family</option>
                         </select>
-                    </p>
+                    </div>
 
-                    <p>
+
+
+                    <div class="">
                         <label for="dtype">Type of Diabetes:</label>
-                        <select id="dtype" name="dtype">
+                        <select class="block" id="dtype" name="dtype">
                             <option value="type1" selected>Type 1</option>
                             <option value="type2">Type 2</option>
                             <option value="mody">MODY</option>
                         </select>
-                    </p>
+
+                    </div>
                 </div>
 
-                <div class="oha">
-                    <p>
+                <div class="oha flex">
+
+                    <div class="">
                         <label for="ddur"> Diabetes Duration:</label>
-                        <select id="ddur" name="ddur">
+                        <select class="w-20 block" id="ddur" name="ddur">
                             <option value="Newly diagnosed(1year)" selected>Newly diagnosed(1year) </option>
                             <option value="Less than 5 years">Less than 5 years</option>
                             <option value="Between 5 years and 10 years">Between 5 years and 10 years</option>
                             <option value="More than 10 years">More than 10 years</option>
                         </select>
-                    </p>
-                    <div class="none">
-                        <p>
-                            <label>Insulin: </label>
-                        <p>
+                    </div>
+
+                    <div class="">
+                        <div class=""> <label>Insulin: </label></div>
+                        <div class="flex">
                             <label for="yes_insulin">Yes</label>
                             <input type="radio" id="yes_insulin" name="insulin" value="yes">
                             <label for="no_insulin">No</label>
                             <input type="radio" id="no_insulin" name="insulin" value="no" checked>
-                        </p>
-                        </p>
+                        </div>
                     </div>
                 </div>
-                <div class="oha">
-                    <p><label for="OHA_count">No. of OHA:</label>
-                        <input type="text" id="OHA_count" name="oha" placeholder="No. of OHA">
-                    </p>
 
-                    <p>
-                        <label for="HBA1c">HbA1c (%):</label>
+                <div class="oha flex">
+                    <div class="">
+                        <label for="OHA_count">No. of OHA:</label>
+                        <input type="text" id="OHA_count" name="oha" placeholder="No. of OHA">
+                    </div>
+
+                    <div class=""> <label for="HBA1c">HbA1c (%):</label>
                         <input type="text" id="HBA1c" name="HBA1c" placeholder="HBA1c">
-                    </p>
+                    </div>
+
                 </div>
 
 
@@ -120,50 +141,53 @@
                     </p>
                 </div>
             </div>
-            <div class="oclr">
+            <div class="oclr w-fit h-fit flex-col justify-between">
                 <!-- <h3>Visual Acuity</h3> -->
-                <label for="bcvar">BCVA Right Eye:</label>
-                <select id="bcvar" name="bcvar">
-                    <option value="6/6">6/6</option>
-                    <option value="6/9">6/9</option>
-                    <option value="6/12">6/12</option>
-                    <option value="6/18">6/18</option>
-                    <option value="6/24">6/24</option>
-                    <option value="6/36">6/36</option>
-                    <option value="6/60">6/60</option>
-                    <option value="5/60">5/60</option>
-                    <option value="4/60">4/60</option>
-                    <option value="3/60">3/60</option>
-                    <option value="2/60">2/60</option>
-                    <option value="1/60">1/60</option>
-                    <option value="PL+">PL+</option>
-                    <option value="PL-">PL-</option>
-                </select>
+                <div class=""><label for="bcvar">BCVA Right Eye:</label>
+                    <select id="bcvar" name="bcvar">
+                        <option value="6/6">6/6</option>
+                        <option value="6/9">6/9</option>
+                        <option value="6/12">6/12</option>
+                        <option value="6/18">6/18</option>
+                        <option value="6/24">6/24</option>
+                        <option value="6/36">6/36</option>
+                        <option value="6/60">6/60</option>
+                        <option value="5/60">5/60</option>
+                        <option value="4/60">4/60</option>
+                        <option value="3/60">3/60</option>
+                        <option value="2/60">2/60</option>
+                        <option value="1/60">1/60</option>
+                        <option value="PL+">PL+</option>
+                        <option value="PL-">PL-</option>
+                    </select>
+                </div>
 
-                <label for="bcval">BCVA Left Eye:</label>
-                <select id="bcval" name="bcval">
-                    <option value="6/6">6/6</option>
-                    <option value="6/9">6/9</option>
-                    <option value="6/12">6/12</option>
-                    <option value="6/18">6/18</option>
-                    <option value="6/24">6/24</option>
-                    <option value="6/36">6/36</option>
-                    <option value="6/60">6/60</option>
-                    <option value="5/60">5/60</option>
-                    <option value="4/60">4/60</option>
-                    <option value="3/60">3/60</option>
-                    <option value="2/60">2/60</option>
-                    <option value="1/60">1/60</option>
-                    <option value="PL+">PL+</option>
-                    <option value="PL-">PL-</option>
-                </select>
+                <div class=""><label for="bcval">BCVA Left Eye:</label>
+                    <select id="bcval" name="bcval">
+                        <option value="6/6">6/6</option>
+                        <option value="6/9">6/9</option>
+                        <option value="6/12">6/12</option>
+                        <option value="6/18">6/18</option>
+                        <option value="6/24">6/24</option>
+                        <option value="6/36">6/36</option>
+                        <option value="6/60">6/60</option>
+                        <option value="5/60">5/60</option>
+                        <option value="4/60">4/60</option>
+                        <option value="3/60">3/60</option>
+                        <option value="2/60">2/60</option>
+                        <option value="1/60">1/60</option>
+                        <option value="PL+">PL+</option>
+                        <option value="PL-">PL-</option>
+                    </select>
+                </div>
 
-                <label for="iopr">IOP Right Eye (mmHg):</label>
-                <input type="text" id="iopr" name="iopr" placeholder="Enter IOP">
+                <div class=""> <label for="iopr">IOP Right Eye (mmHg):</label>
+                    <input type="text" id="iopr" name="iopr" placeholder="Enter IOP">
+                </div>
 
-                <label for="iopl">IOP Left Eye (mmHg):</label>
-                <input type="text" id="iopl" name="iopl" placeholder="Enter IOP">
-
+                <div class=""><label for="iopl">IOP Left Eye (mmHg):</label>
+                    <input type="text" id="iopl" name="iopl" placeholder="Enter IOP">
+                </div>
             </div>
             <div class="fnds">
                 <label for="drr">DR Right Eye:</label>
@@ -280,6 +304,18 @@
             </div>
         </form>
     </div>
+
+
+
+    <script>
+    document.querySelectorAll('label').forEach(label => {
+        label.classList.add('font-medium','text-xl'); // Adds Tailwind class
+    });
+
+    // document.querySelectorAll('input').forEach(label => {
+    //     label.classList.add("min-w-24","max-w-48","block","rounded-sm","p-1","text-base"); // Adds Tailwind class
+    // });
+</script>
 </body>
 
 </html>

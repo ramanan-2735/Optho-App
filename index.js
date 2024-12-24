@@ -13,9 +13,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import GoogleStrategy from "passport-google-oauth2";
 import dotenv from 'dotenv';
-import { sendEmail } from './mailer.js';
+import { sendEmail } from './components/mailer.js';
 import axios from 'axios';
-import { initializeClient, sendMessage } from './whatsapp.js';
+import { initializeClient, sendMessage } from './components/whatsapp.js';
+import {createLog} from './components/databaseMechanism.js'
 
 
 
@@ -95,17 +96,6 @@ app.get('/patientDet/:id', (req, res) => {
     const patRow = name.rows;
     console.log("");
     const patdet = patRow.find(x => x.id == req.params.id)
-
-    // let str = patdet.treatment;
-    // str = str.replace(/{/g, '[').replace(/}/g, ']');
-    // let treatmentArray = JSON.parse(str);
-
-
-    // let btr = patdet.advice;
-    // btr = btr.replace(/{/g, '[').replace(/}/g, ']');
-    // btr = btr.replace(/'/g, '"');
-    // console.log(btr);
-    // let adviceArray = JSON.parse(btr);
 
     function parseTreatmentAndAdvice(patdet) {
         // Helper function to safely parse a JSON-like string
@@ -216,21 +206,27 @@ app.get("/auth/google", passport.authenticate("google", {
     scope: ["profile", "email"],
 }));
 
-app.get("/auth/google/", passport.authenticate("google", {
+app.get("/auth/google/home", passport.authenticate("google", {
     successRedirect: "/home",
     failureRedirect: "/login",
 }))
 
 
 // POST
-app.post("/addPat", (req, res) => {
+app.post("/addPat", async(req, res) => {
     const det = req.body;
-    console.log(det);
+    // console.log(det);
     try {
-        db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp]);
+       await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp]);
+
+        try {
+            createLog(det.reg,det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp);
+        } catch (e) {
+         console.log(e.message);   
+        }
     } catch (e) {
         console.log(e);
-        console.log("Kaand");
+        res.redirect("/addPat")
     }
     res.redirect("/")
 });
@@ -403,9 +399,9 @@ passport.use("local", new Strategy(async function verify(username, password, cb)
 
 passport.use("google",
     new GoogleStrategy({
-        clientID: "afadfadsfsdf",
-        clientSecret: "aasdfadfafd",
-        callbackURL: "http://localhost:3000/auth/google/",
+        clientID: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        callbackURL: "http://localhost:3000/auth/google/home",
         userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     }, async (accessToken, refreshToken, profile, cb) => {
         console.log(profile);

@@ -1,104 +1,109 @@
 <%- include('partials/header.ejs') %>
+    <!-- Navbar -->
+    <nav
+        class="h-16 w-full p-6 bg-white/50 sticky top-0 z-5 shadow-md backdrop-blur-md flex items-center justify-between ">
+        <div class="text-4xl font-bold text-blue-950 ">Optho-App</div>
 
-    <div id="header" class="mb-4 mt-1">
-        <div class="border-bottom rounded-bottom-4 border-top rounded-top-3">
-            <header class="d-flex flex-wrap justify-content-center py-1 ">
-                <a href="/"
-                    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                    <span class="fs-4">Optho-app</span>
-                </a>
 
-                <ul class="nav nav-pills py-2">
-                    <button type="button" class="btn btn-outline-light me-2"
-                        onclick="window.location.href='http://localhost:3000/addPat'">ADD</button>
-                    <form class="d-flex me-2" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">Search</button>
-                    </form>
-                    <form action="/export-to-excel" method="GET" class="me-2">
-                        <button type="submit" class="export-btn form-control btn btn-outline-light">Excel</button>
-                    </form>
-                    <form action="/canvas" method="get" class="me-2">
-                        <button type="submit" class="form-control btn btn-outline-light">Canvas</button>
-                    </form>
+        <div class="hidden  md:block md:flex items-center ">
+            <div onclick="window.location.href='/addPat'"
+                class="w-fit h-fit px-3 py-1 hidden text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex-none items-center md:block md:flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-user-plus mr-2">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <line x1="19" x2="19" y1="8" y2="14"></line>
+                    <line x1="22" x2="16" y1="11" y2="11"></line>
+                </svg>
+                <button>
+                    New Patient
+                </button>
+            </div>
 
-                    <form action="/login" method="post" class="me-2">
-                        <button type="submit" class="form-control btn btn-outline-light">Log Out</button>
-                    </form>
-                </ul>
-            </header>
+
+            <div
+                class="w-fit h-fit px-3 py-1 hidden text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex-none items-center md:block md:flex hover:stroke-blue-800">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M14.3601 4.07866L15.2869 3.15178C16.8226 1.61607 19.3125 1.61607 20.8482 3.15178C22.3839 4.68748 22.3839 7.17735 20.8482 8.71306L19.9213 9.63993M14.3601 4.07866C14.3601 4.07866 14.4759 6.04828 16.2138 7.78618C17.9517 9.52407 19.9213 9.63993 19.9213 9.63993M14.3601 4.07866L5.83882 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021M19.9213 9.63993L11.4001 18.1612C10.8229 18.7383 10.5344 19.0269 10.2162 19.2751C9.84082 19.5679 9.43469 19.8189 9.00498 20.0237C8.6407 20.1973 8.25352 20.3263 7.47918 20.5844L4.19792 21.6782M4.19792 21.6782L3.39584 21.9456C3.01478 22.0726 2.59466 21.9734 2.31063 21.6894C2.0266 21.4053 1.92743 20.9852 2.05445 20.6042L2.32181 19.8021M4.19792 21.6782L2.32181 19.8021"
+                        stroke="#1C274C" stroke-width="2" class="m-1 text-blue-950 hover:stroke-blue-800" />
+                </svg>
+                <button>
+                    Canvas
+                </button>
+            </div>
+
+            <div
+                class="w-fit h-fit px-3 py-1 hidden text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex-none items-center md:block md:flex">
+                <svg class="m-1 text-blue-950 hover:text-blue-800" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 12L6 12M6 12L8 14M6 12L8 10" stroke="#1C274C" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path
+                        d="M12 21.9827C10.4465 21.9359 9.51995 21.7626 8.87865 21.1213C8.11027 20.3529 8.01382 19.175 8.00171 17M16 21.9983C18.175 21.9862 19.3529 21.8897 20.1213 21.1213C21 20.2426 21 18.8284 21 16V14V10V8C21 5.17157 21 3.75736 20.1213 2.87868C19.2426 2 17.8284 2 15 2H14C11.1715 2 9.75733 2 8.87865 2.87868C8.11027 3.64706 8.01382 4.82497 8.00171 7"
+                        stroke="#1C274C" stroke-width="2" stroke-linecap="round" />
+                    <path
+                        d="M3 9.5V14.5C3 16.857 3 18.0355 3.73223 18.7678C4.46447 19.5 5.64298 19.5 8 19.5M3.73223 5.23223C4.46447 4.5 5.64298 4.5 8 4.5"
+                        stroke="#1C274C" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <button>
+                    Logout
+                </button>
+            </div>
         </div>
-    </div>
+    </nav>
 
+    <!-- Body -->
+    <div class="min-h-screen bg-blue-300 px-2 py-4 sm:px-6 sm:py-8 md:px-10 md:py-12 ">
 
-    <div id="home">
-        <div class="container contpat">
-            <% name.map((n)=> {%>
-                <div class="patients row gx-1">
-                    <div class="pd col-12" data-id="<%= n.id %>">
-                        <p class="mb-1">Patient ID: <%= n.id %>
-                        </p>
-                        <p class="mb-1">Patient Name: <%= n.name %>
-                        </p>
-                    </div>
-                    <!-- <div class="container col-3 ">
-                        <div class="opr-btn row-col-2 grid gap-0 row-gap-1">
-                            <div class="g-col-12 w-100">
-                                <form action="/updatePat/<%= n.id %>" method="post">
-                                    <button class="btn btn-primary w-100 ">UPDATE</button>
-                                </form>
-                            </div>
-                            <div class="g-col-12 w-100 mt-1">
-                                <form action="/deletePat/<%= n.id %>" method="post">
-                                    <input type="hidden">
-                                    <button class="btn btn-danger w-100 " type="submit">DELETE</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div> -->
-                    <div class="col w-100">
-                        <form action="/deletePat/<%= n.id %>" method="post">
-                            <input type="hidden">
-                            <button class="btn btn-danger w-100" type="submit">DELETE</button>
-                        </form>
-                    </div>
-
-                    <div class="col w-100">
-                        <form action="/updatePat/<%= n.id %>" method="post">
-                            <button class="btn btn-primary w-100">UPDATE</button>
-                        </form>
-                    </div>
-
-
+        <div class="head flex items-center gap-2 stroke-blue-950">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-users text-blue-500">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <h1 class="text-2xl md:text-4xl font-bold text-gray-800">Patient Records</h1>
+        </div>
+        <% if (name[0]) { %>
+            <div
+                class="patients w-full min-h-32 my-4 md:my-8 p-6 bg-white rounded-md shadow-md flex flex-col items-center ">
+                <div class="w-full py-2 px-4 text-base text-gray-500 grid grid-cols-7" >
+                    <p>Name</p>
+                    <p>Reg. Number</p>
+                    <p>Age</p>
+                    <p>Sex</p>
+                    <p>Contact Number</p>
+                    <p>Last Visit</p>
+                    <p>Actions</p>
                 </div>
-                <% }); %>
-        </div>
+
+                <% name.forEach(p=> { %>
+                    <p class="w-full my-2 border-t"></p>
+                    <div class="w-full px-4 flex justify-between cursor-pointer transition-all duration-200 hover:bg-black/10 hover:rounded-xl" onclick="window.open('/patientDet/<%= p.id%>', '_blank')">
+
+                        <div class="w-full my-5 grid grid-cols-7">
+                            <p><%= p.name %></p>
+                            <p><%= p.reg %></p>
+                            <p><%= p.age %></p>
+                            <p><%= p.sex %></p>
+                            <p><%= p.contact %></p>
+                            <p><%= p.fllwp %></p>
+                            <p><%= p.reg %></p>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+            <% } else{%>
+                <% console.log("Empty");%>
+                    <div
+                        class="patients w-full h-32 my-4 md:my-8 bg-white rounded-md shadow-md flex items-center justify-center">
+                        <p class="w-fit text-base text-gray-500">Try adding patients</p>
+                    </div>
+                    <% } %>
     </div>
-
-
-
-
-    <script>
-        //New Window opening function
-        document.querySelectorAll('.pd').forEach(div => {
-            div.addEventListener('click', function () {
-                const patientId = this.getAttribute('data-id');
-                window.open(`/patientDet/${patientId}`, '_blank');
-            });
-        });
-
-        //Resizing
-        const resizableDiv = document.querySelector('#home');
-        function adjustDivHeight() {
-            if (resizableDiv.scrollHeight > window.innerHeight * 0.9) {
-                resizableDiv.style.height = 'auto';
-            } else {
-                resizableDiv.style.height = '87.5vh';
-            }
-        }
-        adjustDivHeight();
-        window.addEventListener('resize', adjustDivHeight);
-
-    </script>
 
     <%- include('partials/footer.ejs') %>
