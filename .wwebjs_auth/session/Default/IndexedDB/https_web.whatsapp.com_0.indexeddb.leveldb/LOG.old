@@ -1,27 +1,3 @@
-2024/12/25-14:34:55.879 810f Reusing MANIFEST /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2024/12/25-14:34:55.897 810f Recovering log #2145
-2024/12/25-14:34:55.898 810f Reusing old log /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/002145.log 
-2024/12/25-14:34:55.907 810f Delete type=2 #2134
-2024/12/25-14:35:02.837 8116 Compacting 1@1 + 8@2 files
-2024/12/25-14:35:04.574 8116 Generated table #2150@1: 85967 keys, 2235439 bytes
-2024/12/25-14:35:05.923 8116 Generated table #2151@1: 57610 keys, 2239470 bytes
-2024/12/25-14:35:06.702 8116 Generated table #2152@1: 23882 keys, 2180542 bytes
-2024/12/25-14:35:07.248 8116 Generated table #2153@1: 1956 keys, 2149670 bytes
-2024/12/25-14:35:07.592 8116 Generated table #2154@1: 2196 keys, 2148600 bytes
-2024/12/25-14:35:07.592 8116 Level-0 table #2156: started
-2024/12/25-14:35:07.723 8116 Level-0 table #2156: 18093 bytes OK
-2024/12/25-14:35:07.781 8116 Delete type=0 #2145
-2024/12/25-14:35:09.344 8116 Generated table #2157@1: 18942 keys, 2226184 bytes
-2024/12/25-14:35:11.021 8116 Generated table #2158@1: 31220 keys, 2234006 bytes
-2024/12/25-14:35:11.332 8116 Generated table #2159@1: 6830 keys, 2114444 bytes
-2024/12/25-14:35:11.332 8116 Compacted 1@1 + 8@2 files => 17528355 bytes
-2024/12/25-14:35:11.443 8116 compacted to: files[ 1 1 24 0 0 0 0 ]
-2024/12/25-14:35:11.445 8110 Manual compaction at level-0 from '\x00a\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00b\x00\x00\x00' @ 0 : 0; will stop at '\x00a\x00\x00\x05' @ 4647153 : 1
-2024/12/25-14:35:11.446 8110 Compacting 1@0 + 1@1 files
-2024/12/25-14:35:11.499 8110 Generated table #2160@0: 434 keys, 8800 bytes
-2024/12/25-14:35:11.555 8110 Generated table #2161@0: 938 keys, 22846 bytes
-2024/12/25-14:35:11.555 8110 Compacted 1@0 + 1@1 files => 31646 bytes
-2024/12/25-14:35:11.599 8110 compacted to: files[ 0 2 24 0 0 0 0 ]
-2024/12/25-14:35:11.603 8110 Delete type=2 #2156
-2024/12/25-14:35:11.605 8110 Manual compaction at level-0 from '\x00a\x00\x00\x05' @ 4647153 : 1 .. '\x00b\x00\x00\x00' @ 0 : 0; will stop at (end)
-2024/12/25-14:35:41.971 8173 Compacting 1@1 + 2@2 files
+2024/12/25-17:34:24.774 bf4a Reusing MANIFEST /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/12/25-17:34:24.777 bf4a Recovering log #2253
+2024/12/25-17:34:24.798 bf4a Reusing old log /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/002253.log 

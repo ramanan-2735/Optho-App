@@ -1,198 +1,345 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Optho-App</title>
+    <link rel="stylesheet" href="styles/tailstyle.css" />
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  </head>
+  <body class="h-screen bg-blue-300">
+    <div class="h-full p-6 w-screen">
+      <form
+        action="/addPat"
+        method="post"
+        class="h-full bg-white/50 backdrop-blur-xl p-4 rounded-lg"
+      >
+        <div class="grid grid-cols-3 gap-6 h-full">
+          <!-- Patient History Section -->
+          <div class="bg-white rounded-lg shadow p-4 space-y-4">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+              Patient Information
+            </h2>
 
-    <!-- <link rel="stylesheet" href="styles/addPat.css"> -->
-    <link rel="stylesheet" href="styles/tailstyle.css">
-</head>
+            <div class="space-y-4">
+              <div>
+                <label
+                  class="block text-gray-700 text-sm font-semibold mb-2"
+                  for="name"
+                  >Name:</label
+                >
+                <input
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  autofocus
+                  placeholder="Patient Name"
+                />
+              </div>
 
-<body class="h-svh">
-    <div class="wrapper w-full h-svh  bg-blue-300">
-        <!-- <h6>Add Patients</h6> -->
-        <form action="/addPat" method="post" class="w-fit h-screen flex justify-around bg-white/50 backdrop-blur-xl">
-            <div class="hstry w-fit h-fit bg-slate-200 flex-col justify-between">
+              <div>
+                <label
+                  class="block text-gray-700 text-sm font-semibold mb-2"
+                  for="reg"
+                  >Registration Number</label
+                >
+                <input
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  type="text"
+                  id="reg"
+                  name="reg"
+                  required
+                  placeholder="Registration Number"
+                  value="<%= reg%>"
+                />
+              </div>
 
+              <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label class="font-medium text-xl" for="name">Name: </label>
-                    <input class="w-60 block rounded-sm p-1 text-base" type="text" id="name" name="name" required
-                        autofocus placeholder="Patient Name" required>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="age"
+                    >Age</label
+                  >
+                  <input
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    type="text"
+                    id="age"
+                    name="age"
+                    placeholder="Age"
+                  />
                 </div>
-
-
-                <div class="">
-                    <label class="font-medium text-xl" for="reg">Registration Number:</label>
-                    <input class="w-60 block rounded-sm p-1 text-base" type="text" id="reg" name="reg" required
-                        placeholder="Registration Number" value="<%= reg%>">
+                <div>
+                  <label class="block text-gray-700 text-sm font-semibold mb-2"
+                    >Sex</label
+                  >
+                  <div class="flex gap-4 mt-2">
+                    <label class="inline-flex items-center">
+                      <input
+                        type="radio"
+                        class="text-blue-600 focus:ring-blue-500 h-4 w-4"
+                        name="sex"
+                        value="male"
+                        checked
+                      />
+                      <span class="ml-2 text-sm text-gray-700">Male</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                      <input
+                        type="radio"
+                        class="text-blue-600 focus:ring-blue-500 h-4 w-4"
+                        name="sex"
+                        value="female"
+                      />
+                      <span class="ml-2 text-sm text-gray-700">Female</span>
+                    </label>
+                  </div>
                 </div>
+              </div>
 
-                <div class="oha flex">
-                    <div class="w-fit">
+              <div>
+                <label
+                  class="block text-gray-700 text-sm font-semibold mb-2"
+                  for="contact"
+                  >Contact</label
+                >
+                <input
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  type="text"
+                  id="contact"
+                  name="contact"
+                  placeholder="Contact Number"
+                  required
+                />
+              </div>
 
-                        <label for="age">Age:</label>
-                        <input class="w-60 block rounded-sm p-1 text-base" type="text" id="age" name="age"
-                            placeholder="Age">
-
-                    </div>
-
-                    <div class="none flex-col">
-                        <p>
-                            <label>Sex:</label>
-                        </p>
-                        <div class="flex">
-
-                            <div class="flex"><label for="male">M</label>
-                                <input type="radio" id="male" name="sex" value="male" checked>
-                            </div>
-
-                            <div class="flex"><label for="female">F</label>
-                                <input type="radio" id="female" name="sex" value="female">
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class=""><label for="contact">Contact:</label>
-                    <input class="block" type="text" id="contact" name="contact" placeholder="Contact Number" required>
-                </div>
-
-                <div class="oha flex">
-                    <div class="">
-                        <label for="beneficiary">Beneficiary:</label>
-                        <select class="block" id="beneficiary" name="beneficiary">
-                            <option value="self" selected>Employee</option>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label
+                            class="block text-gray-700 text-sm font-semibold mb-2"
+                            for="beneficiary"
+                            >Beneficiary</label
+                        >
+                        <select
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            id="beneficiary"
+                            name="beneficiary"
+                        >
+                            <option value="self">Employee</option>
                             <option value="family">Retired Employee</option>
                             <option value="other">Family</option>
                         </select>
                     </div>
-
-
-
-                    <div class="">
-                        <label for="dtype">Type of Diabetes:</label>
-                        <select class="block" id="dtype" name="dtype">
-                            <option value="type1" selected>Type 1</option>
+                    <div>
+                        <label
+                            class="block text-gray-700 text-sm font-semibold mb-2"
+                            for="dtype"
+                            >Type of Diabetes</label
+                        >
+                        <select
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            id="dtype"
+                            name="dtype"
+                        >
+                            <option value="type1">Type 1</option>
                             <option value="type2">Type 2</option>
                             <option value="mody">MODY</option>
                         </select>
-
                     </div>
-                </div>
-
-                <div class="oha flex">
-
-                    <div class="">
-                        <label for="ddur"> Diabetes Duration:</label>
-                        <select class="w-20 block" id="ddur" name="ddur">
-                            <option value="Newly diagnosed(1year)" selected>Newly diagnosed(1year) </option>
+                    <div>
+                        <label
+                            class="block text-gray-700 text-sm font-semibold mb-2"
+                            for="ddur" 
+                            >Diabetes Duration</label
+                        >
+                        <select
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            name="ddur"
+                            id="ddur"
+                        >
+                            <option value="Newly diagnosed(<1 year)">
+                            Newly diagnosed (<1 year)
+                            </option>
                             <option value="Less than 5 years">Less than 5 years</option>
-                            <option value="Between 5 years and 10 years">Between 5 years and 10 years</option>
-                            <option value="More than 10 years">More than 10 years</option>
+                            <option value="Between 5 years to 10 years">
+                            Between 5 years to 10 years
+                            </option>
+                            <option value="More than 10 years">
+                            More than 10 years
+                            </option>
                         </select>
                     </div>
-
-                    <div class="">
-                        <div class=""> <label>Insulin: </label></div>
-                        <div class="flex">
-                            <label for="yes_insulin">Yes</label>
-                            <input type="radio" id="yes_insulin" name="insulin" value="yes">
-                            <label for="no_insulin">No</label>
-                            <input type="radio" id="no_insulin" name="insulin" value="no" checked>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2"
+                            >Insulin:</label
+                        >
+                        <div class="flex gap-4 mt-2">
+                            <label class="inline-flex items-center" for="yes_insulin">
+                            <input
+                                type="radio"
+                                class="text-blue-600 focus:ring-blue-500 h-4 w-4"
+                                id="yes_insulin"
+                                name="insulin"
+                                value="yes_insulin"
+                                checked
+                            />
+                            <span class="ml-2 text-sm text-gray-700">Yes</span>
+                            </label>
+                            <label class="inline-flex items-center" for="no_insulin">
+                            <input
+                                type="radio"
+                                class="text-blue-600 focus:ring-blue-500 h-4 w-4"
+                                id="no_insulin"
+                                name="insulin"
+                                value="no_insulin"
+                            />
+                            <span class="ml-2 text-sm text-gray-700">No</span>
+                            </label>
                         </div>
                     </div>
                 </div>
-
-                <div class="oha flex">
-                    <div class="">
-                        <label for="OHA_count">No. of OHA:</label>
-                        <input type="text" id="OHA_count" name="oha" placeholder="No. of OHA">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                    <label
+                        class="block text-gray-700 text-sm font-semibold mb-2"
+                        for="oha" 
+                        >No. of BHA:</label
+                    >
+                    <input
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        type="text"
+                        id="oha"
+                        name="oha"
+                        placeholder="No. of BHA:"
+                    />
                     </div>
-
-                    <div class=""> <label for="HBA1c">HbA1c (%):</label>
-                        <input type="text" id="HBA1c" name="HBA1c" placeholder="HBA1c">
+                    <div>
+                    <label
+                        class="block text-gray-700 text-sm font-semibold mb-2"
+                        for="HBA1c"
+                        >HbA1c (%):</label
+                    >
+                    <input
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        type="text"
+                        id="HBA1c"
+                        name="HBA1c"
+                        placeholder="HbA1c"
+                    />
                     </div>
-
-                </div>
-
-
-                <div class="obtn">
-                    <label>Treatment Obtained:</label>
-                    <p>
-                    <p>
-                        <input type="checkbox" id="none" name="treatment[]" value="none">
-                        <label for="none">None</label>
-                    </p>
-                    <p>
-                        <input type="checkbox" id="Intravitreal injection" name="treatment[]"
-                            value="Intravitreal injection">
-                        <label for="Intravitreal injection">Intravitreal injection</label>
-                    </p>
-                    <p>
-                        <input type="checkbox" id="PRP" name="treatment[]" value="PRP">
-                        <label for="PRP">PRP</label>
-                    </p>
-                    <p>
-                        <input type="checkbox" id="Retinal surgery" name="treatment[]" value="Retinal surgery">
-                        <label for="Retinal surgery">Retinal surgery</label>
-                    </p>
-                    </p>
                 </div>
             </div>
-            <div class="oclr w-fit h-fit flex-col justify-between">
-                <!-- <h3>Visual Acuity</h3> -->
-                <div class=""><label for="bcvar">BCVA Right Eye:</label>
-                    <select id="bcvar" name="bcvar">
-                        <option value="6/6">6/6</option>
-                        <option value="6/9">6/9</option>
-                        <option value="6/12">6/12</option>
-                        <option value="6/18">6/18</option>
-                        <option value="6/24">6/24</option>
-                        <option value="6/36">6/36</option>
-                        <option value="6/60">6/60</option>
-                        <option value="5/60">5/60</option>
-                        <option value="4/60">4/60</option>
-                        <option value="3/60">3/60</option>
-                        <option value="2/60">2/60</option>
-                        <option value="1/60">1/60</option>
-                        <option value="PL+">PL+</option>
-                        <option value="PL-">PL-</option>
-                    </select>
-                </div>
+          </div>
 
-                <div class=""><label for="bcval">BCVA Left Eye:</label>
-                    <select id="bcval" name="bcval">
-                        <option value="6/6">6/6</option>
-                        <option value="6/9">6/9</option>
-                        <option value="6/12">6/12</option>
-                        <option value="6/18">6/18</option>
-                        <option value="6/24">6/24</option>
-                        <option value="6/36">6/36</option>
-                        <option value="6/60">6/60</option>
-                        <option value="5/60">5/60</option>
-                        <option value="4/60">4/60</option>
-                        <option value="3/60">3/60</option>
-                        <option value="2/60">2/60</option>
-                        <option value="1/60">1/60</option>
-                        <option value="PL+">PL+</option>
-                        <option value="PL-">PL-</option>
-                    </select>
-                </div>
+          <!-- Findings Section -->
+          <div class="bg-white rounded-lg shadow p-4 space-y-4">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+              Clinical Findings
+            </h2>
 
-                <div class=""> <label for="iopr">IOP Right Eye (mmHg):</label>
-                    <input type="text" id="iopr" name="iopr" placeholder="Enter IOP">
+            <div class="space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="bcval"
+                    >BCVA Left Eye:</label
+                  >
+                  <select
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    id="bcval"
+                    name="bcval"
+                  >
+                    <option value="6/6">6/6</option>
+                    <option value="6/9">6/9</option>
+                    <option value="6/12">6/12</option>
+                    <option value="6/18">6/18</option>
+                    <option value="6/24">6/24</option>
+                    <option value="6/36">6/36</option>
+                    <option value="6/60">6/60</option>
+                    <option value="5/60">5/60</option>
+                    <option value="4/60">4/60</option>
+                    <option value="3/60">3/60</option>
+                    <option value="2/60">2/60</option>
+                    <option value="1/60">1/60</option>
+                    <option value="PL+">PL+</option>
+                    <option value="PL-">PL-</option>
+                  </select>
                 </div>
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="bcvar"
+                    >BVCA Right Eye:</label
+                  >
+                  <select
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    id="bcvar"
+                    name="bcvar"
+                  >
+                    <option value="6/6">6/6</option>
+                    <option value="6/9">6/9</option>
+                    <option value="6/12">6/12</option>
+                    <option value="6/18">6/18</option>
+                    <option value="6/24">6/24</option>
+                    <option value="6/36">6/36</option>
+                    <option value="6/60">6/60</option>
+                    <option value="5/60">5/60</option>
+                    <option value="4/60">4/60</option>
+                    <option value="3/60">3/60</option>
+                    <option value="2/60">2/60</option>
+                    <option value="1/60">1/60</option>
+                    <option value="PL+">PL+</option>
+                    <option value="PL-">PL-</option>
+                  </select>
+                </div>
+              </div>
 
-                <div class=""><label for="iopl">IOP Left Eye (mmHg):</label>
-                    <input type="text" id="iopl" name="iopl" placeholder="Enter IOP">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="iopl"
+                    >IOP Left Eye (mmHg):</label
+                  >
+                  <input
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    type="text"
+                    id="iopl"
+                    name="iopl"
+                    placeholder="Enter IOP"
+                  />
                 </div>
-            </div>
-            <div class="fnds">
-                <label for="drr">DR Right Eye:</label>
-                <select id="drr" name="drr">
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="iopr"
+                    >IOP Right Eye (mmHg):</label
+                  >
+                  <input
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    type="text"
+                    id="iopr"
+                    name="iopr"
+                    placeholder="Enter IOP"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="drl"
+                    >DR Left Eye</label
+                  >
+                  <select
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    id="drl"
+                    name="drl"
+                  >
                     <option value="No DR at present">No DR at present</option>
                     <option value="Mild NPDR">Mild NPDR</option>
                     <option value="Moderate NPDR">Moderate NPDR</option>
@@ -200,12 +347,20 @@
                     <option value="Very severe NPDR">Very severe NPDR</option>
                     <option value="PDR without HRC">PDR without HRC</option>
                     <option value="PDR with HRC">PDR with HRC</option>
-                </select>
-                <br><br>
+                  </select>
+                </div>
 
-                <!-- DR Left Eye -->
-                <label for="drl">DR Left Eye:</label>
-                <select id="drl" name="drl">
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="drr"
+                    >DR Right Eye</label
+                  >
+                  <select
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    id="drr"
+                    name="drr"
+                  >
                     <option value="No DR at present">No DR at present</option>
                     <option value="Mild NPDR">Mild NPDR</option>
                     <option value="Moderate NPDR">Moderate NPDR</option>
@@ -213,110 +368,225 @@
                     <option value="Very severe NPDR">Very severe NPDR</option>
                     <option value="PDR without HRC">PDR without HRC</option>
                     <option value="PDR with HRC">PDR with HRC</option>
-                </select>
-                <br><br>
-
-                <!-- Macular Edema Right Eye -->
-                <label for="mer">Macular Edema Right Eye:</label>
-                <select id="mer" name="mer">
+                  </select>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="mel"
+                    >ME Left Eye</label
+                  >
+                  <select
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    id="mel"
+                    name="mel"
+                  >
                     <option value="Center involving">Center involving</option>
-                    <option value="Non Center involving">Non Center involving</option>
-                    <option value="Other (like cataract)">Other (like cataract)</option>
-                </select>
-                <br><br>
-
-                <!-- Macular Edema Left Eye -->
-                <label for="mel">Macular Edema Left Eye:</label>
-                <select id="mel" name="mel">
+                    <option value="Non Center involving">
+                      Non Center involving
+                    </option>
+                    <option value="Other">Other (like cataract)</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="mer"
+                    >ME Right Eye</label
+                  >
+                  <select
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    id="mer"
+                    name="mer"
+                  >
                     <option value="Center involving">Center involving</option>
-                    <option value="Non Center involving">Non Center involving</option>
-                    <option value="Other (like cataract)">Other (like cataract)</option>
-                </select>
-                <br><br>
+                    <option value="Non Center involving">
+                      Non Center involving
+                    </option>
+                    <option value="Other">Other (like cataract)</option>
+                  </select>
+                </div>
+              </div>
 
-                <!-- OCT Right Eye -->
-                <label for="octr">OCT Right Eye:</label>
-                <input type="text" id="octr" name="octr" placeholder="Enter OCT value">
-                <br><br>
-
-                <!-- OCT Left Eye -->
-                <label for="octl">OCT Left Eye:</label>
-                <input type="text" id="octl" name="octl" placeholder="Enter OCT value">
-                <br><br>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="octl"
+                    >OCT Left Eye:</label
+                  >
+                  <input
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    type="text"
+                    id="octl"
+                    name="octl"
+                    placeholder="Enter OCT value"
+                  />
+                </div>
+                <div>
+                  <label
+                    class="block text-gray-700 text-sm font-semibold mb-2"
+                    for="octr"
+                    >OCT Right Eye:</label
+                  >
+                  <input
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    type="text"
+                    id="octr"
+                    name="octr"
+                    placeholder="Enter OCT value"
+                  />
+                </div>
+              </div>
             </div>
-            <div class="adv">
+          </div>
 
-                <label for="">Advice</label>
+          <!-- Advice Section -->
+          <div class="bg-white rounded-lg shadow p-4 space-y-4">
+            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+              Treatment & Advice
+            </h2>
 
-                <p>
+            <div class="space-y-4">
+              <div class="space-y-2">
+                <label class="block text-gray-700 text-sm font-semibold mb-2"
+                  >Treatment Obtained</label
+                >
+                <div class="space-y-3">
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      id="none"
+                      name="treatment[]"
+                      value="none"
+                    />
+                    <span class="ml-2 text-sm text-gray-700">None</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      id="Intravitreal injection"
+                      name="treatment[]"
+                      value="Intravitreal injection"
+                    />
+                    <span class="ml-2 text-sm text-gray-700"
+                      >Intravitreal Injection</span
+                    >
+                  </label>
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      id="PRP"
+                      name="treatment[]"
+                      value="PRP"
+                    />
+                    <span class="ml-2 text-sm text-gray-700">PRP</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      id="Retinal surgery"
+                      name="treatment[]"
+                      value="Retinal surgery"
+                    />
+                    <span class="ml-2 text-sm text-gray-700"
+                      >Retinal Surgery</span
+                    >
+                  </label>
+                </div>
+              </div>
+              <div class="space-y-2">
+                <label class="block text-gray-700 text-sm font-semibold mb-2"
+                  >Treatment Advice</label
+                >
+                <div class="space-y-3">
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      name="advice"
+                      value="Follow up, continue same treatment"
+                    />
+                    <span class="ml-2 text-sm text-gray-700"
+                      >Continue same treatment</span
+                    >
+                  </label>
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      name="advice"
+                      value="Follow up, start on new medications advised"
+                    />
+                    <span class="ml-2 text-sm text-gray-700"
+                      >Start new medications</span
+                    >
+                  </label>
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      name="advice"
+                      value="PRP"
+                    />
+                    <span class="ml-2 text-sm text-gray-700">PRP</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      name="advice"
+                      value="Intravitreal injection"
+                    />
+                    <span class="ml-2 text-sm text-gray-700"
+                      >Intravitreal injection</span
+                    >
+                  </label>
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                      name="advice"
+                      value="Vitreoretinal Surgery"
+                    />
+                    <span class="ml-2 text-sm text-gray-700"
+                      >Vitreoretinal Surgery</span
+                    >
+                  </label>
+                </div>
+              </div>
 
-                <p>
-                    <label>
-                        <input type="checkbox" name="advice" value="Follow up, continue same treatment">
-                        Follow up, continue same treatment
-                    </label>
+              <div>
+                <label
+                  class="block text-gray-700 text-sm font-semibold mb-2"
+                  for="fllwp"
+                  >Follow-up Date</label
+                >
+                <input
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  type="date"
+                  id="fllwp"
+                  name="fllwp"
+                />
+              </div>
 
-                </p>
-
-                <!-- Checkbox for Follow up, start on new medications advised -->
-                <p>
-                    <label>
-                        <input type="checkbox" name="advice" value="Follow up, start on new medications advised">
-                        Follow up, start on new medications advised
-                    </label>
-
-                </p>
-
-                <!-- Checkbox for PRP -->
-                <p>
-                    <label>
-                        <input type="checkbox" name="advice" value="PRP">
-                        PRP
-                    </label>
-                </p>
-
-
-                <!-- Checkbox for Intravitreal injection -->
-                <p>
-                    <label>
-                        <input type="checkbox" name="advice" value="Intravitreal injection">
-                        Intravitreal injection
-                    </label>
-                </p>
-
-
-                <!-- Checkbox for Vitreoretinal Surgery -->
-                <p>
-                    <label>
-                        <input type="checkbox" name="advice" value="Vitreoretinal Surgery">
-                        Vitreoretinal Surgery
-                    </label>
-                </p>
-
-                </p>
-
-                <!-- Follow-Up Date Input -->
-                <label for="fllwp">Follow-up Date:</label>
-                <input type="date" id="fllwp" name="fllwp">
-
-
-
-                <button type="submit" class="submit-btn">Submit</button>
+              <button
+                type="submit"
+                class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+              >
+                Submit
+              </button>
             </div>
-        </form>
+          </div>
+        </div>
+      </form>
     </div>
-
-
-
-    <script>
-        document.querySelectorAll('label').forEach(label => {
-            label.classList.add('font-medium', 'text-xl'); // Adds Tailwind class
-        });
-
-        // document.querySelectorAll('input').forEach(label => {
-        //     label.classList.add("min-w-24","max-w-48","block","rounded-sm","p-1","text-base"); // Adds Tailwind class
-        // });
-    </script>
-</body>
-
+    
+  </body>
 </html>

@@ -67,6 +67,29 @@
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
             <h1 class="text-2xl md:text-4xl font-bold text-gray-800">Patient Records</h1>
+
+            <div class="flex justify-center items-center mt-10">
+                <div class="relative w-96">
+                    <input 
+                        type="text" 
+                        placeholder="Search..." 
+                        class="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    />
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        stroke="currentColor">
+                        <path 
+                            stroke-linecap="round" 
+                            stroke-linejoin="round" 
+                            stroke-width="2" 
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm7 0l4 4m-4-4l-4-4" 
+                        />
+                    </svg>
+                </div>
+            </div>
         </div>
         <% if (name[0]) { %>
             <div
@@ -80,7 +103,7 @@
                     <p>Last Visit</p>
                     <p>Actions</p>
                 </div>
-
+               
                 <% name.forEach(p=> { %>
                     <p class="w-full my-2 border-t"></p>
                     <div class="w-full px-4 flex justify-between cursor-pointer transition-all duration-200 hover:bg-black/10 hover:rounded-xl" onclick="window.open('/patientDet/<%= p.id%>', '_blank')">
@@ -105,5 +128,7 @@
                     </div>
                     <% } %>
     </div>
+
+    
 
     <%- include('partials/footer.ejs') %>

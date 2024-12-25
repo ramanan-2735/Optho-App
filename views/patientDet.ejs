@@ -183,11 +183,11 @@
                             <p class="border-y shadow-sm">RIGHT</p>
                         </div>
                         <div class="">
-                            <%= logs.bcval %>
+                            <%= logs[0].bcval %>
                         </div>
                         <div class=""></div>
                         <div class="">
-                            <%= logs.bcvar %>
+                            <%= logs[0].bcvar %>
                         </div>
 
                         <div class="">
@@ -200,11 +200,11 @@
                             <p class="border-y shadow-sm">RIGHT</p>
                         </div>
                         <div class="">
-                            <%= det.iopl %>
+                            <%= logs[0].iopl %>
                         </div>
                         <div class=""></div>
                         <div class="">
-                            <%= det.iopr %>
+                            <%= logs[0].iopr %>
                         </div>
 
                         <div class="">
@@ -217,11 +217,11 @@
                             <p class="border-y shadow-sm">RIGHT</p>
                         </div>
                         <div class="">
-                            <%= det.drl %>
+                            <%= logs[0].drl %>
                         </div>
                         <div class=""></div>
                         <div class="">
-                            <%= det.drr %>
+                            <%= logs[0].drr %>
                         </div>
 
                         <div class="">
@@ -234,11 +234,11 @@
                             <p class="border-y shadow-sm">RIGHT</p>
                         </div>
                         <div class="">
-                            <%= det.mel %>
+                            <%= logs[0].mel %>
                         </div>
                         <div class=""></div>
                         <div class="">
-                            <%= det.mer %>
+                            <%= logs[0].mer %>
                         </div>
 
                         <div class="">
@@ -251,11 +251,11 @@
                             <p class="border-y shadow-sm">RIGHT</p>
                         </div>
                         <div class="">
-                            <%= det.octl %>
+                            <%= logs[0].octl %>
                         </div>
                         <div class=""></div>
                         <div class="">
-                            <%= det.octr%>
+                            <%= logs[0].octr%>
                         </div>
                     </div>
 
@@ -282,7 +282,7 @@
                         </div>
                         <div class="md:my-4">Follow Up:
                             <p class="text-xl">
-                                <%= det.fllwp %>
+                               <%= logs[0].fllwp %>
                             </p>
                         </div>
 
@@ -375,7 +375,7 @@
     <div id="modal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg w-96">
             <!-- Modal Content -->
-            <h2 class="text-xl font-semibold text-gray-800">Fill the Form</h2>
+            <h2 class="text-xl font-semibold text-gray-800">New Visit:</h2>
             <form action="#" method="POST">
                 <div class="mt-4">
                     <label for="name" class="block text-gray-700">Name</label>

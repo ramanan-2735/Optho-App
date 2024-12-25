@@ -16,7 +16,8 @@ import dotenv from 'dotenv';
 import { sendEmail } from './components/mailer.js';
 import axios from 'axios';
 import { initializeClient, sendMessage } from './components/whatsapp.js';
-import { createLog, loadLog } from './components/databaseMechanism.js'
+import { createLog, loadLog } from './components/databaseMechanism.js';
+import {searchPat} from './components/search.js';
 
 
 
@@ -85,6 +86,7 @@ app.get('/', (req, res) => {
 app.get('/home', async (req, res) => {
     if (req.isAuthenticated()) {
         name = await pats();
+        searchPat(name);
         res.render("index.ejs", { name: name.rows });
     } else {
         res.redirect("/login");
@@ -98,7 +100,7 @@ app.get('/patientDet/:id', async (req, res) => {
     const patdet = patRow.find(x => x.id == req.params.id)
 
     const patlog = await loadLog(patdet.reg);
-    console.log(patlog)
+    // console.log(patlog)
     // console.log(patlog[0].treatment);
     // console.log(patlog[0].advice);
 
