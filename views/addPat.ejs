@@ -18,22 +18,23 @@
 
                 <div>
                     <label class="font-medium text-xl" for="name">Name: </label>
-                    <input class="w-60 block rounded-sm p-1 text-base" type="text" id="name" name="name" required autofocus placeholder="Patient Name"
-                        required>
+                    <input class="w-60 block rounded-sm p-1 text-base" type="text" id="name" name="name" required
+                        autofocus placeholder="Patient Name" required>
                 </div>
 
 
                 <div class="">
                     <label class="font-medium text-xl" for="reg">Registration Number:</label>
-                    <input class="w-60 block rounded-sm p-1 text-base" type="text" id="reg" name="reg" required placeholder="Registration Number"
-                        value="<%= reg%>">
+                    <input class="w-60 block rounded-sm p-1 text-base" type="text" id="reg" name="reg" required
+                        placeholder="Registration Number" value="<%= reg%>">
                 </div>
 
                 <div class="oha flex">
                     <div class="w-fit">
 
                         <label for="age">Age:</label>
-                        <input class="w-60 block rounded-sm p-1 text-base" type="text" id="age" name="age" placeholder="Age">
+                        <input class="w-60 block rounded-sm p-1 text-base" type="text" id="age" name="age"
+                            placeholder="Age">
 
                     </div>
 
@@ -308,14 +309,14 @@
 
 
     <script>
-    document.querySelectorAll('label').forEach(label => {
-        label.classList.add('font-medium','text-xl'); // Adds Tailwind class
-    });
+        document.querySelectorAll('label').forEach(label => {
+            label.classList.add('font-medium', 'text-xl'); // Adds Tailwind class
+        });
 
-    // document.querySelectorAll('input').forEach(label => {
-    //     label.classList.add("min-w-24","max-w-48","block","rounded-sm","p-1","text-base"); // Adds Tailwind class
-    // });
-</script>
+        // document.querySelectorAll('input').forEach(label => {
+        //     label.classList.add("min-w-24","max-w-48","block","rounded-sm","p-1","text-base"); // Adds Tailwind class
+        // });
+    </script>
 </body>
 
 </html>

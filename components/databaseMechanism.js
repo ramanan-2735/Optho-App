@@ -19,3 +19,15 @@ export function createLog(reg, dtype, ddur, insulin, oha, HBA1c, treatment, bcva
         console.log("createLog function: "+error.message);
     }
 }
+
+//loading log
+export async function loadLog(reg) {
+    try {
+        console.log(reg);
+        const result = await db.query("SELECT * FROM patientLog WHERE reg = $1 ORDER BY created_at DESC", [reg]); // Await the database query
+        return result.rows; // Assuming `rows` contains the query results
+    } catch (error) {
+        console.error("LoadLog Function Error:", error.message);
+        throw error; // Re-throw the error to be handled by the caller
+    }
+}

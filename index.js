@@ -16,7 +16,7 @@ import dotenv from 'dotenv';
 import { sendEmail } from './components/mailer.js';
 import axios from 'axios';
 import { initializeClient, sendMessage } from './components/whatsapp.js';
-import {createLog} from './components/databaseMechanism.js'
+import { createLog, loadLog } from './components/databaseMechanism.js'
 
 
 
@@ -24,9 +24,9 @@ import {createLog} from './components/databaseMechanism.js'
 dotenv.config();
 if (!process.env.UNAME) {
     console.error('Failed to load environment variables from .env');
-  } else {
+} else {
     console.log('Environment variables loaded successfully');
-  }
+}
 
 /* Change api keys for
 sms
@@ -52,7 +52,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(bodyParser.json({ limit: '10mb' })); // To handle large base64 images
 app.use(express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
-app.use(express.json()); 
+app.use(express.json());
 app.use(bodyParser.json());
 
 const db = new pg.Client({
@@ -92,40 +92,39 @@ app.get('/home', async (req, res) => {
 
 })
 
-app.get('/patientDet/:id', (req, res) => {
+app.get('/patientDet/:id', async (req, res) => {
     const patRow = name.rows;
     console.log("");
     const patdet = patRow.find(x => x.id == req.params.id)
 
-    function parseTreatmentAndAdvice(patdet) {
-        // Helper function to safely parse a JSON-like string
-        function safeParse(jsonString) {
-            // Replace curly braces with square brackets and single quotes with double quotes
-            const formattedString = jsonString
-                .replace(/{/g, '[')
-                .replace(/}/g, ']')
-                .replace(/'/g, '"');
+    const patlog = await loadLog(patdet.reg);
+    console.log(patlog)
+    // console.log(patlog[0].treatment);
+    // console.log(patlog[0].advice);
 
-            try {
-                // Parse the formatted string to an array
-                return JSON.parse(formattedString);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-                return []; // Return an empty array on error
-            }
+    function parseTreatmentAndAdvice(input) {
+        // Preprocess the input to make it valid JSON
+        function preprocessInput(input) {
+            // Remove the outer curly braces and split by commas
+            const cleanedString = input
+                .replace(/^{/, '[') // Replace the opening brace with a square bracket
+                .replace(/}$/, ']') // Replace the closing brace with a square bracket
+                .replace(/'/g, '"'); // Replace single quotes with double quotes
+
+            return cleanedString; // Now it looks like a JSON array
         }
 
-        // Parse treatment and advice
-        const treatmentArray = safeParse(patdet.treatment);
-        const adviceArray = safeParse(patdet.advice);
-
-        return { treatmentArray, adviceArray };
+        try {
+            const preprocessedInput = preprocessInput(input);
+            // Parse the cleaned string into a JavaScript array
+            return JSON.parse(preprocessedInput);
+        } catch (error) {
+            console.error('Error parsing JSON:', error);
+            return []; // Return an empty array on error
+        }
     }
-    const { treatmentArray, adviceArray } = parseTreatmentAndAdvice(patdet);
-    // console.log(treatmentArray);
-    // console.log(adviceArray);
 
-    res.render("patientDet.ejs", { det: patdet, treatmentArray, adviceArray });
+    res.render("patientDet.ejs", { det: patdet, treatment: parseTreatmentAndAdvice(patlog[0].treatment), advice: parseTreatmentAndAdvice(patlog[0].advice), logs: patlog });
 })
 
 app.get("/addPat", (req, res) => {
@@ -213,16 +212,16 @@ app.get("/auth/google/home", passport.authenticate("google", {
 
 
 // POST
-app.post("/addPat", async(req, res) => {
+app.post("/addPat", async (req, res) => {
     const det = req.body;
     // console.log(det);
     try {
-       await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp]);
+        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp]);
 
         try {
-            createLog(det.reg,det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp);
+            await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp);
         } catch (e) {
-         console.log(e.message);   
+            console.log(e.message);
         }
     } catch (e) {
         console.log(e);
@@ -309,36 +308,36 @@ app.post('/send-email', async (req, res) => {
 
 
 // SMS Endpoint
-app.post('/send-message', async (req, res) => {
-    try {
-      const { phoneNumber, message } = req.body;
-      console.log('Received request:', phoneNumber, message); // Log incoming request
-  
-      const response = await axios.post('https://www.fast2sms.com/dev/bulk', null, {
-        params: {
-          authorization: process.env.ApiKey, // Replace with your Fast2SMS API key
-          message,
-          numbers: process.env.password,
-        },
-      });
-  
-      console.log('Fast2SMS Response:', response.data); // Log Fast2SMS response
-  
-      if (response.data && response.data.return) {
-        res.status(200).json({ success: true, data: response.data });
-      } else {
-        res.status(500).json({ success: false, error: 'Failed to send SMS' });
-      }
-    } catch (error) {
-      console.error('Error:', error); // Log the error for debugging
-      if (error.response) {
-        console.error('Fast2SMS API Error:', error.response.data); // Log Fast2SMS error details
-        res.status(500).json({ success: false, error: error.response.data });
-      } else {
-        res.status(500).json({ success: false, error: error.message });
-      }
-    }
-  });
+// app.post('/send-message', async (req, res) => {
+//     try {
+//       const { phoneNumber, message } = req.body;
+//       console.log('Received request:', phoneNumber, message); // Log incoming request
+
+//       const response = await axios.post('https://www.fast2sms.com/dev/bulk', null, {
+//         params: {
+//           authorization: process.env.ApiKey, // Replace with your Fast2SMS API key
+//           message,
+//           numbers: process.env.password,
+//         },
+//       });
+
+//       console.log('Fast2SMS Response:', response.data); // Log Fast2SMS response
+
+//       if (response.data && response.data.return) {
+//         res.status(200).json({ success: true, data: response.data });
+//       } else {
+//         res.status(500).json({ success: false, error: 'Failed to send SMS' });
+//       }
+//     } catch (error) {
+//       console.error('Error:', error); // Log the error for debugging
+//       if (error.response) {
+//         console.error('Fast2SMS API Error:', error.response.data); // Log Fast2SMS error details
+//         res.status(500).json({ success: false, error: error.response.data });
+//       } else {
+//         res.status(500).json({ success: false, error: error.message });
+//       }
+//     }
+//   });
 
 //Whatsapp
 // Initialize WhatsApp client when the server starts
@@ -347,14 +346,14 @@ initializeClient();
 // Example route to send a WhatsApp message
 app.post('/whatsapp-message', async (req, res) => {
     const { phoneNumber, message } = req.body;
-    
+
     // Validate input data
     if (!phoneNumber || !message) {
         return res.status(400).json({ error: 'Phone number and message are required' });
     }
-    
+
     try {
-        await sendMessage("918693858222", "Hello world!");
+        await sendMessage("918356074065", "Hello world!");
         res.status(200).json({ message: 'Message sent successfully!' });
     } catch (error) {
         res.status(500).json({ error: 'Error sending message' });
