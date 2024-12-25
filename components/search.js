@@ -1,4 +1,9 @@
+let users = [];
+
 export function searchPat(name){
-    console.log(name);
-    console.log(name.rows);
+    
+    // const searchInput = document.querySelector("inpt");
+
+    // console.log(searchInput);
+
 }

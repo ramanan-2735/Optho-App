@@ -104,9 +104,9 @@ app.get('/patientDet/:id', async (req, res) => {
     // console.log(patlog[0].treatment);
     // console.log(patlog[0].advice);
 
-    function parseTreatmentAndAdvice(input) {
+    async function parseTreatmentAndAdvice(input) {
         // Preprocess the input to make it valid JSON
-        function preprocessInput(input) {
+        async function preprocessInput(input) {
             // Remove the outer curly braces and split by commas
             const cleanedString = input
                 .replace(/^{/, '[') // Replace the opening brace with a square bracket
@@ -117,7 +117,7 @@ app.get('/patientDet/:id', async (req, res) => {
         }
 
         try {
-            const preprocessedInput = preprocessInput(input);
+            const preprocessedInput = await preprocessInput(input);
             // Parse the cleaned string into a JavaScript array
             return JSON.parse(preprocessedInput);
         } catch (error) {
@@ -126,7 +126,7 @@ app.get('/patientDet/:id', async (req, res) => {
         }
     }
 
-    res.render("patientDet.ejs", { det: patdet, treatment: parseTreatmentAndAdvice(patlog[0].treatment), advice: parseTreatmentAndAdvice(patlog[0].advice), logs: patlog });
+    res.render("patientDet.ejs", { det: patdet, treatment: await parseTreatmentAndAdvice(patlog[0].treatment), advice: await parseTreatmentAndAdvice(patlog[0].advice), logs: patlog });
 })
 
 app.get("/addPat", (req, res) => {

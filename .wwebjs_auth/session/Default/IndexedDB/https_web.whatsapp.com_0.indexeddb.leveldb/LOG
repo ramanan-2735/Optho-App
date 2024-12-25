@@ -1,44 +1,13 @@
-2024/12/25-17:34:58.304 c07a Reusing MANIFEST /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2024/12/25-17:34:58.309 c07a Recovering log #2253
-2024/12/25-17:34:58.344 c07a Reusing old log /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/002253.log 
-2024/12/25-17:35:04.811 c078 Level-0 table #2268: started
-2024/12/25-17:35:04.865 c078 Level-0 table #2268: 74846 bytes OK
-2024/12/25-17:35:04.910 c078 Delete type=0 #2253
-2024/12/25-17:35:04.919 c078 Manual compaction at level-0 from '\x00h\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00i\x00\x00\x00' @ 0 : 0; will stop at '\x00h\x00\x00\x05' @ 4719698 : 1
-2024/12/25-17:35:04.919 c078 Compacting 1@0 + 1@1 files
-2024/12/25-17:35:05.001 c078 Generated table #2269@0: 1640 keys, 35380 bytes
-2024/12/25-17:35:05.057 c078 Generated table #2270@0: 136 keys, 4300 bytes
-2024/12/25-17:35:05.058 c078 Compacted 1@0 + 1@1 files => 39680 bytes
-2024/12/25-17:35:05.097 c078 compacted to: files[ 0 2 15 0 0 0 0 ]
-2024/12/25-17:35:05.099 c078 Delete type=2 #2268
-2024/12/25-17:35:05.110 c078 Manual compaction at level-0 from '\x00h\x00\x00\x05' @ 4719698 : 1 .. '\x00i\x00\x00\x00' @ 0 : 0; will stop at (end)
-2024/12/25-17:35:25.723 c078 Compacting 1@1 + 8@2 files
-2024/12/25-17:35:28.176 c078 Generated table #2271@1: 86163 keys, 2235197 bytes
-2024/12/25-17:35:29.686 c078 Generated table #2272@1: 59019 keys, 2240067 bytes
-2024/12/25-17:35:30.570 c078 Generated table #2273@1: 26760 keys, 2185708 bytes
-2024/12/25-17:35:31.035 c078 Generated table #2274@1: 1905 keys, 2150718 bytes
-2024/12/25-17:35:31.623 c078 Generated table #2275@1: 2176 keys, 2149382 bytes
-2024/12/25-17:35:32.661 c078 Generated table #2276@1: 17849 keys, 2219738 bytes
-2024/12/25-17:35:34.466 c078 Generated table #2277@1: 31133 keys, 2231530 bytes
-2024/12/25-17:35:35.326 c078 Generated table #2278@1: 7884 keys, 2152539 bytes
-2024/12/25-17:35:35.392 c078 Generated table #2279@1: 4 keys, 7321 bytes
-2024/12/25-17:35:35.393 c078 Compacted 1@1 + 8@2 files => 17572200 bytes
-2024/12/25-17:35:35.459 c078 compacted to: files[ 0 1 16 0 0 0 0 ]
-2024/12/25-17:35:35.468 c078 Delete type=2 #2259
-2024/12/25-17:35:35.468 c078 Delete type=2 #2258
-2024/12/25-17:35:35.468 c078 Delete type=2 #2261
-2024/12/25-17:35:35.468 c078 Delete type=2 #2262
-2024/12/25-17:35:35.468 c078 Delete type=2 #2269
-2024/12/25-17:35:35.469 c078 Delete type=2 #2263
-2024/12/25-17:35:35.469 c078 Delete type=2 #2260
-2024/12/25-17:35:35.469 c078 Delete type=2 #2256
-2024/12/25-17:35:35.469 c078 Delete type=2 #2264
-2024/12/25-17:35:35.469 c078 Delete type=2 #2257
-2024/12/25-17:40:43.461 c087 Compacting 1@1 + 2@2 files
-2024/12/25-17:40:44.893 c087 Generated table #2280@1: 101973 keys, 2253811 bytes
-2024/12/25-17:40:46.402 c087 Generated table #2281@1: 67475 keys, 1515685 bytes
-2024/12/25-17:40:46.402 c087 Compacted 1@1 + 2@2 files => 3769496 bytes
-2024/12/25-17:40:46.726 c087 compacted to: files[ 0 0 16 0 0 0 0 ]
-2024/12/25-17:40:46.729 c087 Delete type=2 #2207
-2024/12/25-17:40:46.730 c087 Delete type=2 #2270
-2024/12/25-17:40:46.748 c087 Delete type=2 #2208
+2024/12/26-00:30:24.226 151ab Reusing MANIFEST /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/12/26-00:30:24.229 151ab Recovering log #2590
+2024/12/26-00:30:25.136 151ab Reusing old log /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/002590.log 
+2024/12/26-00:30:49.960 151ad Level-0 table #2597: started
+2024/12/26-00:30:50.213 151ad Level-0 table #2597: 584089 bytes OK
+2024/12/26-00:30:50.261 151ad Delete type=0 #2590
+2024/12/26-00:30:50.333 151ad Manual compaction at level-0 from '\x00\xa7\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xa8\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/12/26-00:31:58.069 151ad Compacting 1@1 + 3@2 files
+2024/12/26-00:31:59.820 151ad Generated table #2598@1: 42328 keys, 2202587 bytes
+2024/12/26-00:32:00.989 151ad Generated table #2599@1: 32795 keys, 2181994 bytes
+2024/12/26-00:32:01.407 151ad Generated table #2600@1: 34656 keys, 683930 bytes
+2024/12/26-00:32:01.407 151ad Compacted 1@1 + 3@2 files => 5068511 bytes
+2024/12/26-00:32:01.632 151ad compacted to: files[ 0 0 3 0 0 0 0 ]
