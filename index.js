@@ -15,7 +15,7 @@ import GoogleStrategy from "passport-google-oauth2";
 import dotenv from 'dotenv';
 import { sendEmail } from './components/mailer.js';
 import axios from 'axios';
-import { initializeClient, sendMessage } from './components/whatsapp.js';
+import { initializeClient, sendMessage, qrCodeUrl } from './components/whatsapp.js';
 import { createLog, loadLog } from './components/databaseMechanism.js';
 import {searchPat} from './components/search.js';
 
@@ -243,14 +243,9 @@ app.post("/deletePat/:id", (req, res) => {
     res.redirect("/home");
 });
 
-app.post("/updatePat/:id", (req, res) => {
-    const updRow = name.rows;
-    const updPat = updRow.find(x => x.id == req.params.id);
-
-    const patRow = name.rows;
-    const patdet = patRow.find(x => x.id == req.params.id)
-    console.log(updPat);
-    res.render("updPat.ejs", { det: updPat });
+app.post("/updatePat", (req, res) => {
+    console.log(req.params)
+    // res.render("updPat.ejs", { det: updPat });
 })
 
 app.post("/register", async (req, res) => {
@@ -344,6 +339,7 @@ app.post('/send-email', async (req, res) => {
 //Whatsapp
 // Initialize WhatsApp client when the server starts
 initializeClient();
+// console.log(qrCodeUrl);
 
 // Example route to send a WhatsApp message
 app.post('/whatsapp-message', async (req, res) => {
