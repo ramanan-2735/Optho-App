@@ -97,7 +97,7 @@ app.get('/home', async (req, res) => {
 app.get('/patientDet/:id', async (req, res) => {
     const patRow = name.rows;
     console.log("");
-    const patdet = patRow.find(x => x.id == req.params.id)
+    const patdet = patRow.find(x => x.reg == req.params.id)
 
     const patlog = await loadLog(patdet.reg);
     // console.log(patlog)
@@ -148,10 +148,12 @@ app.get("/login", (req, res) => {
     res.render("login.ejs");
 })
 
-app.get('/export-to-excel', async (req, res) => {
+app.get('/export-to-excel/:id', async (req, res) => {
+
+    
     try {
         // Fetch data from PostgreSQL
-        const result = await db.query('SELECT * FROM details');
+        const result = await db.query('SELECT * FROM patientlog where reg = $1', [req.params.id]);
 
         // Create a new workbook and a worksheet
         const workbook = new ExcelJS.Workbook();
@@ -174,6 +176,8 @@ app.get('/export-to-excel', async (req, res) => {
         console.error(error);
         res.status(500).send('Error generating Excel file');
     }
+
+    res.redirect("/patientDet/" + req.params.id);
 });
 
 app.get("/canvas", (req, res) => {
@@ -243,9 +247,16 @@ app.post("/deletePat/:id", (req, res) => {
     res.redirect("/home");
 });
 
-app.post("/updatePat", (req, res) => {
-    console.log(req.params)
-    // res.render("updPat.ejs", { det: updPat });
+app.post("/updatePat/:id", async (req, res) => {
+const det = req.body
+
+    try {
+        await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp);
+    } catch (e) {
+        console.log(e.message);
+    }
+
+    res.redirect("/patientDet/" + req.params.id);
 })
 
 app.post("/register", async (req, res) => {

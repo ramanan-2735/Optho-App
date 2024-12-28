@@ -283,7 +283,7 @@
                             Visit History
                         </h5>
                         <div class="flex justify-around">
-                            <button
+                            <button onclick="window.location.href='/export-to-excel/<%= logs[0].reg %>'"
                                 class="flex items-center px-2 py-0 bg-transparent text-green-700 rounded-full border-1 border-green-700">
                                 <svg xmlns=http://www.w3.org/2000/svg width=20 height=20 viewBox="0 0 24 24" fill=none
                                     stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round
@@ -296,7 +296,7 @@
                                     <path d="M14 17h2"></path>
                                 </svg>
                             </button>
-                            <button id="openModalButton" type=submit><svg width=40px height=40px viewBox="0 0 24 24"
+                            <button id="openModal" type=submit><svg width=40px height=40px viewBox="0 0 24 24"
                                     fill=none xmlns=http://www.w3.org/2000/svg>
                                     <path fill-rule=evenodd clip-rule=evenodd
                                         d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM12.75 9C12.75 8.58579 12.4142 8.25 12 8.25C11.5858 8.25 11.25 8.58579 11.25 9L11.25 11.25H9C8.58579 11.25 8.25 11.5858 8.25 12C8.25 12.4142 8.58579 12.75 9 12.75H11.25V15C11.25 15.4142 11.5858 15.75 12 15.75C12.4142 15.75 12.75 15.4142 12.75 15L12.75 12.75H15C15.4142 12.75 15.75 12.4142 15.75 12C15.75 11.5858 15.4142 11.25 15 11.25H12.75V9Z"
@@ -310,34 +310,29 @@
                     <div
                         class="w-full max-h-[500px] overflow-y-auto scrollbar-hide md:py-1 bg-gray-50 overflow-x-visible">
                         <!-- Visit Cards -->
-                        <% for( let i=0; i < logs.length; i++ ) { %>
-
+                        <% for (let i = 0; i < logs.length; i++) { %>
                             <div
                                 class="md:p-2 border rounded-lg shadow-md md:mt-3 bg-white transform transition-transform duration-300 hover:translate-y-[-10px] hover:shadow-lg">
-                                <% logs.forEach((log, i) => { %>
-                                    <p class="font-semibold text-lg text-blue-800">
-                                        <% 
-                                            // Create a Date object from the created_at string 
-                                            const createdAt = new Date(log.created_at); 
-                                            
-                                            // Format the date manually
-                                            const formattedDate = createdAt.toLocaleString('en-US', { 
-                                                month: '2-digit', 
-                                                day: '2-digit', 
-                                                year: 'numeric', 
-                                                hour: '2-digit', 
-                                                minute: '2-digit', 
-                                                hour12: true 
-                                            }); 
-                                        %>
-                                        Visit #<%= (i + 1) %> - <%= formattedDate %>
-                                    </p>
-                                <% }); %>
-                                
+                                <p class="font-semibold text-lg text-blue-800">
+                                    <% 
+                                        // Create a Date object from the created_at string 
+                                        const createdAt = new Date(logs[i].created_at); 
+                                        
+                                        // Format the date manually
+                                        const formattedDate = createdAt.toLocaleString('en-US', { 
+                                                        day: '2-digit',   // Two-digit day
+                                                        month: '2-digit', // Two-digit month
+                                                        year: 'numeric',  // Full year (e.g., 2024)
+                                                        hour: '2-digit',  // Two-digit hour
+                                                        minute: '2-digit', // Two-digit minute
+                                                        hour12: true      // 12-hour format with AM/PM
+                                                    });
+                                    %>
+                                    Visit #<%= ((logs.length) - i) %> - <%= formattedDate %>
+                                </p>
                                 <p class="text-gray-600">Click to load Details</p>
                             </div>
-
-                            <% } %>
+                        <% } %>
 
 
 
@@ -350,7 +345,7 @@
         <div class="bg-white rounded-lg shadow-lg max-w-7xl p-6">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-4">New Entry</h2>
-                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
                         </path>
@@ -358,11 +353,18 @@
                 </button>
             </div>
 
-            <form action="/updatePat" method="POST">
+            <form action="/updatePat/<%= logs[0].reg %>" method="POST">
                 <div class=" grid grid-cols-4 2/3 gap-2 mb-6">
 
                     <div class="space-y-2 px-2 full">
+                         <div>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2" for="OHA_count">Registration Number</label>
+                        <input
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                            type="text" id="reg" name="reg" placeholder="Registration Number" value="<%= logs[0].reg %>">
+                    </div>
                         <div class="grid gap-4 ">
+                           <div class="h-full grid grid-cols-2 gap-2"> 
                             <div>
                                 <label class="block text-gray-700 text-sm font-semibold mb-2" for="dtype">Type of
                                     Diabetes</label>
@@ -391,6 +393,7 @@
                                     <option value="More than 10 years">> 10 years</option>
                                 </select>
                             </div>
+                        </div>
                             <div>
                                 <label class="block text-gray-700 text-sm font-semibold mb-2">Insulin</label>
                                 <div class="flex gap-4">
@@ -660,7 +663,7 @@
                             <div class="flex justify-end space-x-4 mt-6">
                                 <button type="button"
                                     class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 text-gray-700"
-                                    onclick="closeModal()">Cancel</button>
+                                    id="cancelModal">Cancel</button>
                                 <button type="submit"
                                     class="px-4 py-2 bg-blue-600 rounded-md hover:bg-blue-700 text-white font-medium">New
                                     Entry</button>
@@ -701,27 +704,34 @@
     });
   </script>
     <script>
-        // Get the button, modal and close button
-        const openModalButton = document.getElementById('openModalButton');
-        const modal = document.getElementById('modal');
-        const closeModalButton = document.getElementById('closeModalButton');
+        document.addEventListener('DOMContentLoaded', () => {
+    const openModalButton = document.getElementById('openModal');
+    const closeModalButton = document.getElementById('closeModal');
+    const cancelModalButton = document.getElementById('cancelModal');
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalContent');
 
-        // Open the modal when the "Open Form" button is clicked
-        openModalButton.addEventListener('click', () => {
-            modal.classList.remove('hidden'); // Show modal
-        });
+    // Function to open modal
+    openModalButton.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+    });
 
-        // Close the modal when the "Cancel" button is clicked
-        closeModalButton.addEventListener('click', () => {
-            modal.classList.add('hidden'); // Hide modal
-        });
+    // Function to close modal
+    const closeModal = () => {
+        modal.classList.add('hidden');
+    };
 
-        // Optional: Close the modal when clicking outside of the modal content
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-            }
-        });
+    closeModalButton.addEventListener('click', closeModal);
+    cancelModalButton.addEventListener('click', closeModal);
+
+    // Optional: Close the modal when clicking outside of the modal content
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
+});
+
     </script>
 </body>
 
