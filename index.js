@@ -67,7 +67,6 @@ const db = new pg.Client({
 db.connect();
 
 
-
 let name;
 
 function pats() {
@@ -349,8 +348,16 @@ app.post('/send-email', async (req, res) => {
 
 //Whatsapp
 // Initialize WhatsApp client when the server starts
+
+app.get('/get-qr-code', (req, res) => {
+    if (qrCodeUrl) {
+        res.json({ success: true, qrCodeUrl });
+    } else {
+        res.json({ success: false, message: 'QR code not generated yet.' });
+    }
+});
+
 initializeClient();
-// console.log(qrCodeUrl);
 
 // Example route to send a WhatsApp message
 app.post('/whatsapp-message', async (req, res) => {

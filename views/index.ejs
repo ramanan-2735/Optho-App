@@ -1,11 +1,33 @@
 <%- include('partials/header.ejs') %>
+
+    <div id="qr-container" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ">
+        <!-- Modal Content -->
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center relative">
+            <button id="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">&times;</button>
+            <div id="qrCodeContainer">
+                <p>Loading QR Code...</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Navbar -->
     <nav
-        class="h-16 w-full p-6 bg-white/50 sticky top-0 z-5 shadow-md backdrop-blur-md flex items-center justify-between ">
+        class="h-16 w-full p-6 bg-white/50 sticky top-0 z-10 shadow-md backdrop-blur-md flex items-center justify-between ">
         <div class="text-4xl font-bold text-blue-950 ">Optho-App</div>
 
 
-        <div class="hidden  md:block md:flex items-center ">
+
+        <div class="md:block md:flex items-center ">
+
+            <button id="btn" type="button"
+                class="border rounded-full border-blue-950 px-2 py-2  transition-all duration-300">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M3,11H5v2H3V11m8-6h2V9H11V5M9,11h4v4H11V13H9V11m6,0h2v2h2V11h2v2H19v2h2v4H19v2H17V19H13v2H11V17h4V15h2V13H15V11m4,8V15H17v4h2M15,3h6V9H15V3m2,2V7h2V5H17M3,3H9V9H3V3M5,5V7H7V5H5M3,15H9v6H3V15m2,2v2H7V17Z" />
+                    <rect width="24" height="24" fill="none" />
+                </svg>
+            </button>
+
             <div onclick="window.location.href='/addPat'"
                 class="w-fit h-fit px-3 py-1 hidden text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex-none items-center md:block md:flex">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -70,16 +92,17 @@
                 </svg>
                 <h1 class="text-2xl md:text-4xl font-bold text-gray-800">Patient Records</h1>
             </div>
-        
+
             <!-- Search Bar -->
             <div class="relative w-[20%]">
                 <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="absolute left-3 top-1/2 transform -translate-y-1/2 text-black">
-                    <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" 
-                          stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                        d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+                        stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <input type="text" placeholder="Search..."
-                    class="inpt w-full py-2 pl-10 pr-4 rounded-md text-black focus:outline-none shadow-md" />
+                    class="w-full py-2 pl-10 pr-4 rounded-md text-black focus:outline-none shadow-md" />
             </div>
         </div>
         <% if (name[0]) { %>
@@ -138,41 +161,95 @@
 
     <script>
         // Wait for the DOM to load
-document.addEventListener('DOMContentLoaded', function () {
-    // Get the search input field and the patient list container
-    const searchInput = document.querySelector('.inpt');
-    const patientRecords = document.querySelectorAll('.patients .w-full.my-5.grid');
-    const dividerLines = document.querySelectorAll('.patients .w-full.my-2.border-t');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get the search input field and the patient list container
+            const searchInput = document.querySelector('.inpt');
+            const patientRecords = document.querySelectorAll('.patients .w-full.my-5.grid');
+            const dividerLines = document.querySelectorAll('.patients .w-full.my-2.border-t');
 
-    // Add an input event listener to the search field
-    searchInput.addEventListener('input', function () {
-        const searchValue = searchInput.value.toLowerCase(); // Get the search value and convert it to lowercase
+            // Add an input event listener to the search field
+            searchInput.addEventListener('input', function () {
+                const searchValue = searchInput.value.toLowerCase(); // Get the search value and convert it to lowercase
 
-        let isAnyRecordVisible = false; // Flag to track if any record matches the search
+                let isAnyRecordVisible = false; // Flag to track if any record matches the search
 
-        patientRecords.forEach((record, index) => {
-            const recordText = record.textContent.toLowerCase(); // Get the text of each record and convert it to lowercase
-            if (recordText.includes(searchValue)) {
-                record.parentElement.style.display = ''; // Show the record if it matches the search
-                dividerLines[index].style.display = ''; // Show the divider if the record is visible
-                isAnyRecordVisible = true; // Set flag to true if there's at least one visible record
+                patientRecords.forEach((record, index) => {
+                    const recordText = record.textContent.toLowerCase(); // Get the text of each record and convert it to lowercase
+                    if (recordText.includes(searchValue)) {
+                        record.parentElement.style.display = ''; // Show the record if it matches the search
+                        dividerLines[index].style.display = ''; // Show the divider if the record is visible
+                        isAnyRecordVisible = true; // Set flag to true if there's at least one visible record
+                    } else {
+                        record.parentElement.style.display = 'none'; // Hide the record if it doesn't match
+                        dividerLines[index].style.display = 'none'; // Hide the divider if the record is hidden
+                    }
+                });
+
+                // If no records match the search, display the message that suggests adding patients
+                if (!isAnyRecordVisible) {
+                    const noRecordsMessage = document.querySelector('.patients .text-gray-500');
+                    if (noRecordsMessage) {
+                        noRecordsMessage.style.display = ''; // Show the "Try adding patients" message if no records are visible
+                    }
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        const qrbtn = document.getElementById("btn");
+        const qrContainer = document.getElementById("qr-container");
+        const qrCodeContainer = document.getElementById("qrCodeContainer");
+        const closeModal = document.getElementById("closeModal");
+
+        // Function to fetch QR code URL
+        async function fetchQrCode() {
+            const qrCodeContainer = document.getElementById('qrCodeContainer');
+            try {
+                const response = await fetch('/get-qr-code');
+                const data = await response.json();
+
+                if (data.success && data.qrCodeUrl) {
+                    qrCodeContainer.innerHTML = `<img src="${data.qrCodeUrl}" alt="QR Code" class="mx-auto">`;
+                } else {
+                    qrCodeContainer.innerHTML = `<p>${data.message || 'Waiting for QR Code...'}</p>`;
+                }
+            } catch (error) {
+                console.error('Error fetching QR code:', error);
+                qrCodeContainer.innerHTML = `<p>Error fetching QR code. Please try again.</p>`;
+            }
+        }
+
+
+        // Poll the server every 3 seconds
+        setInterval(fetchQrCode, 3000);
+
+        // Fetch QR code initially
+        fetchQrCode();
+
+        // Function to toggle QR code visibility
+        function toggleQRCode() {
+            if (qrContainer.classList.contains("hidden")) {
+                qrContainer.classList.remove("hidden"); // Show QR code modal
+                fetchQRCode(); // Fetch the QR code
             } else {
-                record.parentElement.style.display = 'none'; // Hide the record if it doesn't match
-                dividerLines[index].style.display = 'none'; // Hide the divider if the record is hidden
+                qrContainer.classList.add("hidden"); // Hide QR code modal
+            }
+        }
+
+        // Event listeners
+        qrbtn.addEventListener("click", toggleQRCode);
+        closeModal.addEventListener("click", () => qrContainer.classList.add("hidden"));
+
+        // Close modal when clicking outside of it
+        qrContainer.addEventListener("click", (e) => {
+            if (e.target === qrContainer) {
+                qrContainer.classList.add("hidden");
             }
         });
 
-        // If no records match the search, display the message that suggests adding patients
-        if (!isAnyRecordVisible) {
-            const noRecordsMessage = document.querySelector('.patients .text-gray-500');
-            if (noRecordsMessage) {
-                noRecordsMessage.style.display = ''; // Show the "Try adding patients" message if no records are visible
-            }
-        }
-    });
-});
     </script>
-    
-   
+
 
     <%- include('partials/footer.ejs') %>

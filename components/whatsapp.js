@@ -1,10 +1,12 @@
 import pkg from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 import QRCode from 'qrcode';
+import { EventEmitter } from 'events';
 
 const { Client, LocalAuth } = pkg;
 
-export let qrCodeUrl = ''; // Store the latest QR code URL
+export const qrCodeEmitter = new EventEmitter(); // Event emitter for QR codes
+export let qrCodeUrl = ''; // Variable to hold the latest QR code URL
 
 // Create a new WhatsApp client with local authentication (stores session for reuse)
 const client = new Client({
@@ -20,8 +22,10 @@ client.on('qr', async (qr) => {
     qrcode.generate(qr, { small: true });
     console.log('Scan the QR code above to log in.');
 
-    // Generate QR code as a data URL for the browser
-    qrCodeUrl = await QRCode.toDataURL(qr);
+    qrCodeUrl = await QRCode.toDataURL(qr); // Convert QR code to a data URL
+    // console.log(qrCodeUrl);
+
+    qrCodeEmitter.emit('qrCodeGenerated', qrCodeUrl); // Emit QR code URL
 });
 
 // Event when the client is ready
