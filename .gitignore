@@ -1,3 +1,9 @@
+# whatsapp-web.js
+.wwebjs_auth/
+.wwebjs_auth/session/
+.wwebjs_cache/
+
+
 # Logs
 logs
 *.log

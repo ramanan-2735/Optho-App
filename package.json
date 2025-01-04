@@ -28,6 +28,7 @@
     "passport-google-oauth2": "^0.2.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "pdf-lib": "^1.17.1",
     "pg": "^8.13.0",
     "puppeteer-core": "^23.11.1",
     "qrcode": "^1.5.4",

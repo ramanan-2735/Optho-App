@@ -8,7 +8,7 @@ import passport from 'passport';
 import Strategy from 'passport-local';
 import ExcelJS from "exceljs";
 import multer from 'multer';
-import fs, { access } from "fs";
+import fs, { access } from "fs/promises";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import GoogleStrategy from "passport-google-oauth2";
@@ -17,7 +17,9 @@ import { sendEmail } from './components/mailer.js';
 import axios from 'axios';
 import { initializeClient, sendMessage, qrCodeUrl } from './components/whatsapp.js';
 import { createLog, loadLog } from './components/databaseMechanism.js';
-import {searchPat} from './components/search.js';
+import { searchPat } from './components/search.js';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+
 
 
 
@@ -149,7 +151,7 @@ app.get("/login", (req, res) => {
 
 app.get('/export-to-excel/:id', async (req, res) => {
 
-    
+
     try {
         // Fetch data from PostgreSQL
         const result = await db.query('SELECT * FROM patientlog where reg = $1', [req.params.id]);
@@ -247,7 +249,7 @@ app.post("/deletePat/:id", (req, res) => {
 });
 
 app.post("/updatePat/:id", async (req, res) => {
-const det = req.body
+    const det = req.body
 
     try {
         await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp);
@@ -359,21 +361,110 @@ app.get('/get-qr-code', (req, res) => {
 
 initializeClient();
 
-// Example route to send a WhatsApp message
+// Route to send a WhatsApp message
 app.post('/whatsapp-message', async (req, res) => {
     const { phoneNumber, message } = req.body;
 
     // Validate input data
     if (!phoneNumber || !message) {
-        return res.status(400).json({ error: 'Phone number and message are required' });
+        return res.status(400).json({ error: 'Phone number and message are required.' });
     }
 
     try {
-        await sendMessage("918356074065", "Hello world!");
+        await sendMessage(phoneNumber, message); // Send the message using sendMessage
         res.status(200).json({ message: 'Message sent successfully!' });
     } catch (error) {
-        res.status(500).json({ error: 'Error sending message' });
+        console.error('Error sending WhatsApp message:', error);
+        res.status(500).json({ error: 'Failed to send the message. Please try again later.' });
     }
+});
+
+app.post('/generate-pdf', async (req, res) => {
+    const {
+        name,
+        registrationNo,
+        age,
+        sex,
+        contactNo,
+        diabetesType,
+        insulin,
+        noOfOHA,
+        hba1c,
+        bcvar,
+        bcval,
+        iopr,
+        iopl,
+        drr,
+        drl,
+        mer,
+        mel,
+        octr,
+        octl,
+        treatmentAdvice,
+        followUp,
+    } = req.body;
+
+    try {
+        // Load the PDF template
+        const pdfTemplate = await fs.readFile('public/templates/DM screening Form.pdf');
+        if (!pdfTemplate) {
+            throw new Error('PDF template not found or is empty');
+        }
+        const pdfDoc = await PDFDocument.load(pdfTemplate);
+
+        // Get the first page of the PDF
+        const page = pdfDoc.getPages()[0];
+        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const fontSize = 10;
+
+        // Fill in the blank fields
+        page.drawText(name || '', { x: 120, y: 595, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(registrationNo || '', { x: 450, y: 595, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${age || ''}`, { x: 145, y: 570, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(sex || '', { x: 255, y: 570, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(contactNo || '', { x: 400, y: 570, size: fontSize, font, color: rgb(0, 0, 0) });
+
+        page.drawText(" - " + diabetesType || '', { x: 315, y: 545, size: fontSize, font, color: rgb(0, 0, 0) });
+
+        page.drawText(insulin ? 'Yes' : 'No', { x: 190, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${noOfOHA || ''}`, { x: 410, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${hba1c || ''}`, { x: 505, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
+
+        page.drawText(`${bcvar || 'g'}`, { x: 385, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${bcval || 'g'}`, { x: 285, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
+
+        page.drawText(`${iopr || 'g'}`, { x: 385, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${iopl || 'g'}`, { x: 285, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
+
+        page.drawText(`${drr || 'g'}`, { x: 250, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${drl || 'g'}`, { x: 250, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
+
+        page.drawText(`${mer || 'g'}`, { x: 385, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${mel || 'g'}`, { x: 385, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
+
+        page.drawText(`${octr || 'g'}`, { x: 495, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${octl || 'g'}`, { x: 495, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
+
+        page.drawText(treatmentAdvice || '', { x: 235, y: 180, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
+        page.drawText(followUp || '', { x: 55, y: 95, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
+
+        // Save the updated PDF
+        const pdfBytes = await pdfDoc.save();
+        
+         // Save the PDF to a file
+         const pdfPath = path.join(__dirname, 'DM-Screening-Form.pdf');
+         await fs.writeFile(pdfPath, pdfBytes);
+ 
+         // Send the PDF via WhatsApp
+         await sendMessage("91" + contactNo, "Your DM Screening Report", pdfPath);
+ 
+         // Respond to the client
+         res.status(200).send('PDF generated and sent via WhatsApp');
+     } catch (error) {
+         console.error('Error generating or sending PDF:', error);
+         res.status(500).send('An error occurred while generating or sending the PDF.');
+     }
+
 });
 
 

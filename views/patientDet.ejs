@@ -10,11 +10,7 @@
         integrity=sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH crossorigin=anonymous>
     <!-- <link href=https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css rel=stylesheet> -->
     <link rel=stylesheet href=/styles/tailstyle.css>
-    <style>
-        .modal-hidden {
-            display: none;
-        }
-    </style>
+   
 
 <body class="bg-blue-200 h-screen overflow-hidden">
     <div class="wrapper h-screen w-full">
@@ -671,9 +667,7 @@
             </form>
         </div>
     </div>
-    <script>
-        function closeModal() { document.querySelector('.fixed').remove(); }
-    </script>
+   
     <script>
         document.getElementById('send-email').addEventListener('click', async () => { const templateData = { name: "<%= det.name %>", message: { greet: "This message is Dynamically generated!.", drr: "<%= det.ddr %>", drl: "<%= det.drl %>", mer: "<%= det.mer %>", mel: "<%= det.mel %>", octr: "<%= det.octr %>", octl: "<%= det.octl %>", }, }; try { const response = await fetch('http://localhost:3000/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify({ recipient: 'zeusgaming2735@gmail.com', subject: 'Eye Report', templateData, }), }); const result = await response.json(); if (result.success) { alert('Email sent successfully!'); } else { alert('Failed to send email: ' + result.message); } } catch (error) { console.error('Error:', error); alert('Error sending email. Check console for details.'); } });
     </script>
@@ -681,25 +675,53 @@
     <script src=https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js></script>
     <script type=module>
     document.getElementById('sendButton').addEventListener('click', async () => {
+        console.log("Generating PDF ...");
         try {
-            const phoneNumber = '8356074065'; // Replace with the phone number
-            const message = 'Hello, this is a test message!';
+            // const phoneNumber = '918693858222'; // Replace with the phone number
+            // const message = 'Hello, this is a test message!';
+            const data = {
+                name: "<%= det.name %>",
+                registrationNo: '<%= logs[0].reg %>',
+                age: "<%= det.age %>",
+                sex: '<%= det.sex %>',
+                contactNo: "<%= det.contact %>",
+                diabetesType: '<%= logs[0].dtype %>',
+                insulin: "<%= logs[0].insulin %>",
+                noOfOHA: "<%= logs[0].oha %>",
+                hba1c: "<%= logs[0].HBA1c %>",
+                bcvar: '<%= logs[0].bcvar %>',
+                bcval: '<%= logs[0].bcval %>',
+                iopr: '<%= logs[0].iopr %>',
+                iopl: '<%= logs[0].iopl %>',
+                drr: '<%= logs[0].drr %>',
+                drl: '<%= logs[0].drl %>',
+                mer: '<%= logs[0].mer %>',
+                mel: '<%= logs[0].mel %>',
+                octr: '<%= logs[0].octr %>',
+                octl: '<%= logs[0].octl %>',
+                treatmentAdvice: '<%= advice %>',
+                followUp: '<%= logs[0].fllwp %>',
+            };
+
+            const response = await axios.post('http://localhost:3000/generate-pdf',data);
+
+            console.log(response)
     
-            const response = await axios.post('http://localhost:3000/whatsapp-message', {
-                phoneNumber,
-                message,
-            });
+            // const response = await axios.post('http://localhost:3000/whatsapp-message', {
+            //     phoneNumber,
+            //     message,
+            // });
     
-            console.log('Response:', response); // Log the response for debugging
-    
-            if (response.data.success) {
-                alert('Message sent successfully!');
-            } else {
-                alert('Failed to send message');
-            }
+        //     console.log('Response:', response); // Log the response for debugging
+
+        //     if (response.data.success) {
+        //         alert('Message sent successfully!');
+        //     } else {
+        //         alert(`Message sent to ${phoneNumber}: ${message}`);
+        //     }
         } catch (error) {
             console.error('Error sending message:', error); // Log the error
-            alert(`Error sending message: ${error.message || error}`);
+            // alert(`Error sending message: ${error.message || error}`);
         }
     });
   </script>

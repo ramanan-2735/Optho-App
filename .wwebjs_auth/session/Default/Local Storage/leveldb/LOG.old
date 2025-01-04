@@ -1,3 +1,6 @@
-2024/12/31-14:42:35.563 1469 Reusing MANIFEST /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/Local Storage/leveldb/MANIFEST-000001
-2024/12/31-14:42:35.576 1469 Recovering log #4
-2024/12/31-14:42:35.577 1469 Reusing old log /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/Local Storage/leveldb/000004.log 
+2025/01/04-20:26:14.272 3d64 Reusing MANIFEST /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/Local Storage/leveldb/MANIFEST-000001
+2025/01/04-20:26:14.273 3d64 Recovering log #16
+2025/01/04-20:26:14.341 3d64 Reusing old log /home/racistram/Desktop/Optho-App/.wwebjs_auth/session/Default/Local Storage/leveldb/000016.log 
+2025/01/04-20:28:15.850 3dbb Level-0 table #20: started
+2025/01/04-20:28:15.913 3dbb Level-0 table #20: 15961 bytes OK
+2025/01/04-20:28:15.959 3dbb Delete type=0 #16

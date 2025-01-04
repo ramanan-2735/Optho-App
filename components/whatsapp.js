@@ -2,8 +2,9 @@ import pkg from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 import QRCode from 'qrcode';
 import { EventEmitter } from 'events';
+import fs from 'fs/promises';
 
-const { Client, LocalAuth } = pkg;
+const { Client, LocalAuth, MessageMedia } = pkg;
 
 export const qrCodeEmitter = new EventEmitter(); // Event emitter for QR codes
 export let qrCodeUrl = ''; // Variable to hold the latest QR code URL
@@ -47,11 +48,22 @@ client.on('disconnected', (reason) => {
 });
 
 // Function to send a message
-export const sendMessage = async (phoneNumber, message) => {
+export const sendMessage = async (phoneNumber, message = "Your Report", pdfPath = null) => {
+
     try {
         const chatId = `${phoneNumber}@c.us`; // WhatsApp contact ID format
-        await client.sendMessage(chatId, message); // Send message directly to the chat ID
-        console.log(`Message sent to ${phoneNumber}: ${message}`);
+
+        if (pdfPath) {
+            // If a PDF file is provided, send it as a media message
+            const pdfBuffer = await fs.readFile(pdfPath);
+            const media = new MessageMedia('application/pdf', pdfBuffer.toString('base64'), 'DM-Screening-Form.pdf');
+            await client.sendMessage(chatId, media, { caption: message });
+            console.log(`PDF sent to ${phoneNumber} with caption: ${message}`);
+        } else {
+            // Send a plain text message if no PDF is provided
+            await client.sendMessage(chatId, message);
+            console.log(`Message sent to ${phoneNumber}: ${message}`);
+        }
     } catch (error) {
         console.error(`Error sending message to ${phoneNumber}:`, error);
     }
