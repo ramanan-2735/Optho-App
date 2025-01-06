@@ -456,7 +456,7 @@ app.post('/generate-pdf', async (req, res) => {
          await fs.writeFile(pdfPath, pdfBytes);
  
          // Send the PDF via WhatsApp
-         await sendMessage("91" + contactNo, "Your DM Screening Report", pdfPath);
+         await sendMessage("91" + contactNo, name +"'s DM Screening Report", pdfPath);
  
          // Respond to the client
          res.status(200).send('PDF generated and sent via WhatsApp');
