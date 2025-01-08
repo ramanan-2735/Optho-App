@@ -14,7 +14,7 @@ CREATE TABLE details (
     insulin text NULL,
     oha text NULL,
     HBA1c text NULL,
-    treatment text NULL,
+    treatment text[] NULL,
     bcvar text NULL,
     bcval text NULL,
     iopr text NULL,
@@ -25,7 +25,7 @@ CREATE TABLE details (
     mel text NULL,
     octr text NULL,
     octl text NULL,
-    advice text NULL,
+    advice text[] NULL,
     fllwp text NULL
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE PatientLog (
     insulin text NULL,
     oha text NULL,
     HBA1c text NULL,
-    treatment text NULL,
+    treatment text[] NULL,
     bcvar text NULL,
     bcval text NULL,
     iopr text NULL,
@@ -49,7 +49,7 @@ CREATE TABLE PatientLog (
     mel text NULL,
     octr text NULL,
     octl text NULL,
-    advice text NULL,
+    advice text[] NULL,
     fllwp text NULL,
     notes TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

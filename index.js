@@ -87,8 +87,11 @@ app.get('/', (req, res) => {
 app.get('/home', async (req, res) => {
     if (req.isAuthenticated()) {
         name = await pats();
+        // console.log(name.rows[0].reg);
+        const visit = (await db.query("select created_at from patientLog where reg = ($1)", [name.rows[0].reg])).rows.slice(-1);
+        // console.log(visit);
         searchPat(name);
-        res.render("index.ejs", { name: name.rows });
+        res.render("index.ejs", { name: name.rows, visit});
     } else {
         res.redirect("/login");
     }
@@ -105,29 +108,7 @@ app.get('/patientDet/:id', async (req, res) => {
     // console.log(patlog[0].treatment);
     // console.log(patlog[0].advice);
 
-    async function parseTreatmentAndAdvice(input) {
-        // Preprocess the input to make it valid JSON
-        async function preprocessInput(input) {
-            // Remove the outer curly braces and split by commas
-            const cleanedString = input
-                .replace(/^{/, '[') // Replace the opening brace with a square bracket
-                .replace(/}$/, ']') // Replace the closing brace with a square bracket
-                .replace(/'/g, '"'); // Replace single quotes with double quotes
-
-            return cleanedString; // Now it looks like a JSON array
-        }
-
-        try {
-            const preprocessedInput = await preprocessInput(input);
-            // Parse the cleaned string into a JavaScript array
-            return JSON.parse(preprocessedInput);
-        } catch (error) {
-            console.error('Error parsing JSON:', error);
-            return []; // Return an empty array on error
-        }
-    }
-
-    res.render("patientDet.ejs", { det: patdet, treatment: await parseTreatmentAndAdvice(patlog[0].treatment), advice: await parseTreatmentAndAdvice(patlog[0].advice), logs: patlog });
+    res.render("patientDet.ejs", { det: patdet, treatment: patlog[0].treatment, advice: patlog[0].advice, logs: patlog });
 })
 
 app.get("/addPat", (req, res) => {
@@ -185,28 +166,28 @@ app.get("/canvas", (req, res) => {
     res.render("canvas.ejs");
 })
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadPath = path.join(__dirname, 'uploads');
-        if (!fs.existsSync(uploadPath)) {
-            fs.mkdirSync(uploadPath);
-        }
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         const uploadPath = path.join(__dirname, 'uploads');
+//         if (!fs.existsSync(uploadPath)) {
+//             fs.mkdirSync(uploadPath);
+//         }
+//         cb(null, uploadPath);
+//     },
+//     filename: (req, file, cb) => {
+//         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+//         cb(null, uniqueSuffix + path.extname(file.originalname));
+//     }
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
-app.post('/upload', upload.single('xray'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
-    }
-    res.json({ filePath: `/uploads/${req.file.filename}` });
-});
+// app.post('/upload', upload.single('xray'), (req, res) => {
+//     if (!req.file) {
+//         return res.status(400).json({ error: 'No file uploaded' });
+//     }
+//     res.json({ filePath: `/uploads/${req.file.filename}` });
+// });
 
 app.get("/auth/google", passport.authenticate("google", {
     scope: ["profile", "email"],
@@ -221,20 +202,24 @@ app.get("/auth/google/home", passport.authenticate("google", {
 // POST
 app.post("/addPat", async (req, res) => {
     const det = req.body;
-    // console.log(det);
+
+    const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
+    const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
+ 
     try {
-        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp]);
+        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp]);
 
         try {
-            await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp);
+            await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
         } catch (e) {
             console.log(e.message);
+        res.redirect("/addPat")
         }
     } catch (e) {
         console.log(e);
         res.redirect("/addPat")
     }
-    res.redirect("/")
+    res.redirect("/home")
 });
 
 app.post("/deletePat/:id", (req, res) => {
@@ -249,10 +234,13 @@ app.post("/deletePat/:id", (req, res) => {
 });
 
 app.post("/updatePat/:id", async (req, res) => {
-    const det = req.body
+    const det = req.body;
+
+    const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
+    const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
 
     try {
-        await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, det.treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, det.advice, det.fllwp);
+        await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
     } catch (e) {
         console.log(e.message);
     }

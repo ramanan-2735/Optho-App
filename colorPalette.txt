@@ -8,3 +8,299 @@
 
     cid: 404892579762-jrd75ohfrqjjlcch6aig2funbmv9isd8.apps.googleusercontent.com
     csec: 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
+
+
+    <!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optho-App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-blue-300">
+    <div class="p-4 lg:p-6">
+        <form action="/addPat" method="post" class="bg-white/50 backdrop-blur-xl p-4 rounded-lg">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+                <!-- Patient Information -->
+                <div class="bg-white rounded-lg shadow p-4 space-y-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Patient Information</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Name:</label>
+                            <input class="w-full px-3 py-2 border rounded-md" placeholder="Name" type="text" name="name" required autofocus/>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Registration Number</label>
+                            <input class="w-full px-3 py-2 border rounded-md" type="text" name="reg" placeholder="Registration Number"
+                            value= "<%= reg %>" required />
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Age:</label>
+                                <input class="w-full px-3 py-2 border rounded-md" placeholder="Age" type="text" name="age" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Sex:</label>
+                                <div class="flex gap-4">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="sex" value="Male" class="mr-2" checked />
+                                        Male
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="sex" value="Female" class="mr-2" />
+                                        Female
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Contact No. :</label>
+                            <input class="w-full px-3 py-2 border rounded-md" placeholder="Contact No. " type="tel" name="contact" required />
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Beneficiary:</label>
+                                <select class="w-full px-3 py-2 border rounded-md" name="beneficiary">
+                                    <option value="self">Employee</option>
+                                    <option value="retired">Retired Employee</option>
+                                    <option value="family">Family</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Type of Diabetes:</label>
+                                <select class="w-full px-3 py-2 border rounded-md" name="dtype">
+                                    <option value="type1">Type 1</option>
+                                    <option value="type2">Type 2</option>
+                                    <option value="mody">MODY</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Diabetes Duration:</label>
+                                <select class="w-full px-3 py-2 border rounded-md" name="ddur">
+                                    <option value="Newly diagnosed">Newly diagnosed (&lt;1 year)</option>
+                                    <option value="Less than 5 years">Less than 5 years</option>
+                                    <option value="5-10 years">Between 5-10 years</option>
+                                    <option value="More than 10 years">More than 10 years</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">Insulin:</label>
+                                <div class="flex gap-4">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="insulin" value="yes" class="mr-2" checked />
+                                        Yes
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="insulin" value="no" class="mr-2" />
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">No. of BHA:</label>
+                                <input class="w-full px-3 py-2 border rounded-md" placeholder="No. of BHA" type="text" name="oha" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">HbA1c (%):</label>
+                                <input class="w-full px-3 py-2 border rounded-md" placeholder="HbA1c" type="text" name="HBA1c" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clinical Findings -->
+                <div class="bg-white rounded-lg shadow p-4 space-y-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Clinical Findings</h2>
+                    
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">BCVA Left Eye:</label>
+                                <select class="w-full px-3 py-2 border rounded-md" name="bcval">
+                                    <option>6/6</option>
+                                    <option>6/9</option>
+                                    <option>6/12</option>
+                                    <option>6/18</option>
+                                    <option>6/24</option>
+                                    <option>6/36</option>
+                                    <option>6/60</option>
+                                    <option>5/60</option>
+                                    <option>4/60</option>
+                                    <option>3/60</option>
+                                    <option>2/60</option>
+                                    <option>1/60</option>
+                                    <option>PL+</option>
+                                    <option>PL-</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">BCVA Right Eye:</label>
+                                <select class="w-full px-3 py-2 border rounded-md" name="bcvar">
+                                    <option>6/6</option>
+                                    <option>6/9</option>
+                                    <option>6/12</option>
+                                    <option>6/18</option>
+                                    <option>6/24</option>
+                                    <option>6/36</option>
+                                    <option>6/60</option>
+                                    <option>5/60</option>
+                                    <option>4/60</option>
+                                    <option>3/60</option>
+                                    <option>2/60</option>
+                                    <option>1/60</option>
+                                    <option>PL+</option>
+                                    <option>PL-</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">IOP Left Eye (mmHg):</label>
+                                <input class="w-full px-3 py-2 border rounded-md" placeholder="Enter IOP" type="text" name="iopl" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">IOP Right Eye (mmHg):</label>
+                                <input class="w-full px-3 py-2 border rounded-md" placeholder="Enter IOP" type="text" name="iopr" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">DR Left Eye:</label>
+                                <select class="w-full px-3 py-2 border rounded-md" name="drl">
+                                    <option>No DR at present</option>
+                                    <option>Mild NPDR</option>
+                                    <option>Moderate NPDR</option>
+                                    <option>Severe NPDR</option>
+                                    <option>Very severe NPDR</option>
+                                    <option>PDR without HRC</option>
+                                    <option>PDR with HRC</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">DR Right Eye:</label>
+                                <select class="w-full px-3 py-2 border rounded-md" name="drr">
+                                    <option>No DR at present</option>
+                                    <option>Mild NPDR</option>
+                                    <option>Moderate NPDR</option>
+                                    <option>Severe NPDR</option>
+                                    <option>Very severe NPDR</option>
+                                    <option>PDR without HRC</option>
+                                    <option>PDR with HRC</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">ME Left Eye:</label>
+                                <select class="w-full px-3 py-2 border rounded-md" name="mel">
+                                    <option>Center involving</option>
+                                    <option>Non Center involving</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">ME Right Eye:</label>
+                                <select class="w-full px-3 py-2 border rounded-md" name="mer">
+                                    <option>Center involving</option>
+                                    <option>Non Center involving</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">OCT Left Eye:</label>
+                                <input class="w-full px-3 py-2 border rounded-md" placeholder="Enter OCT" type="text" name="octl" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-2">OCT Right Eye:</label>
+                                <input class="w-full px-3 py-2 border rounded-md" placeholder="Enter OCT" type="text" name="octr" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Treatment & Advice -->
+                <div class="bg-white rounded-lg shadow p-4 space-y-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Treatment & Advice</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Treatment Obtained:</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="treatment[]" value="none" class="mr-2" />
+                                    None
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="treatment[]" value="Intravitreal injection" class="mr-2" />
+                                    Intravitreal Injection
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="treatment[]" value="PRP" class="mr-2" />
+                                    PRP
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="treatment[]" value="Retinal surgery" class="mr-2" />
+                                    Retinal Surgery
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Treatment Advice:</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="advice" value="Continue same treatment" class="mr-2" />
+                                    Continue same treatment
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="advice" value="Start new medications" class="mr-2" />
+                                    Start new medications
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="advice" value="PRP" class="mr-2" />
+                                    PRP
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="advice" value="Intravitreal injection" class="mr-2" />
+                                    Intravitreal injection
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="advice" value="Vitreoretinal Surgery" class="mr-2" />
+                                    Vitreoretinal Surgery
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Follow-up Date:</label>
+                            <input class="w-full px-3 py-2 border rounded-md" type="date" name="followup" />
+                        </div>
+
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors duration-200">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
