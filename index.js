@@ -21,9 +21,6 @@ import { searchPat } from './components/search.js';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 
 
-
-
-
 dotenv.config();
 if (!process.env.UNAME) {
     console.error('Failed to load environment variables from .env');
@@ -91,7 +88,7 @@ app.get('/home', async (req, res) => {
         const visit = (await db.query("select created_at from patientLog where reg = ($1)", [name.rows[0].reg])).rows.slice(-1);
         // console.log(visit);
         searchPat(name);
-        res.render("index.ejs", { name: name.rows, visit});
+        res.render("index.ejs", { name: name.rows, visit });
     } else {
         res.redirect("/login");
     }
@@ -205,7 +202,7 @@ app.post("/addPat", async (req, res) => {
 
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
- 
+
     try {
         await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp]);
 
@@ -213,7 +210,7 @@ app.post("/addPat", async (req, res) => {
             await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
         } catch (e) {
             console.log(e.message);
-        res.redirect("/addPat")
+            res.redirect("/addPat")
         }
     } catch (e) {
         console.log(e);
@@ -251,6 +248,10 @@ app.post("/updatePat/:id", async (req, res) => {
 app.post("/register", async (req, res) => {
     const email = req.body.username;
     const password = req.body.password;
+
+    console.log("Password:", password);
+    console.log("Salt Rounds:", saltRounds);
+
 
     try {
         const checkres = await db.query("select * from users where email = $1", [email]);
@@ -438,20 +439,20 @@ app.post('/generate-pdf', async (req, res) => {
 
         // Save the updated PDF
         const pdfBytes = await pdfDoc.save();
-        
-         // Save the PDF to a file
-         const pdfPath = path.join(__dirname, 'DM-Screening-Form.pdf');
-         await fs.writeFile(pdfPath, pdfBytes);
- 
-         // Send the PDF via WhatsApp
-         await sendMessage("91" + contactNo, name +"'s DM Screening Report", pdfPath);
- 
-         // Respond to the client
-         res.status(200).send('PDF generated and sent via WhatsApp');
-     } catch (error) {
-         console.error('Error generating or sending PDF:', error);
-         res.status(500).send('An error occurred while generating or sending the PDF.');
-     }
+
+        // Save the PDF to a file
+        const pdfPath = path.join(__dirname, 'DM-Screening-Form.pdf');
+        await fs.writeFile(pdfPath, pdfBytes);
+
+        // Send the PDF via WhatsApp
+        await sendMessage("91" + contactNo, name + "'s DM Screening Report", pdfPath);
+
+        // Respond to the client
+        res.status(200).send('PDF generated and sent via WhatsApp');
+    } catch (error) {
+        console.error('Error generating or sending PDF:', error);
+        res.status(500).send('An error occurred while generating or sending the PDF.');
+    }
 
 });
 
