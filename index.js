@@ -64,7 +64,7 @@ const db = new pg.Client({
 });
 
 db.connect();
-
+initializeClient();
 
 let name;
 
@@ -83,12 +83,9 @@ app.get('/', (req, res) => {
 
 app.get('/home', async (req, res) => {
     if (req.isAuthenticated()) {
-        name = await pats();
-        // console.log(name.rows[0].reg);
-        const visit = (await db.query("select created_at from patientLog where reg = ($1)", [name.rows[0].reg])).rows.slice(-1);
-        // console.log(visit);
-        searchPat(name);
-        res.render("index.ejs", { name: name.rows, visit });
+    name = await pats();
+    searchPat(name);
+    res.render("index.ejs", { name: name.rows });
     } else {
         res.redirect("/login");
     }
@@ -101,10 +98,6 @@ app.get('/patientDet/:id', async (req, res) => {
     const patdet = patRow.find(x => x.reg == req.params.id)
 
     const patlog = await loadLog(patdet.reg);
-    // console.log(patlog)
-    // console.log(patlog[0].treatment);
-    // console.log(patlog[0].advice);
-
     res.render("patientDet.ejs", { det: patdet, treatment: patlog[0].treatment, advice: patlog[0].advice, logs: patlog });
 })
 
@@ -128,11 +121,10 @@ app.get("/login", (req, res) => {
 })
 
 app.get('/export-to-excel/:id', async (req, res) => {
-
-
+    const reg = req.params.id;
     try {
         // Fetch data from PostgreSQL
-        const result = await db.query('SELECT * FROM patientlog where reg = $1', [req.params.id]);
+        const result = await db.query('SELECT * FROM patientlog where reg = $1', [reg]);
 
         // Create a new workbook and a worksheet
         const workbook = new ExcelJS.Workbook();
@@ -146,7 +138,7 @@ app.get('/export-to-excel/:id', async (req, res) => {
 
         // Set the content type and disposition for download
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        res.setHeader('Content-Disposition', 'attachment; filename="Details of Patients.xlsx"');
+        res.setHeader('Content-Disposition', 'attachment; filename="Details of Patients '+ reg +'.xlsx"');
 
         // Send the workbook as a download
         await workbook.xlsx.write(res);
@@ -156,7 +148,6 @@ app.get('/export-to-excel/:id', async (req, res) => {
         res.status(500).send('Error generating Excel file');
     }
 
-    res.redirect("/patientDet/" + req.params.id);
 });
 
 app.get("/canvas", (req, res) => {
@@ -219,13 +210,22 @@ app.post("/addPat", async (req, res) => {
     res.redirect("/home")
 });
 
-app.post("/deletePat/:id", (req, res) => {
-    const delId = (req.params.id);
+app.get("/deletePat/:id",async (req, res) => {
+    const delReg = (req.params.id);
+
     try {
-        db.query('delete from details where id = ($1)', [delId]);
-        console.log("Row with ID " + delId + " deleted successfully");
+        await db.query('delete from patientLog where reg = ($1)', [delReg]);
+        console.log("Patient with Registeration No:" + delReg + " deleted successfully from patientLog");
+        try {
+            await db.query('delete from details where reg = ($1)', [delReg]);
+            console.log("Patient with Registeration No:" + delReg + " deleted successfully from details"); 
+        } catch (e) {
+            console.log(e);
+            res.redirect("/home"); 
+        }
     } catch (e) {
-        console.log(e)
+        console.log(e);
+        res.redirect("/home");
     }
     res.redirect("/home");
 });
@@ -348,7 +348,6 @@ app.get('/get-qr-code', (req, res) => {
     }
 });
 
-initializeClient();
 
 // Route to send a WhatsApp message
 app.post('/whatsapp-message', async (req, res) => {

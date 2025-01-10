@@ -257,12 +257,12 @@
                         </div>
                         <div class=md:my-4>Follow Up:
                             <p class=text-xl>
-                                <%=logs[0].fllwp %>
+                                <%= logs[0].fllwp %>
                             </p>
                         </div>
-                        <div class=md:my-4>Notes:
+                        <!-- <div class=md:my-4>Notes:
                             null
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="logs text-blue-950 bg-white w-full md:h-full flex-col rounded-lg shadow-xl md:p-4 md:ml-4">
@@ -677,8 +677,6 @@
     document.getElementById('sendButton').addEventListener('click', async () => {
         console.log("Generating PDF ...");
         try {
-            // const phoneNumber = '918693858222'; // Replace with the phone number
-            // const message = 'Hello, this is a test message!';
             const data = {
                 name: "<%= det.name %>",
                 registrationNo: '<%= logs[0].reg %>',
