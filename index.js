@@ -37,6 +37,7 @@ in index.js and their respective file and patientDet.ejs*/
 const app = express();
 const port = 3000;
 const saltRounds = 5;
+const cl = console.log;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public/'));
@@ -82,24 +83,39 @@ app.get('/', (req, res) => {
 })
 
 app.get('/home', async (req, res) => {
-    if (req.isAuthenticated()) {
+    // if (req.isAuthenticated()) {
     name = await pats();
     searchPat(name);
     res.render("index.ejs", { name: name.rows });
-    } else {
-        res.redirect("/login");
-    }
+    // } else {
+    //     res.redirect("/login");
+    // }
 
 })
 
 app.get('/patientDet/:id', async (req, res) => {
     const patRow = name.rows;
-    console.log("");
     const patdet = patRow.find(x => x.reg == req.params.id)
 
     const patlog = await loadLog(patdet.reg);
     res.render("patientDet.ejs", { det: patdet, treatment: patlog[0].treatment, advice: patlog[0].advice, logs: patlog });
 })
+
+app.get('/patientDet/:reg/:id', async (req, res) => {
+    const patRow = name.rows;
+    const patdet = patRow.find(x => x.reg == req.params.reg);
+    let patlog = await loadLog(req.params.reg);
+    let history = await loadLog(req.params.reg);
+    patlog.reverse();    
+    patlog = patlog[patlog.length - req.params.id]    
+
+    // cl(patdet);
+
+    res.render("patDet.ejs", { det: patdet, treatment: patlog.treatment, advice: patlog.advice, logs: patlog , hstry: history});
+  
+})
+
+
 
 app.get("/addPat", (req, res) => {
     function generateRegNumber() {

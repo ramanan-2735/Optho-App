@@ -307,8 +307,8 @@
                         class="w-full max-h-[500px] overflow-y-auto scrollbar-hide md:py-1 bg-gray-50 overflow-x-visible">
                         <!-- Visit Cards -->
                         <% for (let i = 0; i < logs.length; i++) { %>
-                            <div
-                                class="md:p-2 border rounded-lg shadow-md md:mt-3 bg-white transform transition-transform duration-300 hover:translate-y-[-10px] hover:shadow-lg">
+                            <div onclick="window.location.href='/patientDet/<%= logs[0].reg %>/<%= i + 1%>'"
+                                class="md:p-2 border rounded-lg shadow-md md:mt-3 bg-white transform transition-transform duration-300 hover:translate-y-[-10px] hover:shadow-lg" >
                                 <p class="font-semibold text-lg text-blue-800">
                                     <% 
                                         // Create a Date object from the created_at string 
