@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <form id="uploadForm">
+        <input type="file" name="image" id="imageInput" required>
+        <button type="submit">Upload Image</button>
+    </form>
+
+    <h2>Uploaded Images</h2>
+    <ul id="imageList">
+        <!-- List of uploaded images will be here -->
+    </ul>
+
+    <script>
+        // Handle the form submission for uploading an image
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData();
+            const fileInput = document.getElementById('imageInput');
+            const file = fileInput.files[0];
+            formData.append('image', file);
+
+            try {
+                const response = await fetch('http://localhost:3000/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error uploading file');
+                }
+
+                const result = await response.json();
+                alert(`File uploaded with ID: ${result.id}`);
+                loadImages(); // Reload images after upload
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to upload file');
+            }
+        });
+
+        // Fetch and display the list of uploaded images
+        async function loadImages() {
+            try {
+                const response = await fetch('http://localhost:3000/images');
+                const images = await response.json();
+
+                const imageList = document.getElementById('imageList');
+                imageList.innerHTML = ''; // Clear the list before adding new items
+
+                images.forEach(image => {
+                    const listItem = document.createElement('li');
+                    const imgElement = document.createElement('img');
+                    imgElement.src = `http://localhost:3000/image/${image.id}`;
+                    imgElement.alt = image.filename;
+                    imgElement.style.width = '100px';
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.innerText = 'Delete';
+                    deleteButton.addEventListener('click', async () => {
+                        try {
+                            await fetch(`http://localhost:3000/image/${image.id}`, {
+                                method: 'DELETE'
+                            });
+                            alert('Image deleted');
+                            loadImages(); // Reload images after deletion
+                        } catch (error) {
+                            console.error('Error deleting image:', error);
+                        }
+                    });
+
+                    listItem.appendChild(imgElement);
+                    listItem.appendChild(deleteButton);
+                    imageList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error loading images:', error);
+            }
+        }
+
+        // Load images when the page loads
+        window.onload = loadImages;
+    </script>
+</body>
+</html>

@@ -170,28 +170,88 @@ app.get("/canvas", (req, res) => {
     res.render("canvas.ejs");
 })
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         const uploadPath = path.join(__dirname, 'uploads');
-//         if (!fs.existsSync(uploadPath)) {
-//             fs.mkdirSync(uploadPath);
-//         }
-//         cb(null, uploadPath);
-//     },
-//     filename: (req, file, cb) => {
-//         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-//         cb(null, uniqueSuffix + path.extname(file.originalname));
-//     }
-// });
+//IMAGE UPLOAD
+// client.connect();
 
+// // Set up multer storage to store files in memory (for easier processing)
+// const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
 
-// app.post('/upload', upload.single('xray'), (req, res) => {
-//     if (!req.file) {
-//         return res.status(400).json({ error: 'No file uploaded' });
-//     }
-//     res.json({ filePath: `/uploads/${req.file.filename}` });
+// // Middleware to parse incoming data
+// app.use(express.json());
+
+// // Serve the index.html file at the root URL
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'index.html'));
 // });
+
+// // Route to upload an image
+// app.post('/upload', upload.single('image'), async (req, res) => {
+//     if (!req.file) {
+//         return res.status(400).send('No file uploaded.');
+//     }
+
+//     // Insert the image into PostgreSQL
+//     const { originalname, buffer, mimetype } = req.file;
+//     const query = 'INSERT INTO images(filename, data, contentType) VALUES($1, $2, $3) RETURNING id';
+//     const values = [originalname, buffer, mimetype];
+
+//     try {
+//         const result = await client.query(query, values);
+//         res.json({ id: result.rows[0].id, filename: originalname });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error uploading file');
+//     }
+// });
+
+// // Route to view an image
+// app.get('/image/:id', async (req, res) => {
+//     const query = 'SELECT * FROM images WHERE id = $1';
+//     const values = [req.params.id];
+
+//     try {
+//         const result = await client.query(query, values);
+//         if (!result.rows.length) {
+//             return res.status(404).send('Image not found');
+//         }
+
+//         const image = result.rows[0];
+//         res.contentType(image.contenttype);
+//         res.send(image.data);  // Send the binary image data as the response
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error retrieving image');
+//     }
+// });
+
+// // Route to get all images
+// app.get('/images', async (req, res) => {
+//     const query = 'SELECT id, filename FROM images';
+//     try {
+//         const result = await client.query(query);
+//         res.json(result.rows);
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error fetching images');
+//     }
+// });
+
+// // Route to delete an image
+// app.delete('/image/:id', async (req, res) => {
+//     const query = 'DELETE FROM images WHERE id = $1';
+//     const values = [req.params.id];
+
+//     try {
+//         await client.query(query, values);
+//         res.send('Image deleted');
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error deleting image');
+//     }
+// });
+
+//Try Above CODE
 
 app.get("/auth/google", passport.authenticate("google", {
     scope: ["profile", "email"],
