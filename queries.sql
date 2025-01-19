@@ -64,5 +64,14 @@ CREATE TABLE users(
 );
 
 
+-- IMAGES
+CREATE TABLE public.images (
+    id integer NOT NULL,
+    filename character varying(255),
+    data bytea,
+    contenttype character varying(255)
+);
+
+
 
 
