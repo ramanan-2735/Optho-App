@@ -174,8 +174,8 @@ app.get("/canvas", (req, res) => {
 // client.connect();
 
 // // Set up multer storage to store files in memory (for easier processing)
-// const storage = multer.memoryStorage();
-// const upload = multer({ storage: storage });
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // // Middleware to parse incoming data
 // app.use(express.json());
@@ -186,70 +186,79 @@ app.get("/canvas", (req, res) => {
 // });
 
 // // Route to upload an image
-// app.post('/upload', upload.single('image'), async (req, res) => {
-//     if (!req.file) {
-//         return res.status(400).send('No file uploaded.');
-//     }
+app.post('/upload/:reg', upload.single('image'), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
 
-//     // Insert the image into PostgreSQL
-//     const { originalname, buffer, mimetype } = req.file;
-//     const query = 'INSERT INTO images(filename, data, contentType) VALUES($1, $2, $3) RETURNING id';
-//     const values = [originalname, buffer, mimetype];
+    // Insert the image into PostgreSQL
+    const { originalname, buffer, mimetype } = req.file;
+    const query = 'INSERT INTO images(reg, filename, data, contentType) VALUES($1, $2, $3, $4) RETURNING id';
+    const values = [req.params.reg ,originalname, buffer, mimetype];
 
-//     try {
-//         const result = await client.query(query, values);
-//         res.json({ id: result.rows[0].id, filename: originalname });
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).send('Error uploading file');
-//     }
-// });
+    try {
+        const result = await db.query(query, values);
+        res.json({ id: result.rows[0].id, filename: originalname });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error uploading file');
+    }
+});
 
 // // Route to view an image
-// app.get('/image/:id', async (req, res) => {
-//     const query = 'SELECT * FROM images WHERE id = $1';
-//     const values = [req.params.id];
+app.get('/image/:id', async (req, res) => {
+    const query = 'SELECT * FROM images WHERE id = $1';
+    const values = [req.params.id];
 
-//     try {
-//         const result = await client.query(query, values);
-//         if (!result.rows.length) {
-//             return res.status(404).send('Image not found');
-//         }
+    try {
+        const result = await db.query(query, values);
+        if (!result.rows.length) {
+            return res.status(404).send('Image not found');
+        }
 
-//         const image = result.rows[0];
-//         res.contentType(image.contenttype);
-//         res.send(image.data);  // Send the binary image data as the response
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).send('Error retrieving image');
-//     }
-// });
+        const image = result.rows[0];
+        res.contentType(image.contenttype);
+        res.send(image.data);  // Send the binary image data as the response
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error retrieving image');
+    }
+});
 
 // // Route to get all images
 // app.get('/images', async (req, res) => {
 //     const query = 'SELECT id, filename FROM images';
 //     try {
-//         const result = await client.query(query);
-//         res.json(result.rows);
+//         const result = await db.query(query);
+//         const reversedRows = result.rows.reverse(); // Reverse only the rows array
+//         res.json(reversedRows); // Send the reversed rows as the response
 //     } catch (err) {
 //         console.error(err);
 //         res.status(500).send('Error fetching images');
 //     }
 // });
+app.get('/images', async (req, res) => {
+    const reg = req.query.reg;
+    const images = await db.query('SELECT * FROM images WHERE reg = $1', [reg]);
+    // cl(images.rows.reverse());
+    res.json(images.rows.reverse());
+});
+
+
 
 // // Route to delete an image
-// app.delete('/image/:id', async (req, res) => {
-//     const query = 'DELETE FROM images WHERE id = $1';
-//     const values = [req.params.id];
+app.delete('/image/:id', async (req, res) => {
+    const query = 'DELETE FROM images WHERE id = $1';
+    const values = [req.params.id];
 
-//     try {
-//         await client.query(query, values);
-//         res.send('Image deleted');
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).send('Error deleting image');
-//     }
-// });
+    try {
+        await db.query(query, values);
+        res.send('Image deleted');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error deleting image');
+    }
+});
 
 //Try Above CODE
 

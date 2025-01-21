@@ -65,11 +65,13 @@ CREATE TABLE users(
 
 
 -- IMAGES
-CREATE TABLE public.images (
-    id integer NOT NULL,
+CREATE TABLE images (
+    id serial NOT NULL,
+    reg text not null,
     filename character varying(255),
     data bytea,
-    contenttype character varying(255)
+    contenttype character varying(255),
+    FOREIGN KEY (reg) REFERENCES details(reg) ON DELETE CASCADE
 );
 
 
