@@ -10,6 +10,7 @@
   "author": "Ram",
   "license": "ISC",
   "dependencies": {
+    "@tailwindcss/cli": "^4.0.1",
     "@whiskeysockets/baileys": "^6.7.9",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
@@ -33,6 +34,7 @@
     "puppeteer-core": "^23.11.1",
     "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0",
+    "tailwindcss": "3.4",
     "whatsapp-web.js": "^1.26.0"
   }
 }

@@ -32,6 +32,7 @@ CREATE TABLE details (
 -- PATIENTS LOG TABLE
 CREATE TABLE PatientLog (
     log_id serial PRIMARY KEY,
+    visit int null,
     reg text NOT NULL,
     dtype text NULL,
     ddur text NULL,
@@ -68,6 +69,7 @@ CREATE TABLE users(
 CREATE TABLE images (
     id serial NOT NULL,
     reg text not null,
+    visit int not null,
     filename character varying(255),
     data bytea,
     contenttype character varying(255),

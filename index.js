@@ -19,6 +19,7 @@ import { initializeClient, sendMessage, qrCodeUrl } from './components/whatsapp.
 import { createLog, loadLog } from './components/databaseMechanism.js';
 import { searchPat } from './components/search.js';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { resolveObjectURL } from 'buffer';
 
 
 dotenv.config();
@@ -109,8 +110,6 @@ app.get('/patientDet/:reg/:id', async (req, res) => {
     patlog.reverse();    
     patlog = patlog[patlog.length - req.params.id]    
 
-    // cl(patdet);
-
     res.render("patDet.ejs", { det: patdet, treatment: patlog.treatment, advice: patlog.advice, logs: patlog , hstry: history});
   
 })
@@ -166,7 +165,7 @@ app.get('/export-to-excel/:id', async (req, res) => {
 
 });
 
-app.get("/canvas", (req, res) => {
+app.get("/canvas/:reg/:visit", (req, res) => {
     res.render("canvas.ejs");
 })
 
@@ -186,15 +185,17 @@ const upload = multer({ storage: storage });
 // });
 
 // // Route to upload an image
-app.post('/upload/:reg', upload.single('image'), async (req, res) => {
+app.post('/upload/:reg/:visit', upload.single('image'), async (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file uploaded.');
     }
 
     // Insert the image into PostgreSQL
     const { originalname, buffer, mimetype } = req.file;
-    const query = 'INSERT INTO images(reg, filename, data, contentType) VALUES($1, $2, $3, $4) RETURNING id';
-    const values = [req.params.reg ,originalname, buffer, mimetype];
+    const query = 'INSERT INTO images(reg,visit, filename, data, contentType) VALUES($1, $2, $3, $4, $5) RETURNING id';
+    const values = [req.params.reg,req.params.visit ,originalname, buffer, mimetype];
+
+    // cl(req.params.visit);
 
     try {
         const result = await db.query(query, values);
@@ -206,9 +207,9 @@ app.post('/upload/:reg', upload.single('image'), async (req, res) => {
 });
 
 // // Route to view an image
-app.get('/image/:id', async (req, res) => {
-    const query = 'SELECT * FROM images WHERE id = $1';
-    const values = [req.params.id];
+app.get('/image/:id/:visit', async (req, res) => {
+    const query = 'SELECT * FROM images WHERE visit = ($1)';
+    const values = [req.params.visit];
 
     try {
         const result = await db.query(query, values);
@@ -238,11 +239,25 @@ app.get('/image/:id', async (req, res) => {
 //     }
 // });
 app.get('/images', async (req, res) => {
-    const reg = req.query.reg;
-    const images = await db.query('SELECT * FROM images WHERE reg = $1', [reg]);
-    // cl(images.rows.reverse());
-    res.json(images.rows.reverse());
+    const { reg, visit } = req.query;
+
+    
+    // if (!reg || !visit) {
+    //     return res.status(400).json({ error: 'Both reg and visit parameters are required' });
+    // }
+
+    // try {
+    //     const query = 'SELECT * FROM images WHERE reg = $1 AND visit = $2';
+    //     const values = [reg, visit];
+
+    //     const result = await db.query(query, values);
+    //     res.json(result.rows.reverse()); // Reverse to get latest images first
+    // } catch (err) {
+    //     console.error(err);
+    //     res.status(500).send('Error fetching images');
+    // }
 });
+
 
 
 
@@ -283,7 +298,7 @@ app.post("/addPat", async (req, res) => {
         await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp]);
 
         try {
-            await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
+            await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
         } catch (e) {
             console.log(e.message);
             res.redirect("/addPat")
@@ -315,19 +330,23 @@ app.get("/deletePat/:id",async (req, res) => {
     res.redirect("/home");
 });
 
-app.post("/updatePat/:id", async (req, res) => {
+app.post("/updatePat/:reg", async (req, res) => {
     const det = req.body;
 
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
 
+    let result =  await db.query("select max(visit) from patientlog where reg = ($1)", [req.params.reg])
+
+    let last_visit = (result.rows[0].max) + 1;
+
     try {
-        await createLog(det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
+        await createLog(last_visit,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
     } catch (e) {
         console.log(e.message);
     }
 
-    res.redirect("/patientDet/" + req.params.id);
+    res.redirect(`/patientDet/${req.params.reg}/${last_visit}`);
 })
 
 app.post("/register", async (req, res) => {

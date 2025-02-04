@@ -10,9 +10,9 @@ const db = new pg.Client({
 
 db.connect();
 
-export function createLog(reg, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, ddr, drl ,mer, mel, octr, octl, advice, fllwp){
+export function createLog(visit, reg, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, ddr, drl ,mer, mel, octr, octl, advice, fllwp){
     try {
-        db.query("INSERT INTO PatientLog(reg,dtype,ddur,insulin,oha,HBA1c,treatment,bcvar,bcval,iopr,iopl,drr,drl,mer,mel,octr,octl,advice,fllwp,notes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)",[reg, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, ddr, drl ,mer, mel, octr, octl, advice, fllwp, "No notes"])
+        db.query("INSERT INTO PatientLog(visit, reg,dtype,ddur,insulin,oha,HBA1c,treatment,bcvar,bcval,iopr,iopl,drr,drl,mer,mel,octr,octl,advice,fllwp,notes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)",[visit, reg, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, ddr, drl ,mer, mel, octr, octl, advice, fllwp, "No notes"])
         
 
     } catch (error) {
