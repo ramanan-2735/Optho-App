@@ -241,21 +241,23 @@ app.get('/image/:id/:visit', async (req, res) => {
 app.get('/images', async (req, res) => {
     const { reg, visit } = req.query;
 
-    
-    // if (!reg || !visit) {
-    //     return res.status(400).json({ error: 'Both reg and visit parameters are required' });
-    // }
+    // cl(reg);
+    // cl(visit);
+    if (!reg || !visit) {
+        return res.status(400).json({ error: 'Both reg and visit parameters are required' });
+    }
 
-    // try {
-    //     const query = 'SELECT * FROM images WHERE reg = $1 AND visit = $2';
-    //     const values = [reg, visit];
+    try {
+        const query = 'SELECT * FROM images WHERE reg = $1 AND visit = $2';
+        const values = [reg, visit];
 
-    //     const result = await db.query(query, values);
-    //     res.json(result.rows.reverse()); // Reverse to get latest images first
-    // } catch (err) {
-    //     console.error(err);
-    //     res.status(500).send('Error fetching images');
-    // }
+        const result = await db.query(query, values);
+        // cl(result.rows)
+        res.json(result.rows.reverse()); // Reverse to get latest images first
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching images');
+    }
 });
 
 
