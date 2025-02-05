@@ -69,7 +69,6 @@ CREATE TABLE users(
 CREATE TABLE images (
     id serial NOT NULL,
     reg text not null,
-    visit int not null,
     filename character varying(255),
     data bytea,
     contenttype character varying(255),

@@ -185,17 +185,15 @@ const upload = multer({ storage: storage });
 // });
 
 // // Route to upload an image
-app.post('/upload/:reg/:visit', upload.single('image'), async (req, res) => {
+app.post('/upload/:reg', upload.single('image'), async (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file uploaded.');
     }
 
     // Insert the image into PostgreSQL
     const { originalname, buffer, mimetype } = req.file;
-    const query = 'INSERT INTO images(reg,visit, filename, data, contentType) VALUES($1, $2, $3, $4, $5) RETURNING id';
-    const values = [req.params.reg,req.params.visit ,originalname, buffer, mimetype];
-
-    // cl(req.params.visit);
+    const query = 'INSERT INTO images(reg, filename, data, contentType) VALUES($1, $2, $3, $4) RETURNING id';
+    const values = [req.params.reg ,originalname, buffer, mimetype];
 
     try {
         const result = await db.query(query, values);
@@ -207,16 +205,35 @@ app.post('/upload/:reg/:visit', upload.single('image'), async (req, res) => {
 });
 
 // // Route to view an image
-app.get('/image/:id/:visit', async (req, res) => {
-    const query = 'SELECT * FROM images WHERE visit = ($1)';
-    const values = [req.params.visit];
+// app.get('/image/:id/:visit', async (req, res) => {
+//     const query = 'SELECT * FROM images WHERE visit = ($1)';
+//     const values = [req.params.visit];
+
+//     try {
+//         const result = await db.query(query, values);
+//         if (!result.rows.length) {
+//             return res.status(404).send('Image not found');
+//         }
+
+//         const image = result.rows[0];
+//         res.contentType(image.contenttype);
+//         res.send(image.data);  // Send the binary image data as the response
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error retrieving image');
+//     }
+// });
+
+
+app.get('/image/:id', async (req, res) => {
+    const query = 'SELECT * FROM images WHERE id = $1';
+    const values = [req.params.id];
 
     try {
         const result = await db.query(query, values);
         if (!result.rows.length) {
             return res.status(404).send('Image not found');
         }
-
         const image = result.rows[0];
         res.contentType(image.contenttype);
         res.send(image.data);  // Send the binary image data as the response
@@ -238,26 +255,38 @@ app.get('/image/:id/:visit', async (req, res) => {
 //         res.status(500).send('Error fetching images');
 //     }
 // });
+// app.get('/images', async (req, res) => {
+//     let { reg, visit } = req.query;
+
+//     // cl(reg);
+//     cl(visit);
+//     cl(typeof(visit));
+//     visit = parseInt(visit, 10)
+
+//     cl(visit);
+//     cl(typeof(visit));
+//     if (!reg || !visit) {
+//         return res.status(400).json({ error: 'Both reg and visit parameters are required' });
+//     }
+
+//     try {
+//         const query = 'SELECT * FROM images WHERE reg = ($1) AND visit = ($2)';
+//         const values = [reg, visit];
+
+//         const result = await db.query(query, values);
+//         // cl(result.rows)
+//         res.json(result.rows.reverse()); // Reverse to get latest images first
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).send('Error fetching images');
+//     }
+// });
+
 app.get('/images', async (req, res) => {
-    const { reg, visit } = req.query;
-
-    // cl(reg);
-    // cl(visit);
-    if (!reg || !visit) {
-        return res.status(400).json({ error: 'Both reg and visit parameters are required' });
-    }
-
-    try {
-        const query = 'SELECT * FROM images WHERE reg = $1 AND visit = $2';
-        const values = [reg, visit];
-
-        const result = await db.query(query, values);
-        // cl(result.rows)
-        res.json(result.rows.reverse()); // Reverse to get latest images first
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error fetching images');
-    }
+    const reg = req.query.reg;
+    const images = await db.query('SELECT * FROM images WHERE reg = $1', [reg]);
+    // cl(images.rows.reverse());
+    res.json(images.rows.reverse());
 });
 
 
