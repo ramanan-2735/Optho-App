@@ -325,11 +325,39 @@ app.post("/addPat", async (req, res) => {
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
 
+    // console.log("Received Data:", det);
+
+    let formattedTreatments = [];
+
+    // **Fixed Treatment-to-Date Mapping**
+    const treatmentDateFields = {
+        "Intravitreal injection": "injection_date",
+        "PRP": "prp_date",
+        "Retinal surgery": "surgery_date",
+        "None": "none_date"
+    };
+
+    // **Iterate through selected treatments**
+    treatment.forEach(treat => {
+        let dateKey = treatmentDateFields[treat]; // Get the correct date input name
+        let date = req.body[dateKey]; // Fetch the actual date from req.body
+
+        // console.log(`Checking treatment: ${treat}, Date Key: ${dateKey}, Found Date: ${date}`); // Debugging
+
+        if (date) {
+            formattedTreatments.push(`${treat} - ${date}`);
+        } else {
+            formattedTreatments.push(treat);
+        }
+    });
+
+    console.log("Formatted Treatments:", formattedTreatments); 
+
     try {
-        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp]);
+        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp]);
 
         try {
-            await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
+            await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
         } catch (e) {
             console.log(e.message);
             res.redirect("/addPat")
@@ -367,12 +395,38 @@ app.post("/updatePat/:reg", async (req, res) => {
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
 
+    let formattedTreatments = [];
+
+    // **Fixed Treatment-to-Date Mapping**
+    const treatmentDateFields = {
+        "Intravitreal injection": "injection_date",
+        "PRP": "prp_date",
+        "Retinal surgery": "surgery_date",
+        "None": "none_date"
+    };
+
+    // **Iterate through selected treatments**
+    treatment.forEach(treat => {
+        let dateKey = treatmentDateFields[treat]; // Get the correct date input name
+        let date = req.body[dateKey]; // Fetch the actual date from req.body
+
+        // console.log(`Checking treatment: ${treat}, Date Key: ${dateKey}, Found Date: ${date}`); // Debugging
+
+        if (date) {
+            formattedTreatments.push(`${treat} - ${date}`);
+        } else {
+            formattedTreatments.push(treat);
+        }
+    });
+
+    console.log("Formatted Treatments:", formattedTreatments); 
+
     let result =  await db.query("select max(visit) from patientlog where reg = ($1)", [req.params.reg])
 
     let last_visit = (result.rows[0].max) + 1;
 
     try {
-        await createLog(last_visit,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatment, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
+        await createLog(last_visit,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
     } catch (e) {
         console.log(e.message);
     }
