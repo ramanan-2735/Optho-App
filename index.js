@@ -325,7 +325,7 @@ app.post("/addPat", async (req, res) => {
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
 
-    // console.log("Received Data:", det);
+    console.log("Received Data:", det);
 
     let formattedTreatments = [];
 
@@ -354,7 +354,7 @@ app.post("/addPat", async (req, res) => {
     console.log("Formatted Treatments:", formattedTreatments); 
 
     try {
-        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp]);
+        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp, quen1, quen2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24,$25,$26)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp,det.quen1,det.quen2]);
 
         try {
             await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
@@ -391,6 +391,8 @@ app.get("/deletePat/:id",async (req, res) => {
 
 app.post("/updatePat/:reg", async (req, res) => {
     const det = req.body;
+
+    cl(det);
 
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
@@ -432,6 +434,7 @@ app.post("/updatePat/:reg", async (req, res) => {
     }
 
     res.redirect(`/patientDet/${req.params.reg}/${last_visit}`);
+    // res.redirect("/home")
 })
 
 app.post("/register", async (req, res) => {

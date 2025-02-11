@@ -26,7 +26,9 @@ CREATE TABLE details (
     octr text NULL,
     octl text NULL,
     advice text[] NULL,
-    fllwp text NULL
+    fllwp text NULL,
+    quen1 text null,
+    quen2 text null
 );
 
 -- PATIENTS LOG TABLE
