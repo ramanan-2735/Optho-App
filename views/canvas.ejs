@@ -6,21 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drawing Board</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .canvas-container {
+            max-width: 100%;
+            overflow: auto;
+        }
+    </style>
 </head>
 
 <body class="min-h-screen bg-blue-300">
     <div class="p-4 lg:p-6">
         <div class="bg-white/50 backdrop-blur-xl p-4 rounded-lg">
-
             <h1 class="text-2xl font-bold text-gray-800 mb-4">Drawing Board</h1>
-
 
             <div class="flex flex-col lg:flex-row gap-4">
                 <!-- Controls Panel -->
-                <div class="lg:w-64  space-y-4 h-full">
+                <div class="lg:w-64 space-y-4 h-full">
                     <div class="bg-white rounded-lg shadow p-4 space-y-4">
                         <div class="space-y-2">
-                            <label class="block text-sm font-semibold  text-gray-700">Color</label>
+                            <label class="block text-sm font-semibold text-gray-700">Color</label>
                             <input type="color" id="color-picker" value="#000000"
                                 class="w-full h-10 rounded-md border border-gray-300 cursor-pointer" />
                         </div>
@@ -30,6 +34,7 @@
                                 Brush Size:
                             </label>
                             <input type="range" id="brush-size" min="1" max="50" value="1" class="w-full h-10" />
+                            <span id="brush-size-display" class="text-sm text-gray-600">1px</span>
                         </div>
 
                         <div class="space-y-2">
@@ -62,10 +67,9 @@
                 </div>
 
                 <!-- Canvas Container -->
-                <div class="flex-1 bg-white rounded-lg shadow p-4">
+                <div class="flex-1 bg-white rounded-lg shadow p-4 canvas-container">
                     <div class="w-full h-full relative">
-                        <canvas id="whiteboard" width="800" height="400"
-                            class="w-full h-full border border-gray-200 rounded-lg bg-white"></canvas>
+                        <canvas id="whiteboard" class="w-full h-full border border-gray-200 rounded-lg bg-white"></canvas>
                     </div>
                 </div>
             </div>
@@ -99,6 +103,7 @@
             };
         }
 
+        // Drawing Logic
         canvas.addEventListener("mousedown", (e) => {
             drawing = true;
             const rect = canvas.getBoundingClientRect();
@@ -108,7 +113,6 @@
             context.beginPath();
             context.moveTo(x, y);
         });
-
 
         canvas.addEventListener("mouseup", () => {
             if (drawing) {
@@ -121,9 +125,9 @@
         canvas.addEventListener("mousemove", (e) => {
             if (!drawing) return;
 
-            const rect = canvas.getBoundingClientRect(); // Get the canvas's position and size
-            const x = (e.clientX - rect.left) * (canvas.width / rect.width); // Adjust x based on canvas scaling
-            const y = (e.clientY - rect.top) * (canvas.height / rect.height); // Adjust y based on canvas scaling
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+            const y = (e.clientY - rect.top) * (canvas.height / rect.height);
 
             context.lineCap = "round";
             context.lineTo(x, y);
@@ -132,7 +136,7 @@
             context.moveTo(x, y);
         });
 
-
+        // Undo Button
         const undoButton = document.getElementById("undo-btn");
         undoButton.addEventListener("click", () => {
             if (currentStep > 0) {
@@ -141,6 +145,7 @@
             }
         });
 
+        // Clear Button
         const clearButton = document.getElementById("clear-btn");
         clearButton.addEventListener("click", () => {
             context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
@@ -148,28 +153,25 @@
             currentStep = -1; // Reset the current step
         });
 
+        // Color Picker
         const colorPicker = document.getElementById("color-picker");
         colorPicker.addEventListener("input", (e) => {
             context.strokeStyle = e.target.value;
         });
 
+        // Brush Size Slider
         const brushSizeInput = document.getElementById("brush-size");
-        const brushSizeDisplay = document.createElement("span"); // Create a live preview
-        brushSizeDisplay.style.display = "inline-block";
-        brushSizeDisplay.style.marginLeft = "10px";
-        brushSizeInput.parentNode.appendChild(brushSizeDisplay); // Add the preview next to the slider
-
-        // Update brush size dynamically
+        const brushSizeDisplay = document.getElementById("brush-size-display");
         brushSizeInput.addEventListener("input", (e) => {
-            const brushSize = e.target.value; // Value is already constrained by min/max in HTML
-            context.lineWidth = brushSize; // Update canvas brush size
-            brushSizeDisplay.textContent = `${brushSize}px`; // Show the current brush size
+            const brushSize = e.target.value;
+            context.lineWidth = brushSize;
+            brushSizeDisplay.textContent = `${brushSize}px`;
         });
 
-        // Initialize the brush size display
+        // Initialize brush size display
         brushSizeDisplay.textContent = `${brushSizeInput.value}px`;
 
-
+        // Image Upload
         const uploadImageInput = document.getElementById("upload-image");
         uploadImageInput.addEventListener("change", (e) => {
             const file = e.target.files[0];
@@ -179,27 +181,34 @@
                     const img = new Image();
                     img.src = event.target.result;
                     img.onload = () => {
-                        context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-                        context.drawImage(img, 0, 0, canvas.width, canvas.height); // Draw the image on the canvas
-                        saveState(); // Save the canvas state after adding the image
+                        // Set canvas dimensions to match the image
+                        canvas.width = img.naturalWidth;
+                        canvas.height = img.naturalHeight;
+
+                        // Clear the canvas and draw the image at its original size
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        context.drawImage(img, 0, 0);
+
+                        // Save the canvas state after adding the image
+                        saveState();
                     };
                 };
                 reader.readAsDataURL(file);
             }
         });
 
+        // Download Button
         const downloadButton = document.getElementById("download-btn");
         downloadButton.addEventListener("click", () => {
             const link = document.createElement("a");
-            link.download = "canvas-drawing.png"; // Set the default file name
-            link.href = canvas.toDataURL("image/png"); // Get the canvas content as a PNG
-            link.click(); // Trigger the download
+            link.download = "canvas-drawing.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
         });
 
         // Initialize the canvas by saving the first state
         saveState();
     </script>
 </body>
-
 
 </html>

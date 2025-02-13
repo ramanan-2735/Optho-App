@@ -165,7 +165,7 @@ app.get('/export-to-excel/:id', async (req, res) => {
 
 });
 
-app.get("/canvas/:reg/:visit", (req, res) => {
+app.get("/canvas", (req, res) => {
     res.render("canvas.ejs");
 })
 
