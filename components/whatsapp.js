@@ -11,12 +11,14 @@ export let qrCodeUrl = ''; // Variable to hold the latest QR code URL
 
 // Create a new WhatsApp client with local authentication (stores session for reuse)
 const client = new Client({
-    authStrategy: new LocalAuth(),
+    authStrategy: new LocalAuth({ dataPath: './public/whatsapp-session' }), // Store session in /tmp
     puppeteer: {
         headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'], // Ensure Puppeteer runs safely in all environments
+        // executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
     },
 });
+
 
 // Event when the QR code is generated
 client.on('qr', async (qr) => {
