@@ -1,2 +1,3 @@
-2025/02/13-18:53:45.544 1e18 Creating DB /home/racistram/Desktop/Optho-App/public/whatsapp-session/session/Default/Session Storage since it was missing.
-2025/02/13-18:53:45.714 1e18 Reusing MANIFEST /home/racistram/Desktop/Optho-App/public/whatsapp-session/session/Default/Session Storage/MANIFEST-000001
+2025/02/14-10:19:11.402 3428 Reusing MANIFEST D:\Ramanan\Optho-App\public\whatsapp-session\session\Default\Session Storage/MANIFEST-000001
+2025/02/14-10:19:11.402 3428 Recovering log #3
+2025/02/14-10:19:11.402 3428 Reusing old log D:\Ramanan\Optho-App\public\whatsapp-session\session\Default\Session Storage/000003.log 

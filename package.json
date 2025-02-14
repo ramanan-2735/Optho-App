@@ -10,7 +10,6 @@
   "author": "Ram",
   "license": "ISC",
   "dependencies": {
-    "@tailwindcss/cli": "^4.0.1",
     "@whiskeysockets/baileys": "^6.7.9",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",

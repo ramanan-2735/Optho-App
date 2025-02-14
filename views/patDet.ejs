@@ -831,6 +831,9 @@
     });
   </script>
     <script>
+    const brl = window.location.origin;
+    console.log(brl);
+    
         document.addEventListener('DOMContentLoaded', () => {
     const openModalButton = document.getElementById('openModal');
     const closeModalButton = document.getElementById('closeModal');
@@ -871,7 +874,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
             formData.append('image', file);
 
             try {
-    const response = await fetch(`http://localhost:3000/upload/<%= det.reg %>`, {
+    const response = await fetch(`${brl}/upload/<%= det.reg %>`, {
         method: 'POST',
         body: formData
     });
@@ -894,7 +897,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
 
 async function loadImages(reg) {
     try {
-        const response = await fetch(`http://localhost:3000/images?reg=${reg}`); // Pass reg as a query param
+        const response = await fetch(`${brl}/images?reg=${reg}`); // Pass reg as a query param
         const images = await response.json();
 
         const imageList = document.getElementById('imageList');
@@ -905,7 +908,7 @@ async function loadImages(reg) {
             listItem.classList.add('w-full', 'mb-2'); 
 
             const imgElement = document.createElement('img');
-            imgElement.src = `http://localhost:3000/image/${image.id}`;
+            imgElement.src = `${brl}/image/${image.id}`;
             imgElement.alt = image.filename;
             imgElement.classList.add('w-full', 'h-auto', 'rounded-md', 'cursor-pointer', 'pt-2', 'pb-2');
 
@@ -918,7 +921,7 @@ async function loadImages(reg) {
             deleteButton.classList.add('bg-red-500', 'text-white', 'px-2', 'py-1', 'rounded-md', 'mt-2');
             deleteButton.addEventListener('click', async () => {
                 try {
-                    await fetch(`http://localhost:3000/image/${image.id}`, {
+                    await fetch(`${brl}/image/${image.id}`, {
                         method: 'DELETE'
                     });
                     alert('Image deleted');

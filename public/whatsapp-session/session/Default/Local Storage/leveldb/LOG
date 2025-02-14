@@ -1,2 +1,3 @@
-2025/02/13-18:53:40.579 1e22 Creating DB /home/racistram/Desktop/Optho-App/public/whatsapp-session/session/Default/Local Storage/leveldb since it was missing.
-2025/02/13-18:53:41.114 1e22 Reusing MANIFEST /home/racistram/Desktop/Optho-App/public/whatsapp-session/session/Default/Local Storage/leveldb/MANIFEST-000001
+2025/02/14-10:19:10.984 31ac Reusing MANIFEST D:\Ramanan\Optho-App\public\whatsapp-session\session\Default\Local Storage\leveldb/MANIFEST-000001
+2025/02/14-10:19:10.984 31ac Recovering log #3
+2025/02/14-10:19:10.984 31ac Reusing old log D:\Ramanan\Optho-App\public\whatsapp-session\session\Default\Local Storage\leveldb/000003.log 

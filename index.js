@@ -2,6 +2,8 @@ import express from 'express';
 import bodyParser from "body-parser"
 import exp from 'constants';
 import pg from 'pg';
+// import pkg from 'pg';
+// const { Pool } = pkg 
 import bcrypt from "bcrypt";
 import session from 'express-session';
 import passport from 'passport';
@@ -57,13 +59,20 @@ app.use(express.static(path.join(__dirname, 'uploads'))); // Serve uploaded file
 app.use(express.json());
 app.use(bodyParser.json());
 
-const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "optho",
-    password: "123456",
-    port: 5432
-});
+// const db = new pg.Pool({
+//     user: "postgres",
+//     host: "localhost",
+//     database: "optho",
+//     password: "123456",
+//     port: 5432
+// });
+
+const connectionString = process.env.DB_URL || 'postgres://postgres:123456@localhost:5432/optho'
+
+const db = new pg.Pool({
+    connectionString: connectionString,
+    // ssl:{rejectUnauthorized: false}
+  });
 
 db.connect();
 initializeClient();
@@ -86,6 +95,8 @@ app.get('/', (req, res) => {
 app.get('/home', async (req, res) => {
     // if (req.isAuthenticated()) {
     name = await pats();
+    const currentUrl = req.get("host");
+    cl(currentUrl);
     searchPat(name);
     res.render("index.ejs", { name: name.rows });
     // } else {
@@ -685,8 +696,8 @@ passport.use("local", new Strategy(async function verify(username, password, cb)
 
 passport.use("google",
     new GoogleStrategy({
-        clientID: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
+        clientID: "Ansh",
+        clientSecret: "Ansh",
         callbackURL: "http://localhost:3000/auth/google/home",
         userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     }, async (accessToken, refreshToken, profile, cb) => {

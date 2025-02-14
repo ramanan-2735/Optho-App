@@ -11,7 +11,7 @@ export let qrCodeUrl = ''; // Variable to hold the latest QR code URL
 
 // Create a new WhatsApp client with local authentication (stores session for reuse)
 const client = new Client({
-    authStrategy: new LocalAuth({ dataPath: './public/whatsapp-session' }), // Store session in /tmp
+    authStrategy: new LocalAuth(), // Store session in /tmp
     puppeteer: {
         headless: true,
         // executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
