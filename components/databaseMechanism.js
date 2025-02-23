@@ -1,81 +1,33 @@
-import pkg from 'whatsapp-web.js';
-import qrcode from 'qrcode-terminal';
-import QRCode from 'qrcode';
-import { EventEmitter } from 'events';
-import fs from 'fs/promises';
+import pg from 'pg';
 
-const { Client, LocalAuth, MessageMedia } = pkg;
-
-export const qrCodeEmitter = new EventEmitter(); // Event emitter for QR codes
-export let qrCodeUrl = ''; // Variable to hold the latest QR code URL
-
-// Create a new WhatsApp client with local authentication (stores session for reuse)
-const client = new Client({
-    authStrategy: new LocalAuth(), // Store session in /tmp
-    puppeteer: {
-        headless: true,
-        // executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    },
+const db = new pg.Client({
+    user: "postgres",
+    host: "localhost",
+    database: "optho",
+    password: "root123",
+    port: 5432
 });
 
+db.connect();
 
-// Event when the QR code is generated
-client.on('qr', async (qr) => {
-    qrcode.generate(qr, { small: true });
-    console.log('Scan the QR code above to log in.');
-
-    qrCodeUrl = await QRCode.toDataURL(qr); // Convert QR code to a data URL
-    // console.log(qrCodeUrl);
-
-    qrCodeEmitter.emit('qrCodeGenerated', qrCodeUrl); // Emit QR code URL
-});
-
-// Event when the client is ready
-client.on('ready', () => {
-    console.log('Client is ready!');
-});
-
-// Handle authentication failure or session timeout
-client.on('auth_failure', (message) => {
-    console.error('Authentication failed:', message);
-    console.log('Please scan the QR code again to log in.');
-});
-
-// Catch disconnection errors
-client.on('disconnected', (reason) => {
-    console.error('Client disconnected:', reason);
-    console.log('Reinitializing the client...');
-    client.initialize(); // Reinitialize the client upon disconnection
-});
-
-// Function to send a message
-export const sendMessage = async (phoneNumber, message = "Your Report", pdfPath = null) => {
-
+export function createLog(visit, reg, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, ddr, drl ,mer, mel, octr, octl, advice, fllwp){
     try {
-        const chatId = `${phoneNumber}@c.us`; // WhatsApp contact ID format
+        db.query("INSERT INTO PatientLog(visit, reg,dtype,ddur,insulin,oha,HBA1c,treatment,bcvar,bcval,iopr,iopl,drr,drl,mer,mel,octr,octl,advice,fllwp,notes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)",[visit, reg, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, ddr, drl ,mer, mel, octr, octl, advice, fllwp, "No notes"])
+        
 
-        if (pdfPath) {
-            // If a PDF file is provided, send it as a media message
-            const pdfBuffer = await fs.readFile(pdfPath);
-            const media = new MessageMedia('application/pdf', pdfBuffer.toString('base64'), 'DM-Screening-Form.pdf');
-            await client.sendMessage(chatId, media, { caption: message });
-            console.log(`PDF sent to ${phoneNumber} with caption: ${message}`);
-        } else {
-            // Send a plain text message if no PDF is provided
-            await client.sendMessage(chatId, message);
-            console.log(`Message sent to ${phoneNumber}: ${message}`);
-        }
     } catch (error) {
-        console.error(`Error sending message to ${phoneNumber}:`, error);
+        console.log("createLog function: "+error.message);
     }
-};
+}
 
-// Initialize the WhatsApp client
-export const initializeClient = () => {
+//loading log
+export async function loadLog(reg) {
     try {
-        client.initialize(); // Initialize the client safely
+        // console.log(reg);
+        const result = await db.query("SELECT * FROM patientLog WHERE reg = $1 ORDER BY created_at DESC", [reg]); // Await the database query
+        return result.rows; // Assuming `rows` contains the query results
     } catch (error) {
-        console.error('Error initializing the client:', error);
+        console.error("LoadLog Function Error:", error.message);
+        throw error; // Re-throw the error to be handled by the caller
     }
-};
+}
