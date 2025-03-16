@@ -1,214 +1,397 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drawing Board</title>
+    <title>Canvas Drawing App</title>
+    <link rel="icon" type="image/x-icon" href="/assests/favi.ico">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
-        .canvas-container {
+        .upload-area {
+            border: 2px dashed #e5e7eb;
+            background: #f9fafb;
+            transition: all 0.2s ease;
+        }
+        .upload-area.dragover {
+            border-color: #60a5fa;
+            background: #eff6ff;
+        }
+        canvas {
             max-width: 100%;
-            overflow: auto;
+            max-height: 80vh;
+            display: block;
+            touch-action: none;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
         }
     </style>
 </head>
+<body class="min-h-screen bg-white">
+    <div class="max-w-6xl mx-auto p-6">
+        <h1 class="text-2xl font-semibold mb-4">Drawing Canvas</h1>
 
-<body class="min-h-screen bg-blue-300">
-    <div class="p-4 lg:p-6">
-        <div class="bg-white/50 backdrop-blur-xl p-4 rounded-lg">
-            <h1 class="text-2xl font-bold text-gray-800 mb-4">Drawing Board</h1>
+        <!-- Upload Section -->
+        <div id="upload-container" class="upload-area rounded-lg min-h-[300px] flex flex-col items-center justify-center cursor-pointer">
+            <div class="text-center p-6">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+                <p class="mt-2 text-sm text-gray-600">Click or drag image to upload</p>
+                <p class="mt-1 text-xs text-gray-500">Supports: JPG, PNG, GIF</p>
+            </div>
+        </div>
 
-            <div class="flex flex-col lg:flex-row gap-4">
-                <!-- Controls Panel -->
-                <div class="lg:w-64 space-y-4 h-full">
-                    <div class="bg-white rounded-lg shadow p-4 space-y-4">
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700">Color</label>
-                            <input type="color" id="color-picker" value="#000000"
-                                class="w-full h-10 rounded-md border border-gray-300 cursor-pointer" />
-                        </div>
-
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700" for="brush-size">
-                                Brush Size:
-                            </label>
-                            <input type="range" id="brush-size" min="1" max="50" value="1" class="w-full h-10" />
-                            <span id="brush-size-display" class="text-sm text-gray-600">1px</span>
-                        </div>
-
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700" for="upload-image">
-                                Upload Image
-                            </label>
-                            <input type="file" id="upload-image" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-                                file:rounded-md file:border-0 file:text-sm file:font-semibold
-                                file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
-                        </div>
-
-                        <div class="space-y-2">
-                            <label class="block text-sm font-semibold text-gray-700">Actions</label>
-                            <div class="flex flex-col gap-2">
-                                <button id="undo-btn"
-                                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200">
-                                    Undo
-                                </button>
-                                <button id="clear-btn"
-                                    class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200">
-                                    Clear
-                                </button>
-                                <button id="download-btn"
-                                    class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200">
-                                    Download
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Canvas Section -->
+        <div id="canvas-container" class="hidden">
+            <!-- Toolbar -->
+            <div class="mb-4 p-2 bg-gray-50 rounded-lg border border-gray-200 flex items-center gap-4 flex-wrap">
+                <button id="pencil-btn" class="p-2 rounded-md hover:bg-gray-100" title="Pencil Tool">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button id="erase-btn" class="p-2 rounded-md hover:bg-gray-100" title="Eraser Tool">
+                    <i class="fas fa-eraser"></i>
+                </button>
+                
+                <div class="flex items-center gap-2">
+                    <label class="text-sm font-medium text-gray-700">Color:</label>
+                    <input type="color" id="color-picker" value="#000000" 
+                           class="w-8 h-8 rounded-md border border-gray-300 cursor-pointer" />
                 </div>
 
-                <!-- Canvas Container -->
-                <div class="flex-1 bg-white rounded-lg shadow p-4 canvas-container">
-                    <div class="w-full h-full relative">
-                        <canvas id="whiteboard" class="w-full h-full border border-gray-200 rounded-lg bg-white"></canvas>
-                    </div>
+                <div class="flex items-center gap-2">
+                    <label class="text-sm font-medium text-gray-700">Size:</label>
+                    <input type="range" id="brush-size" min="1" max="50" value="5" 
+                           class="w-24" title="Brush Size"/>
+                    <span id="brush-size-display" class="text-sm text-gray-600">5px</span>
                 </div>
+
+                <button id="undo-btn" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
+                    <i class="fas fa-undo mr-2"></i> Undo
+                </button>
+
+                <button id="redo-btn" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700">
+                    <i class="fas fa-redo mr-2"></i> Redo
+                </button>
+
+                <button id="clear-btn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                    Clear
+                </button>
+
+                <button id="refresh-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    <i class="fas fa-sync-alt mr-2"></i> Refresh
+                </button>
+
+                <button id="download-btn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 ml-auto">
+                    <i class="fas fa-download mr-2"></i> Download
+                </button>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="relative">
+                <canvas id="canvas"></canvas>
             </div>
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById("whiteboard");
-        const context = canvas.getContext("2d");
+        const uploadContainer = document.getElementById('upload-container');
+        const canvasContainer = document.getElementById('canvas-container');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
 
-        let drawing = false;
-        const history = []; // Stack to store canvas states
-        let currentStep = -1;
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let uploadedImage = null;
+        let isErasing = false;
 
-        // Save the current canvas state to the history stack
-        function saveState() {
-            if (currentStep < history.length - 1) {
-                history.splice(currentStep + 1); // Remove states ahead of the current step
-            }
-            history.push(canvas.toDataURL()); // Save the current canvas as an image URL
-            currentStep = history.length - 1; // Update the current step index
+        // Undo/Redo functionality
+        let undoStack = [];
+        let redoStack = [];
+
+        // Configure the drawing context for smooth strokes
+        ctx.lineCap = 'round'; // Rounded line ends
+        ctx.lineJoin = 'round'; // Rounded line corners
+        ctx.strokeStyle = '#000000'; // Default brush color
+        ctx.lineWidth = 5; // Default brush size
+
+        // ========================
+        // File Handling
+        // ========================
+        // Prevent default drag-and-drop behavior
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
         }
 
-        // Restore the canvas to a specific state from the history stack
-        function restoreState(step) {
-            const canvasImage = new Image();
-            canvasImage.src = history[step];
-            canvasImage.onload = () => {
-                context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-                context.drawImage(canvasImage, 0, 0); // Draw the saved state
+        // Highlight the upload area when dragging over
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, highlight, false);
+        });
+
+        // Unhighlight the upload area when dragging leaves
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadContainer.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            uploadContainer.classList.add('dragover');
+        }
+
+        function unhighlight() {
+            uploadContainer.classList.remove('dragover');
+        }
+
+        // Handle file drop
+        uploadContainer.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        // Handle click to upload
+        uploadContainer.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                handleFile(file);
             };
-        }
-
-        // Drawing Logic
-        canvas.addEventListener("mousedown", (e) => {
-            drawing = true;
-            const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX - rect.left) * (canvas.width / rect.width);
-            const y = (e.clientY - rect.top) * (canvas.height / rect.height);
-
-            context.beginPath();
-            context.moveTo(x, y);
+            input.click();
         });
 
-        canvas.addEventListener("mouseup", () => {
-            if (drawing) {
-                saveState(); // Save the state when the user finishes drawing
-            }
-            drawing = false;
-            context.closePath();
-        });
-
-        canvas.addEventListener("mousemove", (e) => {
-            if (!drawing) return;
-
-            const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX - rect.left) * (canvas.width / rect.width);
-            const y = (e.clientY - rect.top) * (canvas.height / rect.height);
-
-            context.lineCap = "round";
-            context.lineTo(x, y);
-            context.stroke();
-            context.beginPath();
-            context.moveTo(x, y);
-        });
-
-        // Undo Button
-        const undoButton = document.getElementById("undo-btn");
-        undoButton.addEventListener("click", () => {
-            if (currentStep > 0) {
-                currentStep--;
-                restoreState(currentStep); // Restore the previous state
-            }
-        });
-
-        // Clear Button
-        const clearButton = document.getElementById("clear-btn");
-        clearButton.addEventListener("click", () => {
-            context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-            history.length = 0; // Reset the history stack
-            currentStep = -1; // Reset the current step
-        });
-
-        // Color Picker
-        const colorPicker = document.getElementById("color-picker");
-        colorPicker.addEventListener("input", (e) => {
-            context.strokeStyle = e.target.value;
-        });
-
-        // Brush Size Slider
-        const brushSizeInput = document.getElementById("brush-size");
-        const brushSizeDisplay = document.getElementById("brush-size-display");
-        brushSizeInput.addEventListener("input", (e) => {
-            const brushSize = e.target.value;
-            context.lineWidth = brushSize;
-            brushSizeDisplay.textContent = `${brushSize}px`;
-        });
-
-        // Initialize brush size display
-        brushSizeDisplay.textContent = `${brushSizeInput.value}px`;
-
-        // Image Upload
-        const uploadImageInput = document.getElementById("upload-image");
-        uploadImageInput.addEventListener("change", (e) => {
-            const file = e.target.files[0];
-            if (file) {
+        // Handle file upload
+        function handleFile(file) {
+            if (file && file.type.startsWith('image/')) {
                 const reader = new FileReader();
-                reader.onload = (event) => {
+                reader.onload = (e) => {
                     const img = new Image();
-                    img.src = event.target.result;
                     img.onload = () => {
                         // Set canvas dimensions to match the image
                         canvas.width = img.naturalWidth;
                         canvas.height = img.naturalHeight;
 
-                        // Clear the canvas and draw the image at its original size
-                        context.clearRect(0, 0, canvas.width, canvas.height);
-                        context.drawImage(img, 0, 0);
+                        // Draw the image on the canvas
+                        ctx.drawImage(img, 0, 0);
+                        uploadedImage = img;
 
-                        // Save the canvas state after adding the image
+                        // Show canvas and controls, hide upload area
+                        canvasContainer.classList.remove('hidden');
+                        uploadContainer.classList.add('hidden');
+
+                        // Save the initial state for undo/redo
                         saveState();
                     };
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
+            } else {
+                alert('Please upload a valid image file (JPG, PNG, GIF).');
+            }
+        }
+
+        // ========================
+        // Drawing Logic
+        // ========================
+        // Get the position of the mouse or touch relative to the canvas
+        function getPosition(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width; // Scale for canvas width
+            const scaleY = canvas.height / rect.height; // Scale for canvas height
+
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            return {
+                x: (clientX - rect.left) * scaleX, // Adjust for canvas scaling
+                y: (clientY - rect.top) * scaleY, // Adjust for canvas scaling
+            };
+        }
+
+        // Start drawing
+        function startDrawing(e) {
+            isDrawing = true;
+            const { x, y } = getPosition(e);
+            [lastX, lastY] = [x, y];
+        }
+
+        // Draw on the canvas
+        function draw(e) {
+    if (!isDrawing) return;
+
+    const { x, y } = getPosition(e);
+
+    // Use a single path for the entire stroke
+    ctx.beginPath();
+    
+    // Create a smooth line from last point to current point
+    ctx.moveTo(lastX, lastY);
+    
+    // Creating a control point for the quadratic curve
+    const controlX = (lastX + x) / 2;
+    const controlY = (lastY + y) / 2;
+    
+    // Draw a smooth curve
+    ctx.quadraticCurveTo(controlX, controlY, x, y);
+    
+    // Apply the stroke
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+    
+    // Update the last position
+    [lastX, lastY] = [x, y];
+}
+
+// Add these lines right after getting the canvas context (ctx)
+ctx.lineCap = 'round';
+ctx.lineJoin = 'round';
+ctx.imageSmoothingEnabled = true;
+ctx.imageSmoothingQuality = 'high';
+
+// Modify the startDrawing function to ensure proper line start
+function startDrawing(e) {
+    isDrawing = true;
+    const { x, y } = getPosition(e);
+    lastX = x;
+    lastY = y;
+    
+    // Draw a single point at the start
+    ctx.beginPath();
+    ctx.arc(lastX, lastY, ctx.lineWidth / 2, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+        // Stop drawing
+        function stopDrawing() {
+            if (isDrawing) {
+                isDrawing = false;
+                saveState(); // Save the state after drawing
+            }
+        }
+
+        // Save the current canvas state for undo/redo
+        function saveState() {
+            undoStack.push(canvas.toDataURL());
+            redoStack = []; // Clear redo stack
+        }
+
+        // Undo the last action
+        function undo() {
+            if (undoStack.length > 1) {
+                redoStack.push(undoStack.pop()); // Move current state to redo stack
+                const img = new Image();
+                img.onload = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                };
+                img.src = undoStack[undoStack.length - 1];
+            }
+        }
+
+        // Redo the last undone action
+        function redo() {
+            if (redoStack.length > 0) {
+                const img = new Image();
+                img.onload = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0);
+                    undoStack.push(redoStack.pop()); // Move redo state back to undo stack
+                };
+                img.src = redoStack[redoStack.length - 1];
+            }
+        }
+
+        // ========================
+        // Tool Controls
+        // ========================
+        // Pencil Tool
+        const pencilBtn = document.getElementById('pencil-btn');
+        pencilBtn.addEventListener('click', () => {
+            isErasing = false;
+            ctx.globalCompositeOperation = 'source-over'; // Default drawing mode
+            ctx.strokeStyle = colorPicker.value;
+        });
+
+        // Eraser Tool
+        const eraseBtn = document.getElementById('erase-btn');
+        eraseBtn.addEventListener('click', () => {
+            isErasing = true;
+            ctx.globalCompositeOperation = 'destination-out'; // Erase mode
+            ctx.strokeStyle = 'rgba(0, 0, 0, 1)'; // Eraser color
+        });
+
+        // Color Picker
+        const colorPicker = document.getElementById('color-picker');
+        colorPicker.addEventListener('input', (e) => {
+            if (!isErasing) {
+                ctx.strokeStyle = e.target.value;
             }
         });
 
+        // Brush Size
+        const brushSizeInput = document.getElementById('brush-size');
+        const brushSizeDisplay = document.getElementById('brush-size-display');
+        brushSizeInput.addEventListener('input', (e) => {
+            ctx.lineWidth = e.target.value;
+            brushSizeDisplay.textContent = `${e.target.value}px`;
+        });
+
+        // Undo Button
+        const undoButton = document.getElementById('undo-btn');
+        undoButton.addEventListener('click', undo);
+
+        // Redo Button
+        const redoButton = document.getElementById('redo-btn');
+        redoButton.addEventListener('click', redo);
+
+        // Clear Button
+        const clearButton = document.getElementById('clear-btn');
+        clearButton.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (uploadedImage) {
+                ctx.drawImage(uploadedImage, 0, 0);
+            }
+            saveState(); // Save the cleared state
+        });
+
+        // Refresh Button
+        const refreshButton = document.getElementById('refresh-btn');
+        refreshButton.addEventListener('click', () => {
+            location.reload(); // Refresh the page
+        });
+
         // Download Button
-        const downloadButton = document.getElementById("download-btn");
-        downloadButton.addEventListener("click", () => {
-            const link = document.createElement("a");
-            link.download = "canvas-drawing.png";
-            link.href = canvas.toDataURL("image/png");
+        const downloadButton = document.getElementById('download-btn');
+        downloadButton.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'canvas-drawing.png';
+            link.href = canvas.toDataURL('image/png');
             link.click();
         });
 
-        // Initialize the canvas by saving the first state
-        saveState();
+        // Mouse Events
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // Touch Events
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDrawing);
     </script>
 </body>
-
 </html>

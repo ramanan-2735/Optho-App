@@ -134,7 +134,7 @@ app.get("/addPat", (req, res) => {
         return regNumber;
     }
     const reg = generateRegNumber();
-    console.log(reg);
+    // console.log(reg);
     res.render('addPat.ejs', { reg });
 });
 
@@ -364,20 +364,22 @@ app.post("/addPat", async (req, res) => {
 
     console.log("Formatted Treatments:", formattedTreatments); 
 
-    try {
-        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp, quen1, quen2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24,$25,$26)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp,det.quen1,det.quen2]);
+    // try {
+    //     await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp, quen1, quen2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24,$25,$26)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp,det.quen1,det.quen2]);
 
-        try {
-            await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
-        } catch (e) {
-            console.log(e.message);
-            res.redirect("/addPat")
-        }
-    } catch (e) {
-        console.log(e);
-        res.redirect("/addPat")
-    }
-    res.redirect("/home")
+    //     try {
+    //         await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
+    //     } catch (e) {
+    //         console.log(e.message);
+    //         res.redirect("/addPat")
+    //     }
+    // } catch (e) {
+    //     console.log(e);
+    //     res.redirect("/addPat")
+    // }
+    // res.redirect("/home")
+    res.redirect("/addPat")
+    
 });
 
 app.get("/deletePat/:id",async (req, res) => {
@@ -621,20 +623,20 @@ app.post('/generate-pdf', async (req, res) => {
         page.drawText(`${noOfOHA || ''}`, { x: 410, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
         page.drawText(`${hba1c || ''}`, { x: 505, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${bcvar || 'g'}`, { x: 385, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${bcval || 'g'}`, { x: 285, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${bcvar || 'Nil'}`, { x: 385, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${bcval || 'Nil'}`, { x: 285, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${iopr || 'g'}`, { x: 385, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${iopl || 'g'}`, { x: 285, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${iopr || 'Nil'}`, { x: 385, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${iopl || 'Nil'}`, { x: 285, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${drr || 'g'}`, { x: 250, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${drl || 'g'}`, { x: 250, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${drr || 'Nil'}`, { x: 250, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${drl || 'Nil'}`, { x: 250, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${mer || 'g'}`, { x: 385, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${mel || 'g'}`, { x: 385, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${mer || 'Nil'}`, { x: 385, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${mel || 'Nil'}`, { x: 385, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${octr || 'g'}`, { x: 495, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${octl || 'g'}`, { x: 495, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${octr || 'Nil'}`, { x: 495, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
+        page.drawText(`${octl || 'Nil'}`, { x: 495, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
 
         page.drawText(treatmentAdvice || '', { x: 235, y: 180, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
         page.drawText(followUp || '', { x: 55, y: 95, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });

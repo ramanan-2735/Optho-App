@@ -1,107 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registration Page</title>
-  <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet" /> -->
-  <link rel="stylesheet" href="/styles/tailstyle.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="/styles/tailstyle.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 <body class="bg-gray-100 overflow-hidden">
-  <!-- Navbar -->
-  <nav class="bg-blue-600">
-    <div class="container mx-auto flex items-center justify-between px-4 py-3">
-      <!-- App Name -->
-      <div class="text-xl font-bold text-white">
-        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-        Optho-App
-      </div>
-      <!-- Logo -->
-      <div>
-        <img 
-          src="assests/Indian_Railway_Logo_1.png" 
-          alt="Logo" 
-          class="w-12"
-        />
-      </div>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <div class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
-    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-     
-      <div class="flex items-center justify-center">
-        <div class="flex items-center justify-center">
-          <h1 class="text-xl font-bold">Register</h1>
+    <nav class="bg-blue-600">
+        <div class="container mx-auto flex items-center justify-between px-4 py-3">
+            <div class="text-xl font-bold text-white">
+                <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+                Optho-App
+            </div>
+            <div>
+                <img src="assests/Indian_Railway_Logo_1.png" alt="Logo" class="w-12" />
+            </div>
         </div>
-      </div>
+    </nav>
 
-      <!-- Form -->
-      <form  action="/register" method="post" class="space-y-4">
-        <!-- Email Field -->
-        <div class="relative">
-          <input 
-            id="email" 
-            type="email" 
-            name="username"
-            class="w-full px-9 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" 
-            placeholder="Enter your email" 
-            required
-          />
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <img 
-              src="/assests/mail-icon.png" 
-              alt="Email Icon" 
-              class="w-5 h-5"
-            />
-          </div>
-        </div>
+    <div class="flex items-center justify-center min-h-screen px-4 bg-gray-100">
+        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+            <div class="flex items-center justify-center">
+                <div class="flex items-center justify-center">
+                    <h1 class="text-xl font-bold">Register</h1>
+                </div>
+            </div>
 
-        <!-- Password Field -->
-        <div class="relative">
-          <input 
-            id="password" 
-            type="password" 
-            name="password"
-            class="w-full px-9 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500" 
-            placeholder="Enter your password" 
-            required
-          />
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg class="w-5 h-5"  style="enable-background:new 0 0 1262 1710.258;" version="1.1" viewBox="0 0 1262 1710.258" width="1262px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="lock"><g><path d="M1196.495,713.258H1090V459.592c0-253.285-205.802-459.35-459.001-459.35C377.799,0.242,172,206.442,172,459.892v253.366    H66.686C30.195,713.258,0,742.241,0,778.731v766.42c0,91.079,74.712,165.106,165.792,165.106h931.597    c91.08,0,164.611-74.027,164.611-165.106v-766.42C1262,742.241,1232.985,713.258,1196.495,713.258z M304,459.892    c0-180.588,146.664-327.508,326.999-327.508C811.335,132.384,958,279.168,958,459.592v253.666H304V459.892z M1130,1545.151    c0,18.218-14.395,33.106-32.611,33.106H165.792c-18.216,0-33.792-14.889-33.792-33.106V845.258h998V1545.151z"/><path d="M631,1409.707c36.491,0,66-29.58,66-66.071v-237.854c0-36.49-29.51-66.07-66-66.07c-36.49,0-66,29.58-66,66.07v237.854    C565,1380.127,594.509,1409.707,631,1409.707z"/></g></g><g id="Layer_1"/></svg>
-          </div>
-        </div>
+            <form action="/register" method="post" class="space-y-4">
+                <div class="relative">
+                    <input id="email" type="email" name="username"
+                        class="w-full px-9 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Enter your email" required />
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <img src="/assests/mail-icon.png" alt="Email Icon" class="w-5 h-5" />
+                    </div>
+                </div>
 
-        <!-- Register Button -->
-        <button 
-          type="submit" 
-          class="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
-          Register
+                <div class="relative">
+                    <input id="password" type="password" name="password"
+                        class="w-full px-9 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Enter your password" required />
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <?xml version="1.0" ?><!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg
+                            class="w-5 h-5" style="enable-background:new 0 0 1262 1710.258;" version="1.1"
+                            viewBox="0 0 1262 1710.258" width="1262px" xml:space="preserve"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="lock">
+                                <g>
+                                    <path
+                                        d="M1196.495,713.258H1090V459.592c0-253.285-205.802-459.35-459.001-459.35C377.799,0.242,172,206.442,172,459.892v253.366 
+                                    H66.686C30.195,713.258,0,742.241,0,778.731v766.42c0,91.079,74.712,165.106,165.792,165.106h931.597 
+                                    c91.08,0,164.611-74.027,164.611-165.106v-766.42C1262,742.241,1232.985,713.258,1196.495,713.258z M304,459.892 
+                                    c0-180.588,146.664-327.508,326.999-327.508C811.335,132.384,958,279.168,958,459.592v253.666H304V459.892z M1130,1545.151 
+                                    c0,18.218-14.395,33.106-32.611,33.106H165.792c-18.216,0-33.792-14.889-33.792-33.106V845.258h998V1545.151z" />
+                                    <path
+                                        d="M631,1409.707c36.491,0,66-29.58,66-66.071v-237.854c0-36.49-29.51-66.07-66-66.07c-36.49,0-66,29.58-66,66.07v237.854 
+                                    C565,1380.127,594.509,1409.707,631,1409.707z" />
+                                </g>
+                            </g>
+                            <g id="Layer_1" />
+                        </svg>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+                    Register
+                </button>
+            </form>
+
+            <div class="relative flex items-center justify-center">
+                <span class="absolute px-2 bg-white text-sm text-gray-500">OR</span>
+                <hr class="w-full border-gray-300">
+            </div>
+
+            <button type="button"
+                class="w-full px-4 py-2 text-black-700 bg-white rounded-md hover:bg-gray-200 flex items-center justify-center space-x-2 border" onclick="window.location.href='/auth/google'">
+                <?xml version="1.0" ?><!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN'
+                    'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg class="w-5 h-5"
+                    enable-background="new 0 0 128 128" id="Social_Icons" version="1.1" viewBox="0 0 128 128"
+                    xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="x31_stroke">
+                        <g id="Google">
+                            <rect clip-rule="evenodd" fill="none" fill-rule="evenodd" height="128" width="128"
+
+                            /><path clip-rule="evenodd"
+                            d="M27.585,64c0-4.157,0.69-8.143,1.923-11.881L7.938,35.648 
+                                C3.734,44.183,1.366,53.801,1.366,64c0,10.191,2.366,19.802,6.563,28.332l21.558-16.503C28.266,72.108,27.585,68.137,27.585,64"
+                            fill="#FBBC05" fill-rule="evenodd" /><path clip-rule="evenodd"
+                            d="M65.457,26.182c9.031,0,17.188,3.2,23.597,8.436L107.698,16 
+                                C96.337,6.109,81.771,0,65.457,0C40.129,0,18.361,14.484,7.938,35.648l21.569,16.471C34.477,37.033,48.644,26.182,65.457,26.182"
+                            fill="#EA4335" fill-rule="evenodd" /><path clip-rule="evenodd"
+                            d="M65.457,101.818c-16.812,0-30.979-10.851-35.949-25.937 
+                                L7.938,92.349C18.361,113.516,40.129,128,65.457,128c15.632,0,30.557-5.551,41.758-15.951L86.741,96.221 
+                                C80.964,99.86,73.689,101.818,65.457,101.818" fill="#34A853"
+                            fill-rule="evenodd" /><path clip-rule="evenodd"
+                            d="M126.634,64c0-3.782-0.583-7.855-1.457-11.636H65.457v24.727 
+                                h34.376c-1.719,8.431-6.397,14.912-13.092,19.13l20.474,15.828C118.981,101.129,126.634,84.861,126.634,64"
+                            fill="#4285F4" fill-rule="evenodd" /></g></g></svg>
+            <span>Sign up with Google</span>
         </button>
-      </form>
 
-      <!-- Divider -->
-      <div class="relative flex items-center justify-center">
-        <span class="absolute px-2 bg-white text-sm text-gray-500">OR</span>
-        <hr class="w-full border-gray-300">
-      </div>
-
-      <!-- Google Sign In -->
-      <button 
-        type="button" 
-        class="w-full px-4 py-2 text-black-700 bg-white rounded-md hover:bg-gray-200 flex items-center justify-center space-x-2 border">
-        <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg class="w-5 h-5" enable-background="new 0 0 128 128" id="Social_Icons" version="1.1" viewBox="0 0 128 128" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="x31_stroke"><g id="Google"><rect clip-rule="evenodd" fill="none" fill-rule="evenodd" height="128" width="128"/><path clip-rule="evenodd" d="M27.585,64c0-4.157,0.69-8.143,1.923-11.881L7.938,35.648    C3.734,44.183,1.366,53.801,1.366,64c0,10.191,2.366,19.802,6.563,28.332l21.558-16.503C28.266,72.108,27.585,68.137,27.585,64" fill="#FBBC05" fill-rule="evenodd"/><path clip-rule="evenodd" d="M65.457,26.182c9.031,0,17.188,3.2,23.597,8.436L107.698,16    C96.337,6.109,81.771,0,65.457,0C40.129,0,18.361,14.484,7.938,35.648l21.569,16.471C34.477,37.033,48.644,26.182,65.457,26.182" fill="#EA4335" fill-rule="evenodd"/><path clip-rule="evenodd" d="M65.457,101.818c-16.812,0-30.979-10.851-35.949-25.937    L7.938,92.349C18.361,113.516,40.129,128,65.457,128c15.632,0,30.557-5.551,41.758-15.951L86.741,96.221    C80.964,99.86,73.689,101.818,65.457,101.818" fill="#34A853" fill-rule="evenodd"/><path clip-rule="evenodd" d="M126.634,64c0-3.782-0.583-7.855-1.457-11.636H65.457v24.727    h34.376c-1.719,8.431-6.397,14.912-13.092,19.13l20.474,15.828C118.981,101.129,126.634,84.861,126.634,64" fill="#4285F4" fill-rule="evenodd"/></g></g></svg>
-        <span>Sign up with Google</span>
-      </button>
-
-      <!-- Login Section -->
-      <div class="text-center mt-4">
-        <span class="text-sm text-gray-500">Already have an account? </span>
-        <a href="/login" class="text-sm text-blue-600 hover:underline">Login here</a>
-      </div>
+        <div class="text-center mt-4">
+            <span class="text-sm text-gray-500">Already have an account? </span>
+            <a href="/login" class="text-sm text-blue-600 hover:underline">Login here</a>
+        </div>
     </div>
-  </div>
+</div>
 </body>
 </html>

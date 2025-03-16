@@ -1,21 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Optho-App</title>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <link rel="stylesheet" href="/styles/tailstyle.css">
+    <link rel="icon" type="image/x-icon" href="/assests/favi.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles/tailstyle.css">
 
 </head>
 
-<body class="min-h-screen bg-blue-300">
-    <div class="p-4 lg:p-6">
+<body class="h-screen bg-blue-300 xl:overflow-hidden ">
+    <div class="flex flex-col h-full w-full  ">
+        <div class="title w-full h-fit flex items-center gap-5 pl-5">
+            <div class="head flex items-center stroke-blue-950 w-fit space-x-2">
+                <?xml version="1.0" ?><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M7 6C7 3.23858 9.23858 1 12 1C14.7614 1 17 3.23858 17 6C17 8.76142 14.7614 11 12 11C9.23858 11 7 8.76142 7 6ZM12 3C10.3431 3 9 4.34315 9 6C9 7.65685 10.3431 9 12 9C13.6569 9 15 7.65685 15 6C15 4.34315 13.6569 3 12 3Z" fill="black"/><path d="M4.06189 21C4.55399 17.0537 7.92038 14 12 14C13.1643 14 14.268 14.2481 15.2633 14.6934L16.1761 15.1018L16.9929 13.2762L16.0801 12.8678C14.8329 12.3098 13.4513 12 12 12C6.47715 12 2 16.4772 2 22V23H14.3542V21H4.06189Z" fill="black"/><path d="M20 15V18H23V20H20V23H18V20H15V18H18V15H20Z" fill="black"/></svg>
+
+                <h1 class="text-4xl font-semibold pb-2">Add Patient</h1>
+            </div>
+        </div>
         <form action="/addPat" method="post" class="bg-white/50 backdrop-blur-xl p-4 rounded-lg  ">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 ">
+            <div class="flex-1 w-full xl:min-h-0  grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 ">
                 <!-- Patient Information -->
-                <div class="bg-white rounded-lg shadow p-4 space-y-4">
+                <div
+                    class="bg-white rounded-lg shadow p-4 space-y-4 xl:min-h-0 xl:col-span-1 
+                    h-[calc(100vh-160px)] xl:h-[calc(100vh-80px)] overflow-y-auto shadow-xl">
                     <h2 class="text-2xl font-bold text-gray-800">Patient Information</h2>
 
                     <div class="space-y-4">
@@ -112,6 +122,62 @@
                                 <label class="block text-sm font-semibold mb-2">HbA1c (%):</label>
                                 <input class="w-full px-3 py-2 border rounded-md" placeholder="HbA1c" type="text"
                                     name="HBA1c" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Treatment Obtained:</label>
+                            <div class="space-y-2">
+                                <!-- None -->
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="treatment[]" value="None" class="mr-2" />
+                                    None
+                                </label>
+                                <div id="noneDate" class="hidden ml-6">
+                                    <label class="block text-sm font-semibold mb-2">Date:</label>
+                                    <input class="w-full px-3 py-2 border rounded-md" type="date" name="none_date" />
+                                </div>
+
+                                <!-- Intravitreal Injection -->
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="treatment[]" value="Intravitreal injection"
+                                        class="mr-2" onchange="toggleInputs('injectionInputs', this)" />
+                                    Intravitreal Injection
+                                </label>
+                                <div id="injectionInputs" class="hidden ml-6 space-y-2">
+                                    <label class="block text-sm font-semibold">Date:</label>
+                                    <input class="w-full px-3 py-2 border rounded-md" type="date" name="injection_date" />
+                                    <label class="block text-sm font-semibold">Specify:</label>
+                                    <input class="w-full px-3 py-2 border rounded-md" type="text" placeholder="Please specify" />
+                                </div>
+
+                                <!-- PRP -->
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="treatment[]" value="PRP" class="mr-2"
+                                        onchange="toggleInputs('prpInputs', this)" />
+                                    PRP
+                                </label>
+                                <div id="prpInputs" class="hidden ml-6 space-y-2">
+                                    <label class="block text-sm font-semibold">Date:</label>
+                                    <input class="w-full px-3 py-2 border rounded-md" type="date" name="prp_date" />
+                                    <label class="block text-sm font-semibold">Specify:</label>
+                                    <input class="w-full px-3 py-2 border rounded-md" type="text" placeholder="Please specify" />
+                                </div>
+                                
+                                
+
+                                <!-- Retinal Surgery -->
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="treatment[]" value="Retinal surgery" class="mr-2"
+                                        onchange="toggleInputs('surgeryInputs', this)" />
+                                    Retinal Surgery
+                                </label>
+                                <div id="surgeryInputs" class="hidden ml-6 space-y-2">
+                                    <label class="block text-sm font-semibold">Date:</label>
+                                    <input class="w-full px-3 py-2 border rounded-md" type="date" name="surgery_date" />
+                                    <label class="block text-sm font-semibold">Specify:</label>
+                                    <input class="w-full px-3 py-2 border rounded-md" type="text" placeholder="Please specify" />
+                                </div> 
+                                
                             </div>
                         </div>
                     </div>
@@ -239,85 +305,59 @@
                 </div>
 
                 <!-- Treatment & Advice -->
-                <div class="bg-white rounded-lg shadow p-4 space-y-4">
-                    <div>
-                        <label class="block text-sm font-semibold mb-2">Treatment Obtained:</label>
-                        <div class="space-y-2">
-                            <!-- None -->
-                            <label class="flex items-center">
-                                <input type="checkbox" name="treatment[]" value="None" class="mr-2" />
-                                None
-                            </label>
-                            <div id="noneDate" class="hidden ml-6">
-                                <label class="block text-sm font-semibold mb-2">Date:</label>
-                                <input class="w-full px-3 py-2 border rounded-md" type="date" name="none_date" />
-                            </div>
+                <div class="bg-white rounded-lg shadow p-4 space-y-4 overflow-y-auto">
+                    <h2 class="text-2xl font-bold text-gray-800">Treatment & Advice</h2>
 
-                            <!-- Intravitreal Injection -->
-                            <label class="flex items-center">
-                                <input type="checkbox" name="treatment[]" value="Intravitreal injection" class="mr-2"
-                                    onchange="toggleDateInput('injectionDate', this)" />
-                                Intravitreal Injection
-                            </label>
-                            <div id="injectionDate" class="hidden ml-6">
-                                <label class="block text-sm font-semibold mb-2">Date:</label>
-                                <input class="w-full px-3 py-2 border rounded-md" type="date" name="injection_date" />
-                            </div>
 
-                            <!-- PRP -->
-                            <label class="flex items-center">
-                                <input type="checkbox" name="treatment[]" value="PRP" class="mr-2"
-                                    onchange="toggleDateInput('prpDate', this)" />
-                                PRP
-                            </label>
-                            <div id="prpDate" class="hidden ml-6">
-                                <label class="block text-sm font-semibold mb-2">Date:</label>
-                                <input class="w-full px-3 py-2 border rounded-md" type="date" name="prp_date" />
-                            </div>
 
-                            <!-- Retinal Surgery -->
-                            <label class="flex items-center">
-                                <input type="checkbox" name="treatment[]" value="Retinal surgery" class="mr-2"
-                                    onchange="toggleDateInput('surgeryDate', this)" />
-                                Retinal Surgery
-                            </label>
-                            <div id="surgeryDate" class="hidden ml-6">
-                                <label class="block text-sm font-semibold mb-2">Date:</label>
-                                <input class="w-full px-3 py-2 border rounded-md" type="date" name="surgery_date" />
-                            </div>
-                        </div>
-                    </div>
-
-                   
                     <div>
                         <label class="block text-sm font-semibold mb-2">Treatment Advice:</label>
                         <div class="space-y-2">
                             <label class="flex items-center">
-                                <input type="checkbox" name="advice" value="Continue same treatment" class="mr-2" />
+                                <input type="checkbox" name="advice" value="Continue same treatment" class="mr-2" onchange="toggleTextInput('advice1', this)" />
                                 Continue same treatment
                             </label>
+                            <div id="advice1" class="hidden ml-6">
+                                <input type="text" name="advice_detail_1" class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" />
+                            </div>
+                
                             <label class="flex items-center">
-                                <input type="checkbox" name="advice" value="Start new medications" class="mr-2" />
+                                <input type="checkbox" name="advice" value="Start new medications" class="mr-2" onchange="toggleTextInput('advice2', this)" />
                                 Start new medications
                             </label>
+                            <div id="advice2" class="hidden ml-6">
+                                <input type="text" name="advice_detail_2" class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" />
+                            </div>
+                
                             <label class="flex items-center">
-                                <input type="checkbox" name="advice" value="PRP" class="mr-2" />
+                                <input type="checkbox" name="advice" value="PRP" class="mr-2" onchange="toggleTextInput('advice3', this)" />
                                 PRP
                             </label>
+                            <div id="advice3" class="hidden ml-6">
+                                <input type="text" name="advice_detail_3" class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" />
+                            </div>
+                
                             <label class="flex items-center">
-                                <input type="checkbox" name="advice" value="Intravitreal injection" class="mr-2" />
+                                <input type="checkbox" name="advice" value="Intravitreal injection" class="mr-2" onchange="toggleTextInput('advice4', this)" />
                                 Intravitreal injection
                             </label>
+                            <div id="advice4" class="hidden ml-6">
+                                <input type="text" name="advice_detail_4" class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" />
+                            </div>
+                
                             <label class="flex items-center">
-                                <input type="checkbox" name="advice" value="Vitreoretinal Surgery" class="mr-2" />
+                                <input type="checkbox" name="advice" value="Vitreoretinal Surgery" class="mr-2" onchange="toggleTextInput('advice5', this)" />
                                 Vitreoretinal Surgery
                             </label>
+                            <div id="advice5" class="hidden ml-6">
+                                <input type="text" name="advice_detail_5" class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" />
                         </div>
                     </div>
                     <!-- Questionaire -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-semibold mb-2">Did you know about consequences/adverse events when having diabetis mellitus</label>
+                            <label class="block text-sm font-semibold mb-2">Did you know about consequences/adverse
+                                events when having diabetis mellitus</label>
                             <div class="flex gap-4">
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="quen1" value="Yes" class="mr-2" checked />
@@ -329,7 +369,7 @@
                                 </label>
                             </div>
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-semibold mb-2">Who motivate you to visit for DR screening
                             </label>
@@ -361,24 +401,47 @@
 
                 </div>
             </div>
-    </div>
-    </form>
+        
+        </form>
     </div>
     <script>
-        function toggleDateInput(dateInputId, checkbox) {
-    var dateInputDiv = document.getElementById(dateInputId);
-    var dateInput = dateInputDiv.querySelector("input[type='date']");
+      function toggleInputs(inputDivId, checkbox) {
+        var inputDiv = document.getElementById(inputDivId);
+        var dateInput = inputDiv.querySelector("input[type='date']");
+        var textInput = inputDiv.querySelector("input[type='text']");
+
+        if (checkbox.checked) {
+            inputDiv.classList.remove("hidden"); // Show inputs
+            dateInput.required = true; // Make date input required
+        } else {
+            inputDiv.classList.add("hidden"); // Hide inputs
+            dateInput.value = ""; // Clear date input
+            textInput.value = ""; // Clear text input
+            dateInput.required = false; // Remove required attribute
+        }
+    }
+
+    function toggleTextInput(inputId, checkbox) {
+    var inputDiv = document.getElementById(inputId);
+    var inputField = inputDiv.querySelector("input[type='text']");
 
     if (checkbox.checked) {
-        dateInputDiv.classList.remove("hidden"); // Show date input
-        dateInput.required = true; // Make date input required
+        inputDiv.classList.remove("hidden"); // Show text input
+        inputField.required = true; // Make input required
     } else {
-        dateInputDiv.classList.add("hidden"); // Hide date input
-        dateInput.value = ""; // Clear date input when checkbox is unchecked
-        dateInput.required = false; // Remove required attribute
+        inputDiv.classList.add("hidden"); // Hide text input
+        inputField.value = ""; // Clear input when checkbox is unchecked
+        inputField.required = false; // Remove required attribute
     }
 }
 
+        //Text function
+    function checkvalue(val) {
+            if (val === "Others")
+                document.getElementById('quen2').style.display = 'block';
+            else
+                document.getElementById('quen2').style.display = 'none';
+    }
     </script>
 </body>
 

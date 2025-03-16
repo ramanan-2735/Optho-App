@@ -1,9 +1,9 @@
 <%- include('partials/header.ejs') %>
 
-    <div id="qr-container" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ">
+    <div id="qr-container" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <!-- Modal Content -->
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center relative">
-            <button id="closeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">&times;</button>
+        <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg text-center relative w-[90%] max-w-md mx-auto">
+            <button id="closeModal" class="absolute top-2 right-2 sm:top-4 sm:right-4 text-gray-500 hover:text-gray-700">&times;</button>
             <div id="qrCodeContainer">
                 <p>Loading QR Code...</p>
             </div>
@@ -11,80 +11,55 @@
     </div>
 
     <!-- Navbar -->
-    <nav
-        class="h-16 w-full p-6 bg-white/50 sticky top-0 z-10 shadow-md backdrop-blur-md flex items-center justify-between ">
-        <div class="text-4xl font-bold text-blue-950 ">Optho-App</div>
+    <nav class="h-auto sm:h-16 w-full bg-white/50 sticky top-0 z-10 shadow-md backdrop-blur-md flex items-center">
+        <div class="container mx-auto px-4 h-full">
+            <div class="flex flex-col sm:flex-row items-center justify-between h-full py-2 sm:py-0">
+                <div class="text-3xl sm:text-4xl font-bold text-blue-950">Optho-App</div>
 
+                <div class="flex items-center flex-wrap justify-center gap-2">
+                    <button id="btn" type="button" class="border rounded-full border-blue-950 p-2 transition-all duration-300">
+                        <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3,11H5v2H3V11m8-6h2V9H11V5M9,11h4v4H11V13H9V11m6,0h2v2h2V11h2v2H19v2h2v4H19v2H17V19H13v2H11V17h4V15h2V13H15V11m4,8V15H17v4h2M15,3h6V9H15V3m2,2V7h2V5H17M3,3H9V9H3V3M5,5V7H7V5H5M3,15H9v6H3V15m2,2v2H7V17Z" />
+                            <rect width="24" height="24" fill="none" />
+                        </svg>
+                    </button>
 
+                    <div onclick="window.location.href='/addPat'" class="w-fit h-fit px-3 py-1 text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus mr-2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <line x1="19" x2="19" y1="8" y2="14"></line>
+                            <line x1="22" x2="16" y1="11" y2="11"></line>
+                        </svg>
+                        <button>New Patient</button>
+                    </div>
 
-        <div class="md:block md:flex items-center ">
+                    <div class="w-fit h-fit px-3 py-1 text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex items-center hover:stroke-blue-800" onclick="window.location.href='/canvas'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.3601 4.07866L15.2869 3.15178C16.8226 1.61607 19.3125 1.61607 20.8482 3.15178C22.3839 4.68748 22.3839 7.17735 20.8482 8.71306L19.9213 9.63993M14.3601 4.07866C14.3601 4.07866 14.4759 6.04828 16.2138 7.78618C17.9517 9.52407 19.9213 9.63993 19.9213 9.63993M14.3601 4.07866L5.83882 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021M19.9213 9.63993L11.4001 18.1612C10.8229 18.7383 10.5344 19.0269 10.2162 19.2751C9.84082 19.5679 9.43469 19.8189 9.00498 20.0237C8.6407 20.1973 8.25352 20.3263 7.47918 20.5844L4.19792 21.6782M4.19792 21.6782L3.39584 21.9456C3.01478 22.0726 2.59466 21.9734 2.31063 21.6894C2.0266 21.4053 1.92743 20.9852 2.05445 20.6042L2.32181 19.8021M4.19792 21.6782L2.32181 19.8021" stroke="#1C274C" stroke-width="2" class="m-1 text-blue-950 hover:stroke-blue-800" />
+                        </svg>
+                        <button>Canvas</button>
+                    </div>
 
-            <button id="btn" type="button"
-                class="border rounded-full border-blue-950 px-2 py-2  transition-all duration-300">
-                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M3,11H5v2H3V11m8-6h2V9H11V5M9,11h4v4H11V13H9V11m6,0h2v2h2V11h2v2H19v2h2v4H19v2H17V19H13v2H11V17h4V15h2V13H15V11m4,8V15H17v4h2M15,3h6V9H15V3m2,2V7h2V5H17M3,3H9V9H3V3M5,5V7H7V5H5M3,15H9v6H3V15m2,2v2H7V17Z" />
-                    <rect width="24" height="24" fill="none" />
-                </svg>
-            </button>
-
-            <div onclick="window.location.href='/addPat'"
-                class="w-fit h-fit px-3 py-1 hidden text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex-none items-center md:block md:flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-user-plus mr-2">
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <line x1="19" x2="19" y1="8" y2="14"></line>
-                    <line x1="22" x2="16" y1="11" y2="11"></line>
-                </svg>
-                <button>
-                    New Patient
-                </button>
-            </div>
-
-
-            <div class="w-fit h-fit px-3 py-1 hidden text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex-none items-center md:block md:flex hover:stroke-blue-800"
-                onclick="window.location.href='/canvas'">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M14.3601 4.07866L15.2869 3.15178C16.8226 1.61607 19.3125 1.61607 20.8482 3.15178C22.3839 4.68748 22.3839 7.17735 20.8482 8.71306L19.9213 9.63993M14.3601 4.07866C14.3601 4.07866 14.4759 6.04828 16.2138 7.78618C17.9517 9.52407 19.9213 9.63993 19.9213 9.63993M14.3601 4.07866L5.83882 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021M19.9213 9.63993L11.4001 18.1612C10.8229 18.7383 10.5344 19.0269 10.2162 19.2751C9.84082 19.5679 9.43469 19.8189 9.00498 20.0237C8.6407 20.1973 8.25352 20.3263 7.47918 20.5844L4.19792 21.6782M4.19792 21.6782L3.39584 21.9456C3.01478 22.0726 2.59466 21.9734 2.31063 21.6894C2.0266 21.4053 1.92743 20.9852 2.05445 20.6042L2.32181 19.8021M4.19792 21.6782L2.32181 19.8021"
-                        stroke="#1C274C" stroke-width="2" class="m-1 text-blue-950 hover:stroke-blue-800" />
-                </svg>
-                <button>
-                    Canvas
-                </button>
-            </div>
-
-            <div
-                class="w-fit h-fit px-3 py-1 hidden text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex-none items-center md:block md:flex">
-                <svg class="m-1 text-blue-950 hover:text-blue-800" width="20" height="20" viewBox="0 0 24 24"
-                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 12L6 12M6 12L8 14M6 12L8 10" stroke="#1C274C" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    <path
-                        d="M12 21.9827C10.4465 21.9359 9.51995 21.7626 8.87865 21.1213C8.11027 20.3529 8.01382 19.175 8.00171 17M16 21.9983C18.175 21.9862 19.3529 21.8897 20.1213 21.1213C21 20.2426 21 18.8284 21 16V14V10V8C21 5.17157 21 3.75736 20.1213 2.87868C19.2426 2 17.8284 2 15 2H14C11.1715 2 9.75733 2 8.87865 2.87868C8.11027 3.64706 8.01382 4.82497 8.00171 7"
-                        stroke="#1C274C" stroke-width="2" stroke-linecap="round" />
-                    <path
-                        d="M3 9.5V14.5C3 16.857 3 18.0355 3.73223 18.7678C4.46447 19.5 5.64298 19.5 8 19.5M3.73223 5.23223C4.46447 4.5 5.64298 4.5 8 4.5"
-                        stroke="#1C274C" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                <button>
-                    Logout
-                </button>
+                    <div class="w-fit h-fit px-3 py-1 text-blue-950 font-medium rounded transition-all hover:text-blue-800 hover:bg-blue-300/50 flex items-center">
+                        <svg class="m-1 text-blue-950 hover:text-blue-800" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 12L6 12M6 12L8 14M6 12L8 10" stroke="#1C274C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M12 21.9827C10.4465 21.9359 9.51995 21.7626 8.87865 21.1213C8.11027 20.3529 8.01382 19.175 8.00171 17M16 21.9983C18.175 21.9862 19.3529 21.8897 20.1213 21.1213C21 20.2426 21 18.8284 21 16V14V10V8C21 5.17157 21 3.75736 20.1213 2.87868C19.2426 2 17.8284 2 15 2H14C11.1715 2 9.75733 2 8.87865 2.87868C8.11027 3.64706 8.01382 4.82497 8.00171 7" stroke="#1C274C" stroke-width="2" stroke-linecap="round" />
+                            <path d="M3 9.5V14.5C3 16.857 3 18.0355 3.73223 18.7678C4.46447 19.5 5.64298 19.5 8 19.5M3.73223 5.23223C4.46447 4.5 5.64298 4.5 8 4.5" stroke="#1C274C" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                        <button>Logout</button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Body -->
-    <div class="min-h-screen bg-blue-300 px-2 py-4 sm:px-6 sm:py-8 md:px-10 md:py-12 ">
-
-        <div class="head flex items-center justify-between gap-2 stroke-blue-950 w-full">
+    <div class="min-h-screen bg-blue-300 px-2 py-4 sm:px-6 sm:py-8 md:px-10 md:py-12">
+        <div class="head flex flex-col sm:flex-row items-center justify-between gap-4 stroke-blue-950 w-full">
             <!-- Left Icon and Heading -->
             <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-users text-blue-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-blue-500">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                     <circle cx="9" cy="7" r="4"></circle>
                     <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -94,76 +69,84 @@
             </div>
 
             <!-- Search Bar -->
-            <div class="relative w-[20%]">
-                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="absolute left-3 top-1/2 transform -translate-y-1/2 text-black">
-                    <path
-                        d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
-                        stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <div class="relative w-full sm:w-[20%]">
+                <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-black">
+                    <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <input type="text" placeholder="Search..."
-                    class="inpt w-full py-2 pl-10 pr-4 rounded-md text-black focus:outline-none shadow-md" />
+                <input type="text" placeholder="Search..." class="inpt w-full py-2 pl-10 pr-4 rounded-md text-black focus:outline-none shadow-md" />
             </div>
         </div>
+
         <% if (name[0]) { %>
-            <div
-                class="patients w-full min-h-32 my-4 md:my-8 p-6 bg-white rounded-md shadow-md flex flex-col items-center ">
-                <div class="w-full py-2 px-4 text-base text-gray-500 grid grid-cols-6">
+            <div class="patients w-full min-h-32 my-4 md:my-8 p-4 sm:p-6 bg-white rounded-md shadow-md flex flex-col items-center">
+                <!-- Header labels - Hidden on mobile, visible on larger screens -->
+                <div class="hidden sm:grid w-full py-2 px-4 text-base text-gray-500 grid-cols-6">
                     <p>Name</p>
                     <p>Reg. Number</p>
                     <p>Age</p>
                     <p>Sex</p>
                     <p>Contact Number</p>
-                    <!-- <p>Last Visit</p> -->
                     <p>Actions</p>
                 </div>
 
                 <% name.forEach(p=> { %>
                     <p class="w-full my-2 border-t"></p>
-                    <div class="w-full px-4 flex justify-between cursor-pointer transition-all duration-200 hover:bg-black/10 hover:rounded-xl"
-                        onclick="window.open('/patientDet/<%= p.reg%>/1', '_blank')">
+                    <div class="w-full px-2 sm:px-4 cursor-pointer transition-all duration-200 hover:bg-black/10 hover:rounded-xl" onclick="window.open('/patientDet/<%= p.reg%>/1', '_blank')">
+                        <!-- Mobile view -->
+                        <div class="block sm:hidden w-full my-4">
+                            <div class="grid grid-cols-2 gap-2">
+                                <p class="font-semibold">Name:</p>
+                                <p><%= p.name %></p>
+                                <p class="font-semibold">Reg. Number:</p>
+                                <p><%= p.reg %></p>
+                                <p class="font-semibold">Age:</p>
+                                <p><%= p.age %></p>
+                                <p class="font-semibold">Sex:</p>
+                                <p><%= p.sex %></p>
+                                <p class="font-semibold">Contact:</p>
+                                <p><%= p.contact %></p>
+                            </div>
+                            <div class="mt-2 flex justify-end">
+                                <button class="text-red-500 rounded-sm stroke-red-600" onclick="event.stopPropagation(); window.location.href = '/deletePat/<%= p.reg%>'">
+                                    <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M960 160h-291.2a160 160 0 0 0-313.6 0H64a32 32 0 0 0 0 64h896a32 32 0 0 0 0-64zM512 96a96 96 0 0 1 90.24 64h-180.48A96 96 0 0 1 512 96zM844.16 290.56a32 32 0 0 0-34.88 6.72A32 32 0 0 0 800 320a32 32 0 1 0 64 0 33.6 33.6 0 0 0-9.28-22.72 32 32 0 0 0-10.56-6.72zM832 416a32 32 0 0 0-32 32v96a32 32 0 0 0 64 0v-96a32 32 0 0 0-32-32zM832 640a32 32 0 0 0-32 32v224a32 32 0 0 1-32 32H256a32 32 0 0 1-32-32V320a32 32 0 0 0-64 0v576a96 96 0 0 0 96 96h512a96 96 0 0 0 96-96v-224a32 32 0 0 0-32-32z" fill="#FF0000" />
+                                        <path d="M384 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0zM544 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0zM704 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0z" fill="#FF0000" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
 
-                        <div class="w-full my-5 grid grid-cols-6">
-                            <p>
-                                <%= p.name %>
-                            </p>
-                            <p>
-                                <%= p.reg %>
-                            </p>
-                            <p>
-                                <%= p.age %>
-                            </p>
-                            <p>
-                                <%= p.sex %>
-                            </p>
-                            <p>
-                                <%= p.contact %>
-                            </p>
-
-
-                            <button class=" pd:w-50 md:ml-3 text-red-500 rounded-sm  stroke-red-600"
-                            onclick="event.stopPropagation(); window.location.href = '/deletePat/<%= p.reg%>'"><svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon"  version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M960 160h-291.2a160 160 0 0 0-313.6 0H64a32 32 0 0 0 0 64h896a32 32 0 0 0 0-64zM512 96a96 96 0 0 1 90.24 64h-180.48A96 96 0 0 1 512 96zM844.16 290.56a32 32 0 0 0-34.88 6.72A32 32 0 0 0 800 320a32 32 0 1 0 64 0 33.6 33.6 0 0 0-9.28-22.72 32 32 0 0 0-10.56-6.72zM832 416a32 32 0 0 0-32 32v96a32 32 0 0 0 64 0v-96a32 32 0 0 0-32-32zM832 640a32 32 0 0 0-32 32v224a32 32 0 0 1-32 32H256a32 32 0 0 1-32-32V320a32 32 0 0 0-64 0v576a96 96 0 0 0 96 96h512a96 96 0 0 0 96-96v-224a32 32 0 0 0-32-32z" fill="#FF0000" /><path d="M384 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0zM544 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0zM704 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0z" fill="#FF0000" /></svg></button>
-
+                        <!-- Desktop view -->
+                        <div class="hidden sm:grid w-full my-5 grid-cols-6">
+                            <p><%= p.name %></p>
+                            <p><%= p.reg %></p>
+                            <p><%= p.age %></p>
+                            <p><%= p.sex %></p>
+                            <p><%= p.contact %></p>
+                            <button class="text-red-500 rounded-sm stroke-red-600 w-fit" onclick="event.stopPropagation(); window.location.href = '/deletePat/<%= p.reg%>'">
+                                <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M960 160h-291.2a160 160 0 0 0-313.6 0H64a32 32 0 0 0 0 64h896a32 32 0 0 0 0-64zM512 96a96 96 0 0 1 90.24 64h-180.48A96 96 0 0 1 512 96zM844.16 290.56a32 32 0 0 0-34.88 6.72A32 32 0 0 0 800 320a32 32 0 1 0 64 0 33.6 33.6 0 0 0-9.28-22.72 32 32 0 0 0-10.56-6.72zM832 416a32 32 0 0 0-32 32v96a32 32 0 0 0 64 0v-96a32 32 0 0 0-32-32zM832 640a32 32 0 0 0-32 32v224a32 32 0 0 1-32 32H256a32 32 0 0 1-32-32V320a32 32 0 0 0-64 0v576a96 96 0 0 0 96 96h512a96 96 0 0 0 96-96v-224a32 32 0 0 0-32-32z" fill="#FF0000" />
+                                    <path d="M384 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0zM544 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0zM704 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0z" fill="#FF0000" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
-                    <% }) %>
+                <% }) %>
             </div>
-            <% } else{%>
-                <% console.log("Empty");%>
-                    <div
-                        class="patients w-full h-32 my-4 md:my-8 bg-white rounded-md shadow-md flex items-center justify-center">
-                        <p class="w-fit text-base text-gray-500">Try adding patients</p>
-                    </div>
-                    <% } %>
+        <% } else { %>
+            <% console.log("Empty");%>
+            <div class="patients w-full h-32 my-4 md:my-8 bg-white rounded-md shadow-md flex items-center justify-center">
+                <p class="w-fit text-base text-gray-500">Try adding patients</p>
+            </div>
+        <% } %>
     </div>
-
 
     <script>
         // Wait for the DOM to load
         document.addEventListener('DOMContentLoaded', function () {
             // Get the search input field and the patient list container
             const searchInput = document.querySelector('.inpt');
-            const patientRecords = document.querySelectorAll('.patients .w-full.my-5.grid');
+            const patientRecords = document.querySelectorAll('.patients .w-full.px-2');
             const dividerLines = document.querySelectorAll('.patients .w-full.my-2.border-t');
 
             // Add an input event listener to the search field
@@ -175,26 +158,33 @@
                 patientRecords.forEach((record, index) => {
                     const recordText = record.textContent.toLowerCase(); // Get the text of each record and convert it to lowercase
                     if (recordText.includes(searchValue)) {
-                        record.parentElement.style.display = ''; // Show the record if it matches the search
-                        dividerLines[index].style.display = ''; // Show the divider if the record is visible
+                        record.style.display = ''; // Show the record if it matches the search
+                        if (index > 0) dividerLines[index].style.display = ''; // Show the divider if the record is visible
                         isAnyRecordVisible = true; // Set flag to true if there's at least one visible record
                     } else {
-                        record.parentElement.style.display = 'none'; // Hide the record if it doesn't match
-                        dividerLines[index].style.display = 'none'; // Hide the divider if the record is hidden
+                        record.style.display = 'none'; // Hide the record if it doesn't match
+                        if (index > 0) dividerLines[index].style.display = 'none'; // Hide the divider if the record is hidden
                     }
                 });
 
                 // If no records match the search, display the message that suggests adding patients
-                if (!isAnyRecordVisible) {
-                    const noRecordsMessage = document.querySelector('.patients .text-gray-500');
-                    if (noRecordsMessage) {
-                        noRecordsMessage.style.display = ''; // Show the "Try adding patients" message if no records are visible
+                const patientsContainer = document.querySelector('.patients');
+                if (!isAnyRecordVisible && patientsContainer) {
+                    if (!patientsContainer.querySelector('.no-results')) {
+                        const noResults = document.createElement('p');
+                        noResults.className = 'no-results w-fit text-base text-gray-500 my-4';
+                        noResults.textContent = 'No matching records found';
+                        patientsContainer.appendChild(noResults);
+                    }
+                } else {
+                    const noResults = patientsContainer.querySelector('.no-results');
+                    if (noResults) {
+                        noResults.remove();
                     }
                 }
             });
         });
     </script>
-
 
     <script>
         const qrbtn = document.getElementById("btn");
@@ -219,7 +209,6 @@
                 qrCodeContainer.innerHTML = `<p>Error fetching QR code. Please try again.</p>`;
             }
         }
-
 
         // Poll the server every 3 seconds
         setInterval(fetchQrCode, 3000);
@@ -247,8 +236,6 @@
                 qrContainer.classList.add("hidden");
             }
         });
-
     </script>
 
-
-    <%- include('partials/footer.ejs') %>
+<%- include('partials/footer.ejs') %>
