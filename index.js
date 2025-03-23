@@ -67,12 +67,12 @@ app.use(bodyParser.json());
 //     port: 5432
 // });
 
-const connectionString = process.env.DB_URL || 'postgres://postgres:123456@localhost:5432/optho'
+const connectionString = process.env.DB_URL || 'postgres://postgres:123456@localhost:5432/optho';
 
 const db = new pg.Pool({
     connectionString: connectionString,
     // ssl:{rejectUnauthorized: false}
-  });
+});
 
 db.connect();
 initializeClient();
@@ -105,25 +105,107 @@ app.get('/home', async (req, res) => {
 
 })
 
-app.get('/patientDet/:id', async (req, res) => {
-    const patRow = name.rows;
-    const patdet = patRow.find(x => x.reg == req.params.id)
+// app.get('/patientDet/:id', async (req, res) => {
+//     const patRow = name.rows;
+//     const patdet = patRow.find(x => x.reg == req.params.id)
 
-    const patlog = await loadLog(patdet.reg);
-    res.render("patientDet.ejs", { det: patdet, treatment: patlog[0].treatment, advice: patlog[0].advice, logs: patlog });
-})
+//     const patlog = await loadLog(patdet.reg);
+//     res.render("patientDet.ejs", { det: patdet, treatment: patlog[0].treatment, advice: patlog[0].advice, logs: patlog });
+// })
+
+app.get('/patientDet/:id', async (req, res) => {
+    try {
+        // Ensure `name.rows` exists
+        if (!name || !name.rows) {
+            console.error("Server error: Patient database not found.");
+            return res.redirect('/home');
+        }
+
+        const patRow = name.rows;
+        const patdet = patRow.find(x => x.reg == req.params.id);
+
+        if (!patdet) {
+            console.error(`Patient with reg ${req.params.id} not found.`);
+            return res.redirect('/home');
+        }
+
+        const patlog = await loadLog(patdet.reg);
+        if (!patlog || patlog.length === 0) {
+            console.error(`No logs found for patient ${patdet.reg}.`);
+            return res.redirect('/home');
+        }
+
+        res.render("patientDet.ejs", {
+            det: patdet,
+            treatment: patlog[0]?.treatment || "No treatment info",
+            advice: patlog[0]?.advice || "No advice given",
+            logs: patlog
+        });
+    } catch (error) {
+        console.error("Internal Server Error:", error);
+        res.redirect('/home');
+    }
+});
+
+
+// app.get('/patientDet/:reg/:id', async (req, res) => {
+//     const patRow = name.rows;
+//     const patdet = patRow.find(x => x.reg == req.params.reg);
+//     let patlog = await loadLog(req.params.reg);
+//     let history = await loadLog(req.params.reg);
+//     patlog.reverse();
+//     patlog = patlog[patlog.length - req.params.id]
+
+//     res.render("patDet.ejs", { det: patdet, treatment: patlog.treatment, advice: patlog.advice, logs: patlog, hstry: history });
+
+// })
 
 app.get('/patientDet/:reg/:id', async (req, res) => {
-    const patRow = name.rows;
-    const patdet = patRow.find(x => x.reg == req.params.reg);
-    let patlog = await loadLog(req.params.reg);
-    let history = await loadLog(req.params.reg);
-    patlog.reverse();    
-    patlog = patlog[patlog.length - req.params.id]    
+    try {
+        // Ensure `name.rows` exists
+        if (!name || !name.rows) {
+            console.error("Server error: Patient database not found.");
+            return res.redirect('/home');
+        }
 
-    res.render("patDet.ejs", { det: patdet, treatment: patlog.treatment, advice: patlog.advice, logs: patlog , hstry: history});
-  
-})
+        const patRow = name.rows;
+        const patdet = patRow.find(x => x.reg == req.params.reg);
+
+        if (!patdet) {
+            console.error(`Patient with reg ${req.params.reg} not found.`);
+            return res.redirect('/home');
+        }
+
+        let patlog = await loadLog(req.params.reg);
+        if (!patlog || patlog.length === 0) {
+            console.error(`No logs found for patient ${req.params.reg}.`);
+            return res.redirect('/home');
+        }
+
+        let history = [...patlog]; // Avoid reloading
+        patlog.reverse();
+
+        let index = patlog.length - Number(req.params.id);
+        if (isNaN(index) || index < 0 || index >= patlog.length) {
+            console.error(`Invalid log index: ${req.params.id} for patient ${req.params.reg}.`);
+            return res.redirect('/home');
+        }
+
+        patlog = patlog[index];
+
+        res.render("patDet.ejs", {
+            det: patdet,
+            treatment: patlog.treatment || "No treatment info",
+            advice: patlog.advice || "No advice given",
+            logs: patlog,
+            hstry: history
+        });
+    } catch (error) {
+        console.error("Internal Server Error:", error);
+        res.redirect('/home');
+    }
+});
+
 
 
 
@@ -146,6 +228,36 @@ app.get("/login", (req, res) => {
     res.render("login.ejs");
 })
 
+
+app.get('/export-to-excel-all', async (req, res) => {
+    try {
+        // Fetch all data from PostgreSQL in ascending order based on a relevant column (e.g., 'reg')
+        const result = await db.query('SELECT * FROM patientlog ORDER BY reg ASC');
+
+        // Create a new workbook and a worksheet
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('All Patients Data');
+
+        // Define columns in the Excel file
+        worksheet.columns = Object.keys(result.rows[0]).map(key => ({ header: key, key }));
+
+        // Add rows from the result set
+        result.rows.forEach(row => worksheet.addRow(row));
+
+        // Set the content type and disposition for download
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename="All_Patients_Data.xlsx"');
+
+        // Send the workbook as a download
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (error) {
+        console.error(error);
+        // res.status(500).send('Error generating Excel file');
+        res.redirect("/home");
+    }
+});
+
 app.get('/export-to-excel/:id', async (req, res) => {
     const reg = req.params.id;
     try {
@@ -164,7 +276,7 @@ app.get('/export-to-excel/:id', async (req, res) => {
 
         // Set the content type and disposition for download
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        res.setHeader('Content-Disposition', 'attachment; filename="Details of Patients '+ reg +'.xlsx"');
+        res.setHeader('Content-Disposition', 'attachment; filename="Details of Patients ' + reg + '.xlsx"');
 
         // Send the workbook as a download
         await workbook.xlsx.write(res);
@@ -204,7 +316,7 @@ app.post('/upload/:reg', upload.single('image'), async (req, res) => {
     // Insert the image into PostgreSQL
     const { originalname, buffer, mimetype } = req.file;
     const query = 'INSERT INTO images(reg, filename, data, contentType) VALUES($1, $2, $3, $4) RETURNING id';
-    const values = [req.params.reg ,originalname, buffer, mimetype];
+    const values = [req.params.reg, originalname, buffer, mimetype];
 
     try {
         const result = await db.query(query, values);
@@ -336,53 +448,86 @@ app.post("/addPat", async (req, res) => {
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
 
+    let reason="";
+    if(req.body.quen2 === "Others"){
+         reason = "Others - "+ req.body.other_reason;
+    }
+
     console.log("Received Data:", det);
 
     let formattedTreatments = [];
 
-    // **Fixed Treatment-to-Date Mapping**
+    // **Fixed Treatment-to-Date & Specification Mapping**
     const treatmentDateFields = {
-        "Intravitreal injection": "injection_date",
-        "PRP": "prp_date",
-        "Retinal surgery": "surgery_date",
-        "None": "none_date"
+        "Intravitreal injection": { dateKey: "injection_date", specKey: "injection_spec" },
+        "PRP": { dateKey: "prp_date", specKey: "prp_spec" },
+        "Retinal surgery": { dateKey: "surgery_date", specKey: "retinal_spec" },
+        "None": { dateKey: "none_date", specKey: null } // "None" doesn't have a spec
     };
 
     // **Iterate through selected treatments**
     treatment.forEach(treat => {
-        let dateKey = treatmentDateFields[treat]; // Get the correct date input name
-        let date = req.body[dateKey]; // Fetch the actual date from req.body
+        let dateKey = treatmentDateFields[treat]?.dateKey;
+        let specKey = treatmentDateFields[treat]?.specKey;
 
-        // console.log(`Checking treatment: ${treat}, Date Key: ${dateKey}, Found Date: ${date}`); // Debugging
+        let date = req.body[dateKey] || "Not known"; // Default to "Not known" if empty
+        let spec = specKey ? req.body[specKey] || "Not Mentioned" : null; // Default "Not known" if empty
 
-        if (date) {
-            formattedTreatments.push(`${treat} - ${date}`);
-        } else {
-            formattedTreatments.push(treat);
-        }
+        // Construct formatted treatment string
+        let treatmentStr = treat;
+        if (spec) treatmentStr += ` - (${spec})`; // Add specification if available
+        if (date) treatmentStr += ` - ${date}`; // Add date if available
+
+        formattedTreatments.push(treatmentStr);
     });
 
-    console.log("Formatted Treatments:", formattedTreatments); 
+    let formattedAdvice = [];
 
-    // try {
-    //     await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp, quen1, quen2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24,$25,$26)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp,det.quen1,det.quen2]);
+    // **Fixed Treatment Advice to Specification Mapping**
+    const treatmentAdviceFields = {
+        "Continue same treatment": "continue_advspec",
+        "Start new medications": "medication_advspec",
+        "PRP": "prp_advspec",
+        "Intravitreal injection": "injection_advspec",
+        "Vitreoretinal Surgery": "surgery_advspec"
+    };
 
-    //     try {
-    //         await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
-    //     } catch (e) {
-    //         console.log(e.message);
-    //         res.redirect("/addPat")
-    //     }
-    // } catch (e) {
-    //     console.log(e);
-    //     res.redirect("/addPat")
-    // }
-    // res.redirect("/home")
-    res.redirect("/addPat")
-    
+    // **Iterate through selected treatment advice**
+    advice.forEach(advice => {
+        let specKey = treatmentAdviceFields[advice]; // Get the specification field name
+        let spec = specKey ? req.body[specKey] || "Not Mentioned" : "Not Mentioned"; // Default to "Not known" if empty
+
+        // Construct formatted advice string
+        let adviceStr = advice;
+        if (spec) adviceStr += ` - (${spec})`; // Add specification if available
+
+        formattedAdvice.push(adviceStr);
+    });
+
+    console.log("Formatted Treatments:", formattedTreatments);
+    console.log("Formatted Treatment Advice:", formattedAdvice);
+    cl(reason);
+
+
+    try {
+        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp, quen1, quen2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24,$25,$26)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, formattedAdvice, det.fllwp,det.quen1,reason]);
+
+        try {
+            await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, formattedAdvice, det.fllwp);
+        } catch (e) {
+            console.log(e.message); 
+            res.redirect("/addPat");
+        }
+    } catch (e) {
+        console.log(e);
+        res.redirect("/addPat");
+    }
+    res.redirect("/home");
+    // res.redirect("/addPat")
+
 });
 
-app.get("/deletePat/:id",async (req, res) => {
+app.get("/deletePat/:id", async (req, res) => {
     const delReg = (req.params.id);
 
     try {
@@ -390,10 +535,10 @@ app.get("/deletePat/:id",async (req, res) => {
         console.log("Patient with Registeration No:" + delReg + " deleted successfully from patientLog");
         try {
             await db.query('delete from details where reg = ($1)', [delReg]);
-            console.log("Patient with Registeration No:" + delReg + " deleted successfully from details"); 
+            console.log("Patient with Registeration No:" + delReg + " deleted successfully from details");
         } catch (e) {
             console.log(e);
-            res.redirect("/home"); 
+            res.redirect("/home");
         }
     } catch (e) {
         console.log(e);
@@ -410,38 +555,69 @@ app.post("/updatePat/:reg", async (req, res) => {
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
 
+    let reason="";
+    if(req.body.quen2 === "Others"){
+         reason = "Others - "+ req.body.other_reason;
+    }
     let formattedTreatments = [];
 
-    // **Fixed Treatment-to-Date Mapping**
+    // **Fixed Treatment-to-Date & Specification Mapping**
     const treatmentDateFields = {
-        "Intravitreal injection": "injection_date",
-        "PRP": "prp_date",
-        "Retinal surgery": "surgery_date",
-        "None": "none_date"
+        "Intravitreal injection": { dateKey: "injection_date", specKey: "injection_spec" },
+        "PRP": { dateKey: "prp_date", specKey: "prp_spec" },
+        "Retinal surgery": { dateKey: "surgery_date", specKey: "retinal_spec" },
+        "None": { dateKey: "none_date", specKey: null } // "None" doesn't have a spec
     };
 
     // **Iterate through selected treatments**
     treatment.forEach(treat => {
-        let dateKey = treatmentDateFields[treat]; // Get the correct date input name
-        let date = req.body[dateKey]; // Fetch the actual date from req.body
+        let dateKey = treatmentDateFields[treat]?.dateKey;
+        let specKey = treatmentDateFields[treat]?.specKey;
 
-        // console.log(`Checking treatment: ${treat}, Date Key: ${dateKey}, Found Date: ${date}`); // Debugging
+        let date = req.body[dateKey] || "Not known"; // Default to "Not known" if empty
+        let spec = specKey ? req.body[specKey] || "Not Mentioned" : null; // Default "Not known" if empty
 
-        if (date) {
-            formattedTreatments.push(`${treat} - ${date}`);
-        } else {
-            formattedTreatments.push(treat);
-        }
+        // Construct formatted treatment string
+        let treatmentStr = treat;
+        if (spec) treatmentStr += ` - (${spec})`; // Add specification if available
+        if (date) treatmentStr += ` - ${date}`; // Add date if available
+
+        formattedTreatments.push(treatmentStr);
     });
 
-    console.log("Formatted Treatments:", formattedTreatments); 
+    let formattedAdvice = [];
 
-    let result =  await db.query("select max(visit) from patientlog where reg = ($1)", [req.params.reg])
+    // **Fixed Treatment Advice to Specification Mapping**
+    const treatmentAdviceFields = {
+        "Continue same treatment": "continue_advspec",
+        "Start new medications": "medication_advspec",
+        "PRP": "prp_advspec",
+        "Intravitreal injection": "injection_advspec",
+        "Vitreoretinal Surgery": "surgery_advspec"
+    };
+
+    // **Iterate through selected treatment advice**
+    advice.forEach(advice => {
+        let specKey = treatmentAdviceFields[advice]; // Get the specification field name
+        let spec = specKey ? req.body[specKey] || "Not Mentioned" : "Not Mentioned"; // Default to "Not known" if empty
+
+        // Construct formatted advice string
+        let adviceStr = advice;
+        if (spec) adviceStr += ` - (${spec})`; // Add specification if available
+
+        formattedAdvice.push(adviceStr);
+    });
+
+    // console.log("Formatted Treatments:", formattedTreatments);
+    // console.log("Formatted Treatment Advice:", formattedAdvice);
+    // cl(reason);
+
+    let result = await db.query("select max(visit) from patientlog where reg = ($1)", [req.params.reg])
 
     let last_visit = (result.rows[0].max) + 1;
 
     try {
-        await createLog(last_visit,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
+        await createLog(last_visit, det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, formattedAdvice, det.fllwp);
     } catch (e) {
         console.log(e.message);
     }
