@@ -850,10 +850,6 @@ video {
   width: 33%;
 }
 
-.w-\[90\%\] {
-  width: 90%;
-}
-
 .w-fit {
   width: -moz-fit-content;
   width: fit-content;
@@ -974,6 +970,10 @@ video {
 
 .gap-5 {
   gap: 1.25rem;
+}
+
+.gap-7 {
+  gap: 1.75rem;
 }
 
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -1352,6 +1352,11 @@ video {
 .text-blue-800 {
   --tw-text-opacity: 1;
   color: rgb(30 64 175 / var(--tw-text-opacity, 1));
+}
+
+.text-blue-900 {
+  --tw-text-opacity: 1;
+  color: rgb(30 58 138 / var(--tw-text-opacity, 1));
 }
 
 .text-blue-950 {

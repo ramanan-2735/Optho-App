@@ -15,7 +15,7 @@
     <!-- flex is really important if the flex is removed then the Basic Info div and Visit History div  will not scroll -->
     <div class="flex flex-col wrapper h-full w-full xl:overflow-hidden ">
         <!-- Title Section -->
-        <div class="title w-full h-fit text-blue-950 flex items-center gap-10 p-4">
+        <div class="title w-full h-fit text-blue-900 flex items-center gap-7 p-2">
             <div class="head flex items-center stroke-blue-950 w-fit space-x-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" 
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -619,74 +619,87 @@
                                         <!-- Intravitreal Injection -->
                                         <label class="flex items-center">
                                             <input type="checkbox" name="treatment[]" value="Intravitreal injection"
-                                                class="mr-2" onchange="toggleDateInput('injectionDate', this)" />
+                                                class="mr-2" onchange="toggleInputs('injectionInputs', this)" />
                                             Intravitreal Injection
                                         </label>
-                                        <div id="injectionDate" class="hidden ml-6">
-                                            <label class="block text-sm font-semibold mb-2">Date:</label>
-                                            <input class="w-full px-3 py-2 border rounded-md" type="date"
-                                                name="injection_date" />
+                                        <div id="injectionInputs" class="hidden ml-6 space-y-2">
+                                            <label class="block text-sm font-semibold">Date:</label>
+                                            <input class="w-full px-3 py-2 border rounded-md" type="date" name="injection_date" />
+                                            <label class="block text-sm font-semibold">Specify:</label>
+                                            <input class="w-full px-3 py-2 border rounded-md" type="text" placeholder="Please specify" name="injection_spec"/>
                                         </div>
-
+        
                                         <!-- PRP -->
                                         <label class="flex items-center">
                                             <input type="checkbox" name="treatment[]" value="PRP" class="mr-2"
-                                                onchange="toggleDateInput('prpDate', this)" />
+                                                onchange="toggleInputs('prpInputs', this)" />
                                             PRP
                                         </label>
-                                        <div id="prpDate" class="hidden ml-6">
-                                            <label class="block text-sm font-semibold mb-2">Date:</label>
-                                            <input class="w-full px-3 py-2 border rounded-md" type="date"
-                                                name="prp_date" />
+                                        <div id="prpInputs" class="hidden ml-6 space-y-2">
+                                            <label class="block text-sm font-semibold">Date:</label>
+                                            <input class="w-full px-3 py-2 border rounded-md" type="date" name="prp_date" />
+                                            <label class="block text-sm font-semibold">Specify:</label>
+                                            <input class="w-full px-3 py-2 border rounded-md" type="text" placeholder="Please specify" name="prp_spec"/>
                                         </div>
-
+                                        
+                                        
+        
                                         <!-- Retinal Surgery -->
                                         <label class="flex items-center">
-                                            <input type="checkbox" name="treatment[]" value="Retinal surgery"
-                                                class="mr-2" onchange="toggleDateInput('surgeryDate', this)" />
+                                            <input type="checkbox" name="treatment[]" value="Retinal surgery" class="mr-2"
+                                                onchange="toggleInputs('surgeryInputs', this)" />
                                             Retinal Surgery
                                         </label>
-                                        <div id="surgeryDate" class="hidden ml-6">
-                                            <label class="block text-sm font-semibold mb-2">Date:</label>
-                                            <input class="w-full px-3 py-2 border rounded-md" type="date"
-                                                name="surgery_date" />
+                                        <div id="surgeryInputs" class="hidden ml-6 space-y-2">
+                                            <label class="block text-sm font-semibold">Date:</label>
+                                            <input class="w-full px-3 py-2 border rounded-md" type="date" name="surgery_date" />
+                                            <label class="block text-sm font-semibold">Specify:</label>
+                                            <input class="w-full px-3 py-2 border rounded-md" type="text" placeholder="Please specify" name="retinal_spec"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="block text-gray-700 text-sm font-semibold mb-2">Treatment
-                                        Advice</label>
-                                    <div class="space-y-1.5">
-                                        <label class="flex items-center">
-                                            <input type="checkbox"
-                                                class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                                                name="advice" value="Follow-up, same treatment" />
-                                            <span class="ml-2 text-sm text-gray-700">Continue same treatment</span>
-                                        </label>
-                                        <label class="flex items-center">
-                                            <input type="checkbox"
-                                                class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                                                name="advice" value="Follow up, start on new medications advised" />
-                                            <span class="ml-2 text-sm text-gray-700">Start new medications</span>
-                                        </label>
-                                        <label class="flex items-center">
-                                            <input type="checkbox"
-                                                class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                                                name="advice" value="PRP" />
-                                            <span class="ml-2 text-sm text-gray-700">PRP</span>
-                                        </label>
-                                        <label class="flex items-center">
-                                            <input type="checkbox"
-                                                class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                                                name="advice" value="Intravitreal injection" />
-                                            <span class="ml-2 text-sm text-gray-700">Intravitreal injection</span>
-                                        </label>
-                                        <label class="flex items-center">
-                                            <input type="checkbox"
-                                                class="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                                                name="advice" value="Vitreoretinal Surgery" />
-                                            <span class="ml-2 text-sm text-gray-700">Vitreoretinal Surgery</span>
-                                        </label>
+                                    <label class="block text-sm font-semibold mb-2">Treatment Advice:</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="advice" value="Continue same treatment" class="mr-2" onchange="toggleTextInput('advice1', this)" />
+                                Continue same treatment
+                            </label>
+                            <div id="advice1" class="hidden ml-6">
+                                <input type="text"  class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" name="continue_advspec"/>
+                            </div>
+                
+                            <label class="flex items-center">
+                                <input type="checkbox" name="advice" value="Start new medications" class="mr-2" onchange="toggleTextInput('advice2', this)" />
+                                Start new medications
+                            </label>
+                            <div id="advice2" class="hidden ml-6">
+                                <input type="text"  class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" name="medication_advspec"/>
+                            </div>
+                
+                            <label class="flex items-center">
+                                <input type="checkbox" name="advice" value="PRP" class="mr-2" onchange="toggleTextInput('advice3', this)" />
+                                PRP
+                            </label>
+                            <div id="advice3" class="hidden ml-6">
+                                <input type="text"  class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" name="prp_advspec"/>
+                            </div>
+                
+                            <label class="flex items-center">
+                                <input type="checkbox" name="advice" value="Intravitreal injection" class="mr-2" onchange="toggleTextInput('advice4', this)" />
+                                Intravitreal injection
+                            </label>
+                            <div id="advice4" class="hidden ml-6">
+                                <input type="text"  class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" name="injection_advspec"/>
+                            </div>
+                
+                            <label class="flex items-center">
+                                <input type="checkbox" name="advice" value="Vitreoretinal Surgery" class="mr-2" onchange="toggleTextInput('advice5', this)" />
+                                Vitreoretinal Surgery
+                            </label>
+                            <div id="advice5" class="hidden ml-6">
+                                <input type="text"  class="w-full px-3 py-2 border rounded-md" placeholder="Please specify" name="surgery_advspec"/>
+                        </div>
                                     </div>
                                 </div>
 
@@ -786,7 +799,34 @@
                     }
                 });
             });
+            function toggleInputs(inputDivId, checkbox) {
+                var inputDiv = document.getElementById(inputDivId);
+                var dateInput = inputDiv.querySelector("input[type='date']");
+                var textInput = inputDiv.querySelector("input[type='text']");
 
+                if (checkbox.checked) {
+                    inputDiv.classList.remove("hidden"); // Show inputs
+                    dateInput.required = false; // Make date input required
+                } else {
+                    inputDiv.classList.add("hidden"); // Hide inputs
+                    dateInput.value = ""; // Clear date input
+                    textInput.value = ""; // Clear text input
+                    dateInput.required = false; // Remove required attribute
+                }
+            }
+            function toggleTextInput(inputId, checkbox) {
+                var inputDiv = document.getElementById(inputId);
+                var inputField = inputDiv.querySelector("input[type='text']");
+
+                if (checkbox.checked) {
+                    inputDiv.classList.remove("hidden"); // Show text input
+                    inputField.required = false; // Make input required
+                } else {
+                    inputDiv.classList.add("hidden"); // Hide text input
+                    inputField.value = ""; // Clear input when checkbox is unchecked
+                    inputField.required = false; // Remove required attribute
+                }
+            }
 
 
             document.getElementById('uploadForm').addEventListener('submit', async (e) => {

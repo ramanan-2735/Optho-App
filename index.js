@@ -620,6 +620,8 @@ app.post("/updatePat/:reg", async (req, res) => {
         await createLog(last_visit, det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, formattedAdvice, det.fllwp);
     } catch (e) {
         console.log(e.message);
+    res.redirect(`/patientDet/${req.params.reg}/${last_visit - 1}`);
+
     }
 
     res.redirect(`/patientDet/${req.params.reg}/${last_visit}`);

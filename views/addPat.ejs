@@ -26,8 +26,12 @@
                 <div
                     class="bg-white rounded-lg shadow p-4 space-y-4 xl:min-h-0 xl:col-span-1 
                     h-[calc(100vh-160px)] xl:h-[calc(100vh-80px)] overflow-y-auto shadow-xl">
-                    <h2 class="text-2xl font-bold text-gray-800">Patient Information</h2>
-
+                    <div class="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                          </svg>
+                        <h2 class="text-2xl font-bold text-gray-800">Patient Information</h2>
+                    </div>    
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-semibold mb-2">Name:</label>
@@ -185,7 +189,11 @@
 
                 <!-- Clinical Findings -->
                 <div class="bg-white rounded-lg shadow p-4 space-y-4">
-                    <h2 class="text-2xl font-bold text-gray-800">Clinical Findings</h2>
+                    <div class="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M160 32c0-17.7 14.3-32 32-32l32 0c17.7 0 32 14.3 32 32c17.7 0 32 14.3 32 32l0 224c0 17.7-14.3 32-32 32c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32c-17.7 0-32-14.3-32-32l0-224c0-17.7 14.3-32 32-32zM32 448l288 0c70.7 0 128-57.3 128-128s-57.3-128-128-128l0-64c106 0 192 86 192 192c0 49.2-18.5 94-48.9 128l16.9 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-160 0L32 512c-17.7 0-32-14.3-32-32s14.3-32 32-32zm80-64l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+                        <h2 class="text-2xl font-bold text-gray-800">Clinical Findings</h2>
+                    </div>
+                    
 
                     <div class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -308,7 +316,12 @@
 
                 <!-- Treatment & Advice -->
                 <div class="bg-white rounded-lg shadow p-4 space-y-4 overflow-y-auto">
-                    <h2 class="text-2xl font-bold text-gray-800">Treatment & Advice</h2>
+                        <div class="flex items-center space-x-2 " >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-capsule" viewBox="0 0 16 16">
+                            <path d="M1.828 8.9 8.9 1.827a4 4 0 1 1 5.657 5.657l-7.07 7.071A4 4 0 1 1 1.827 8.9Zm9.128.771 2.893-2.893a3 3 0 1 0-4.243-4.242L6.713 5.429z"/>
+                            </svg>
+                            <h2 class="text-2xl font-bold text-gray-800">Treatment & Advice</h2>
+                        </div>    
 
 
 
@@ -393,7 +406,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-semibold mb-2">Follow-up Date:</label>
-                        <input class="w-full px-3 py-2 border rounded-md" type="date" name="fllwp" />
+                        <input class="w-full px-3 py-2 border rounded-md mb-4" type="date" name="fllwp" />
                     </div>
 
                     <button type="submit"

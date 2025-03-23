@@ -2,7 +2,7 @@
 
     <div id="qr-container" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <!-- Modal Content -->
-        <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg text-center relative w-[90%] max-w-md mx-auto">
+        <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg text-center relative mx-auto">
             <button id="closeModal" class="absolute top-2 right-2 sm:top-4 sm:right-4 text-gray-500 hover:text-gray-700">&times;</button>
             <div id="qrCodeContainer">
                 <p>Loading QR Code...</p>
@@ -205,8 +205,8 @@
         const qrContainer = document.getElementById("qr-container");
         const qrCodeContainer = document.getElementById("qrCodeContainer");
         const closeModal = document.getElementById("closeModal");
-
-        // Function to fetch QR code URL
+        const modalContent = document.querySelector("#qr-container > div");
+                // Function to fetch QR code URL
         async function fetchQrCode() {
             const qrCodeContainer = document.getElementById('qrCodeContainer');
             try {
@@ -239,7 +239,12 @@
                 qrContainer.classList.add("hidden"); // Hide QR code modal
             }
         }
-
+        function adjustModalSize(img) {
+            // Add some padding around the image (20px on each side)
+            const padding = 40;
+            modalContent.style.width = `${img.width + padding}px`;
+            modalContent.style.height = `${img.height + padding + 40}px`; // Extra space for close button and any text
+        }
         // Event listeners
         qrbtn.addEventListener("click", toggleQRCode);
         closeModal.addEventListener("click", () => qrContainer.classList.add("hidden"));
