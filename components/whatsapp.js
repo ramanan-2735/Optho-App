@@ -6,76 +6,137 @@ import fs from 'fs/promises';
 
 const { Client, LocalAuth, MessageMedia } = pkg;
 
-export const qrCodeEmitter = new EventEmitter(); // Event emitter for QR codes
-export let qrCodeUrl = ''; // Variable to hold the latest QR code URL
+// ======================
+// Global Configurations
+// ======================
+export const qrCodeEmitter = new EventEmitter();
+export let qrCodeUrl = '';
+let isClientReady = false;
+let retryCount = 0;
+const MAX_RETRIES = 3;
 
-// Create a new WhatsApp client with local authentication (stores session for reuse)
+// ======================
+// WhatsApp Client Setup
+// ======================
 const client = new Client({
-    authStrategy: new LocalAuth(), // Store session in /tmp
+    authStrategy: new LocalAuth({
+        dataPath: './sessions'  // Store sessions in ./sessions folder
+    }),
     puppeteer: {
         headless: true,
-        // executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage'
+        ],
     },
+    takeoverOnConflict: true,  // Take over existing session
 });
 
-
-// Event when the QR code is generated
+// ======================
+// Event Handlers
+// ======================
 client.on('qr', async (qr) => {
     qrcode.generate(qr, { small: true });
-    console.log('Scan the QR code above to log in.');
+    console.log('📲 Scan the QR code above to log in.');
 
-    qrCodeUrl = await QRCode.toDataURL(qr); // Convert QR code to a data URL
-    // console.log(qrCodeUrl);
-
-    qrCodeEmitter.emit('qrCodeGenerated', qrCodeUrl); // Emit QR code URL
+    qrCodeUrl = await QRCode.toDataURL(qr);
+    qrCodeEmitter.emit('qrCodeGenerated', qrCodeUrl);
 });
 
-// Event when the client is ready
+client.on('authenticated', () => {
+    console.log('🔑 Authentication successful!');
+    qrCodeUrl = '';  // Clear QR code after authentication
+});
+
 client.on('ready', () => {
-    console.log('Client is ready!');
+    isClientReady = true;
+    retryCount = 0;  // Reset retry counter on successful connection
+    console.log('🚀 Client is ready!');
 });
 
-// Handle authentication failure or session timeout
-client.on('auth_failure', (message) => {
-    console.error('Authentication failed:', message);
-    console.log('Please scan the QR code again to log in.');
+client.on('auth_failure', (msg) => {
+    console.error('❌ Authentication failed:', msg);
 });
 
-// Catch disconnection errors
-client.on('disconnected', (reason) => {
-    console.error('Client disconnected:', reason);
-    console.log('Reinitializing the client...');
-    client.initialize(); // Reinitialize the client upon disconnection
+client.on('disconnected', async (reason) => {
+    console.log('Disconnected:', reason);
+    if (reason === 'NAVIGATION_ERROR') {
+      await client.destroy(); // Cleanup
+      process.exit(1); // Force Render to restart
+    }
+  });
+
+client.on('puppeteer_error', (error) => {
+    console.error('🛠️ Puppeteer error:', error);
+    client.destroy().then(() => client.initialize());
 });
 
-// Function to send a message
-export const sendMessage = async (phoneNumber, message = "Your Report", pdfPath = null) => {
-
+// ======================
+// Core Functions
+// ======================
+export const initializeClient = async () => {
     try {
-        const chatId = `${phoneNumber}@c.us`; // WhatsApp contact ID format
-
-        if (pdfPath) {
-            // If a PDF file is provided, send it as a media message
-            const pdfBuffer = await fs.readFile(pdfPath);
-            const media = new MessageMedia('application/pdf', pdfBuffer.toString('base64'), 'DM-Screening-Form.pdf');
-            await client.sendMessage(chatId, media, { caption: message });
-            console.log(`PDF sent to ${phoneNumber} with caption: ${message}`);
-        } else {
-            // Send a plain text message if no PDF is provided
-            await client.sendMessage(chatId, message);
-            console.log(`Message sent to ${phoneNumber}: ${message}`);
-        }
+        await client.initialize();
     } catch (error) {
-        console.error(`Error sending message to ${phoneNumber}:`, error);
+        console.error('❌ Initialization error:', error);
+        if (retryCount < MAX_RETRIES) {
+            retryCount++;
+            setTimeout(initializeClient, 5000);
+        }
     }
 };
 
-// Initialize the WhatsApp client
-export const initializeClient = () => {
+export const sendMessage = async (phoneNumber, message = "Your Report", filePath = null) => {
     try {
-        client.initialize(); // Initialize the client safely
+        if (!isClientReady) {
+            throw new Error("WhatsApp client is not ready yet!");
+        }
+
+        const chatId = `${phoneNumber}@c.us`;
+        
+        if (filePath) {
+            const fileBuffer = await fs.readFile(filePath);
+            const fileExtension = filePath.split('.').pop() || 'file';
+            const media = new MessageMedia(
+                `application/${fileExtension}`,
+                fileBuffer.toString('base64'),
+                filePath.split('/').pop() || `file.${fileExtension}`
+            );
+            await client.sendMessage(chatId, media, { caption: message });
+            console.log(`📁 File sent to ${phoneNumber}`);
+        } else {
+            await client.sendMessage(chatId, message);
+            console.log(`✉️ Message sent to ${phoneNumber}`);
+        }
     } catch (error) {
-        console.error('Error initializing the client:', error);
+        console.error(`❌ Error sending to ${phoneNumber}:`, error.message);
+        throw error;  // Re-throw for caller to handle
     }
+};
+
+// ======================
+// Process Management
+// ======================
+process.on('SIGINT', async () => {
+    console.log('🛑 Shutting down gracefully...');
+    await client.destroy();
+    process.exit(0);
+});
+
+process.on('unhandledRejection', (error) => {
+    console.error('⚠️ Unhandled rejection:', error);
+});
+
+// Initialize the client when this module is loaded
+initializeClient().catch(console.error);
+
+// ======================
+// Module Exports
+// ======================
+export default {
+    initializeClient,
+    sendMessage,
+    qrCodeEmitter,
+    getClientStatus: () => ({ isReady: isClientReady, retryCount }),
 };

@@ -17,12 +17,12 @@ import GoogleStrategy from "passport-google-oauth2";
 import dotenv from 'dotenv';
 import { sendEmail } from './components/mailer.js';
 import axios from 'axios';
-import { initializeClient, sendMessage, qrCodeUrl } from './components/whatsapp.js';
+import whatsappClient from './components/whatsapp.js';
 import { createLog, loadLog } from './components/databaseMechanism.js';
 import { searchPat } from './components/search.js';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { resolveObjectURL } from 'buffer';
-
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 if (!process.env.UNAME) {
@@ -75,7 +75,9 @@ const db = new pg.Pool({
 });
 
 db.connect();
-initializeClient();
+whatsappClient.initializeClient;
+
+
 
 let name;
 
@@ -723,13 +725,92 @@ app.post('/send-email', async (req, res) => {
 //Whatsapp
 // Initialize WhatsApp client when the server starts
 
+// app.get('/get-qr-code', (req, res) => {
+//     if (qrCodeUrl) {
+//         res.json({ success: true, qrCodeUrl });
+//     } else {
+//         res.json({ success: false, message: 'QR code not generated yet.' });
+//     }
+// });
+
+// Add this near your other route handlers
+let latestQrUrl = '';
+
+// Update the stored QR URL when generated
+whatsappClient.qrCodeEmitter.on('qrCodeGenerated', (url) => {
+    latestQrUrl = url;
+    console.log('QR Code updated');
+});
+
 app.get('/get-qr-code', (req, res) => {
-    if (qrCodeUrl) {
-        res.json({ success: true, qrCodeUrl });
+    if (latestQrUrl) {
+        res.json({ success: true, qrCodeUrl: latestQrUrl });
     } else {
         res.json({ success: false, message: 'QR code not generated yet.' });
     }
 });
+
+
+// //For Logout
+// // Add this near your other routes
+// app.post('/force-logout', async (req, res) => {
+//     try {
+//       // Destroy current session
+//       await client.destroy();
+      
+//       // Clear local session files
+//       const sessionPath = path.join(__dirname, '.wwebjs_auth');
+//       try {
+//         await fs.rm(sessionPath, { recursive: true, force: true });
+//       } catch (err) {
+//         console.log('No session files to delete');
+//       }
+      
+//       // Reinitialize client to generate new QR
+//       await client.initialize();
+      
+//       res.json({ success: true });
+//     } catch (error) {
+//       res.status(500).json({ success: false, error: error.message });
+//     }
+//   });
+  
+//   app.use((req, res, next) => {
+//     req.whatsappClient = client;
+//     next();
+//   });
+
+  
+//   // Now in routes
+//   app.get('/login-status', (req, res) => {
+//     res.json({
+//       isLoggedIn: req.whatsappClient.pupPage !== null
+//     });
+//   });
+
+//   const logoutLimiter = rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 3 // Allow 3 logout attempts per window
+//   });
+  
+//   app.use('/force-logout', logoutLimiter); 
+
+// Add this anywhere after client initialization
+// app.get('/whatsapp-status', (req, res) => {
+//     res.json({
+//       isAuthenticated: client.pupPage !== null  // Checks if WhatsApp is logged in
+//     });
+//   });
+  
+//   app.post('/force-reauth', async (req, res) => {
+//     try {
+//       await client.destroy();  // Destroy current session
+//       await client.initialize();  // Generate new QR
+//       res.json({ success: true });
+//     } catch (error) {
+//       res.status(500).json({ success: false, error: error.message });
+//     }
+//   });
 
 
 // Route to send a WhatsApp message
@@ -742,7 +823,7 @@ app.post('/whatsapp-message', async (req, res) => {
     }
 
     try {
-        await sendMessage(phoneNumber, message); // Send the message using sendMessage
+        await whatsappClient.sendMessage(phoneNumber, message); // Send the message using sendMessage
         res.status(200).json({ message: 'Message sent successfully!' });
     } catch (error) {
         console.error('Error sending WhatsApp message:', error);
@@ -827,7 +908,7 @@ app.post('/generate-pdf', async (req, res) => {
         await fs.writeFile(pdfPath, pdfBytes);
 
         // Send the PDF via WhatsApp
-        await sendMessage("91" + contactNo, name + "'s DM Screening Report", pdfPath);
+        await whatsappClient.sendMessage("91" + contactNo, name + "'s DM Screening Report", pdfPath);
 
         // Respond to the client
         res.status(200).send('PDF generated and sent via WhatsApp');
