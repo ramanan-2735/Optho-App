@@ -77,11 +77,7 @@ CREATE TABLE images (
     FOREIGN KEY (reg) REFERENCES details(reg) ON DELETE CASCADE
 );
 
-CREATE TABLE whatsapp_sessions (
-    id SERIAL PRIMARY KEY,
-    session_id TEXT UNIQUE NOT NULL,
-    session_data TEXT NOT NULL
-);
+
 
 
 

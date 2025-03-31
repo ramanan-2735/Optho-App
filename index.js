@@ -549,6 +549,14 @@ app.get("/deletePat/:id", async (req, res) => {
     res.redirect("/home");
 });
 
+app.get("/deleteLog/:reg/:id", async (req,res) => {
+    cl(req.params);
+
+    await db.query("delete from patientlog where reg = ($1) AND visit = ($2)",[req.params.reg, req.params.id]);
+
+    res.redirect("/home");
+})
+
 app.post("/updatePat/:reg", async (req, res) => {
     const det = req.body;
 
@@ -904,7 +912,7 @@ app.post('/generate-pdf', async (req, res) => {
         const pdfBytes = await pdfDoc.save();
 
         // Save the PDF to a file
-        const pdfPath = path.join(__dirname, 'DM-Screening-Form.pdf');
+        const pdfPath = path.join(__dirname + "/tmpPDF/", 'DM-Screening-Form.pdf');
         await fs.writeFile(pdfPath, pdfBytes);
 
         // Send the PDF via WhatsApp

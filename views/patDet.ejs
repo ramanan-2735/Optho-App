@@ -330,7 +330,7 @@
                     </div>
                 </div>
                 <!-- Visit Cards Container -->
-                <div class="w-full max-h-[calc(100%-80px)] overflow-y-auto scrollbar-hide mt-4 bg-gray-50">
+                <!-- <div class="w-full max-h-[calc(100%-80px)] overflow-y-auto scrollbar-hide mt-4 bg-gray-50">
                     <% for (let i = 0; i < hstry.length; i++) { %>
                     <div onclick="window.location.href='/patientDet/<%= logs.reg %>/<%= i + 1%>'"
                         class="p-2 border rounded-lg shadow-md mb-3 bg-white transform transition-transform duration-300 hover:translate-y-[-10px] hover:shadow-lg">
@@ -351,7 +351,42 @@
                         <p class="text-gray-600">Click to load Details</p>
                     </div>
                     <% } %>
+                </div> -->
+
+                <div class="w-full max-h-[calc(100%-80px)] overflow-y-auto scrollbar-hide mt-4 bg-gray-50">
+                    <% for (let i = 0; i < hstry.length; i++) { %>
+                    <div class="flex justify-between items-center p-2 border rounded-lg shadow-md mb-3 bg-white transform transition-transform duration-300 hover:translate-y-[-10px] hover:shadow-lg">
+                        
+                        <!-- Visit Details -->
+                        <div onclick="window.location.href='/patientDet/<%= logs.reg %>/<%= i + 1%>'" class="flex-grow cursor-pointer">
+                            <p class="font-semibold text-lg text-blue-800">
+                                <% 
+                                const createdAt = new Date(hstry[i].created_at); 
+                                const formattedDate = createdAt.toLocaleString('en-US', { 
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: true
+                                });
+                                %>
+                                Visit #<%= ((hstry.length) - i) %> - <%= formattedDate %>
+                            </p>
+                            <p class="text-gray-600">Click to load Details</p>
+                        </div>
+                
+                        <!-- Delete Button (Right Center) -->
+                        <button class="text-red-500 rounded-sm stroke-red-600 p-2 hover:bg-red-100 transition" onclick="event.stopPropagation(); window.location.href = '/deleteLog/<%= logs.reg %>/<%= ((hstry.length) - i) %>'">
+                            <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M960 160h-291.2a160 160 0 0 0-313.6 0H64a32 32 0 0 0 0 64h896a32 32 0 0 0 0-64zM512 96a96 96 0 0 1 90.24 64h-180.48A96 96 0 0 1 512 96zM844.16 290.56a32 32 0 0 0-34.88 6.72A32 32 0 0 0 800 320a32 32 0 1 0 64 0 33.6 33.6 0 0 0-9.28-22.72 32 32 0 0 0-10.56-6.72zM832 416a32 32 0 0 0-32 32v96a32 32 0 0 0 64 0v-96a32 32 0 0 0-32-32zM832 640a32 32 0 0 0-32 32v224a32 32 0 0 1-32 32H256a32 32 0 0 1-32-32V320a32 32 0 0 0-64 0v576a96 96 0 0 0 96 96h512a96 96 0 0 0 96-96v-224a32 32 0 0 0-32-32z" fill="#FF0000" />
+                                <path d="M384 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0zM544 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0zM704 768V352a32 32 0 0 0-64 0v416a32 32 0 0 0 64 0z" fill="#FF0000" />
+                            </svg>
+                        </button>
+                    </div>
+                    <% } %>
                 </div>
+                
             </div>
         </div>
     </div>

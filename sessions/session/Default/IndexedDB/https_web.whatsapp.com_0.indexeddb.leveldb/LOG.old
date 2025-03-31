@@ -1,0 +1,91 @@
+2025/03/31-20:50:11.525 10e7 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/03/31-20:50:11.526 10e7 Recovering log #877
+2025/03/31-20:50:11.526 10e7 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000877.log 
+2025/03/31-20:50:13.851 10e3 Compacting 1@1 + 6@2 files
+2025/03/31-20:50:14.264 10e3 Generated table #882@1: 59037 keys, 2215979 bytes
+2025/03/31-20:50:14.299 10e3 Level-0 table #885: started
+2025/03/31-20:50:14.333 10e3 Level-0 table #885: 16923 bytes OK
+2025/03/31-20:50:14.357 10e3 Delete type=0 #877
+2025/03/31-20:50:14.617 10e3 Generated table #883@1: 25501 keys, 2181955 bytes
+2025/03/31-20:50:14.784 10e3 Generated table #886@1: 1620 keys, 2144431 bytes
+2025/03/31-20:50:15.016 10e3 Generated table #887@1: 2111 keys, 2148766 bytes
+2025/03/31-20:50:15.258 10e3 Generated table #888@1: 13349 keys, 2190392 bytes
+2025/03/31-20:50:15.500 10e3 Generated table #889@1: 28249 keys, 2049521 bytes
+2025/03/31-20:50:15.501 10e3 Compacted 1@1 + 6@2 files => 12931044 bytes
+2025/03/31-20:50:15.558 10e3 compacted to: files[ 1 1 15 0 0 0 0 ]
+2025/03/31-20:50:15.559 10e3 Manual compaction at level-0 from '\x00>\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00?\x00\x00\x00' @ 0 : 0; will stop at '\x00>\x00\x00\x05' @ 2713114 : 1
+2025/03/31-20:50:15.559 10e3 Compacting 1@0 + 1@1 files
+2025/03/31-20:50:15.585 10e3 Generated table #890@0: 408 keys, 8339 bytes
+2025/03/31-20:50:15.630 10e3 Generated table #891@0: 1474 keys, 28782 bytes
+2025/03/31-20:50:15.630 10e3 Compacted 1@0 + 1@1 files => 37121 bytes
+2025/03/31-20:50:15.657 10e3 compacted to: files[ 0 2 15 0 0 0 0 ]
+2025/03/31-20:50:15.658 10e3 Delete type=2 #885
+2025/03/31-20:50:15.662 10e3 Manual compaction at level-0 from '\x00>\x00\x00\x05' @ 2713114 : 1 .. '\x00?\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/03/31-20:50:22.447 111b Compacting 1@1 + 1@2 files
+2025/03/31-20:50:22.766 111b Generated table #892@1: 59125 keys, 2216609 bytes
+2025/03/31-20:50:22.770 111b Compacted 1@1 + 1@2 files => 2216609 bytes
+2025/03/31-20:50:22.799 111b compacted to: files[ 0 1 15 0 0 0 0 ]
+2025/03/31-20:50:22.800 111b Delete type=2 #871
+2025/03/31-20:50:22.800 111b Delete type=2 #880
+2025/03/31-20:50:22.800 111b Delete type=2 #874
+2025/03/31-20:50:22.800 111b Delete type=2 #872
+2025/03/31-20:50:22.800 111b Delete type=2 #873
+2025/03/31-20:50:22.800 111b Delete type=2 #879
+2025/03/31-20:50:22.800 111b Delete type=2 #870
+2025/03/31-20:50:22.800 111b Delete type=2 #875
+2025/03/31-20:50:22.800 111b Delete type=2 #890
+2025/03/31-20:50:22.800 111b Delete type=2 #882
+2025/03/31-20:50:42.960 10e0 Level-0 table #894: started
+2025/03/31-20:50:43.114 10e0 Level-0 table #894: 1231830 bytes OK
+2025/03/31-20:50:43.207 10e0 Delete type=0 #884
+2025/03/31-20:50:43.217 10e0 Compacting 1@0 + 1@1 files
+2025/03/31-20:50:43.441 10e0 Generated table #895@0: 26380 keys, 1122222 bytes
+2025/03/31-20:50:43.518 10e0 Generated table #896@0: 1492 keys, 30248 bytes
+2025/03/31-20:50:43.518 10e0 Compacted 1@0 + 1@1 files => 1152470 bytes
+2025/03/31-20:50:43.574 10e0 compacted to: files[ 0 2 15 0 0 0 0 ]
+2025/03/31-20:50:43.575 10e0 Delete type=2 #891
+2025/03/31-20:50:43.575 10e0 Delete type=2 #894
+2025/03/31-20:50:43.616 10e7 Compacting 1@1 + 8@2 files
+2025/03/31-20:50:44.252 10e7 Generated table #897@1: 57001 keys, 2212040 bytes
+2025/03/31-20:50:45.037 10e7 Generated table #898@1: 40144 keys, 2199075 bytes
+2025/03/31-20:50:45.232 10e7 Generated table #899@1: 1364 keys, 2140860 bytes
+2025/03/31-20:50:45.395 10e7 Generated table #900@1: 2095 keys, 2152796 bytes
+2025/03/31-20:50:45.589 10e7 Generated table #901@1: 6532 keys, 2160170 bytes
+2025/03/31-20:50:45.930 10e7 Generated table #902@1: 26096 keys, 2261173 bytes
+2025/03/31-20:50:46.247 10e7 Generated table #903@1: 20711 keys, 2200857 bytes
+2025/03/31-20:50:46.347 10e7 Generated table #904@1: 94 keys, 142146 bytes
+2025/03/31-20:50:46.347 10e7 Compacted 1@1 + 8@2 files => 15469117 bytes
+2025/03/31-20:50:46.453 10e7 compacted to: files[ 0 1 15 0 0 0 0 ]
+2025/03/31-20:50:46.946 10e7 Level-0 table #906: started
+2025/03/31-20:50:47.151 10e7 Level-0 table #906: 1150567 bytes OK
+2025/03/31-20:50:47.191 10e7 Delete type=2 #888
+2025/03/31-20:50:47.191 10e7 Delete type=2 #889
+2025/03/31-20:50:47.191 10e7 Delete type=2 #892
+2025/03/31-20:50:47.191 10e7 Delete type=2 #886
+2025/03/31-20:50:47.191 10e7 Delete type=2 #858
+2025/03/31-20:50:47.191 10e7 Delete type=2 #883
+2025/03/31-20:50:47.191 10e7 Delete type=2 #867
+2025/03/31-20:50:47.191 10e7 Delete type=2 #887
+2025/03/31-20:50:47.191 10e7 Delete type=2 #895
+2025/03/31-20:50:47.191 10e7 Delete type=0 #893
+2025/03/31-20:50:47.233 10e7 Compacting 1@1 + 2@2 files
+2025/03/31-20:50:47.710 10e7 Generated table #907@1: 63341 keys, 2214215 bytes
+2025/03/31-20:50:48.353 10e7 Generated table #908@1: 47438 keys, 2212133 bytes
+2025/03/31-20:50:48.411 10e7 Generated table #909@1: 342 keys, 568611 bytes
+2025/03/31-20:50:48.411 10e7 Compacted 1@1 + 2@2 files => 4994959 bytes
+2025/03/31-20:50:48.473 10e7 compacted to: files[ 0 1 16 0 0 0 0 ]
+2025/03/31-20:50:48.473 10e7 Delete type=2 #897
+2025/03/31-20:50:48.473 10e7 Delete type=2 #898
+2025/03/31-20:50:48.473 10e7 Delete type=2 #906
+2025/03/31-20:50:49.563 10e0 Level-0 table #911: started
+2025/03/31-20:50:49.751 10e0 Level-0 table #911: 946776 bytes OK
+2025/03/31-20:50:49.803 10e0 Delete type=0 #905
+2025/03/31-20:50:49.841 10e7 Compacting 1@1 + 2@2 files
+2025/03/31-20:50:50.314 10e7 Generated table #912@1: 55026 keys, 2200146 bytes
+2025/03/31-20:50:50.698 10e7 Generated table #913@1: 60718 keys, 2226348 bytes
+2025/03/31-20:50:50.767 10e7 Generated table #914@1: 8293 keys, 490718 bytes
+2025/03/31-20:50:50.767 10e7 Compacted 1@1 + 2@2 files => 4917212 bytes
+2025/03/31-20:50:50.823 10e7 compacted to: files[ 0 1 17 0 0 0 0 ]
+2025/03/31-20:50:50.824 10e7 Delete type=2 #908
+2025/03/31-20:50:50.824 10e7 Delete type=2 #911
+2025/03/31-20:50:50.824 10e7 Delete type=2 #907
