@@ -1,3 +1,6 @@
-2025/03/31-20:51:37.100 12c1 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/Local Storage/leveldb/MANIFEST-000001
-2025/03/31-20:51:37.100 12c1 Recovering log #4
-2025/03/31-20:51:37.100 12c1 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/Local Storage/leveldb/000004.log 
+2025/03/31-21:03:18.448 181a Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/Local Storage/leveldb/MANIFEST-000001
+2025/03/31-21:03:18.448 181a Recovering log #4
+2025/03/31-21:03:18.448 181a Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/Local Storage/leveldb/000004.log 
+2025/03/31-21:13:27.900 181b Level-0 table #7: started
+2025/03/31-21:13:27.937 181b Level-0 table #7: 16413 bytes OK
+2025/03/31-21:13:27.968 181b Delete type=0 #4
