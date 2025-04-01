@@ -1,9 +1,6 @@
 import express from 'express';
 import bodyParser from "body-parser"
-import exp from 'constants';
 import pg from 'pg';
-// import pkg from 'pg';
-// const { Pool } = pkg 
 import bcrypt from "bcrypt";
 import session from 'express-session';
 import passport from 'passport';
@@ -16,13 +13,13 @@ import { fileURLToPath } from 'url';
 import GoogleStrategy from "passport-google-oauth2";
 import dotenv from 'dotenv';
 import { sendEmail } from './components/mailer.js';
-import axios from 'axios';
 import whatsappClient from './components/whatsapp.js';
 import { createLog, loadLog } from './components/databaseMechanism.js';
 import { searchPat } from './components/search.js';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { resolveObjectURL } from 'buffer';
 import rateLimit from 'express-rate-limit';
+import {tmpdir} from "os";
 
 dotenv.config();
 if (!process.env.UNAME) {
@@ -840,6 +837,7 @@ app.post('/whatsapp-message', async (req, res) => {
 });
 
 app.post('/generate-pdf', async (req, res) => {
+    
     const {
         name,
         registrationNo,
@@ -865,14 +863,15 @@ app.post('/generate-pdf', async (req, res) => {
     } = req.body;
 
     try {
-        // Load the PDF template
-        const pdfTemplate = await fs.readFile('public/templates/DM screening Form.pdf');
+        // 1. Fix template path loading
+        const templatePath = path.join(__dirname, 'public', 'templates', 'DM screening Form.pdf');
+        const pdfTemplate = await fs.readFile(templatePath);
+        
         if (!pdfTemplate) {
             throw new Error('PDF template not found or is empty');
         }
-        const pdfDoc = await PDFDocument.load(pdfTemplate);
 
-        // Get the first page of the PDF
+        const pdfDoc = await PDFDocument.load(pdfTemplate);
         const page = pdfDoc.getPages()[0];
         const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
         const fontSize = 10;
@@ -908,23 +907,31 @@ app.post('/generate-pdf', async (req, res) => {
         page.drawText(treatmentAdvice || '', { x: 235, y: 180, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
         page.drawText(followUp || '', { x: 55, y: 95, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
 
-        // Save the updated PDF
         const pdfBytes = await pdfDoc.save();
 
-        // Save the PDF to a file
-        const pdfPath = path.join(__dirname + "/tmpPDF/", 'DM-Screening-Form.pdf');
+        // 2. Create temp file path properly
+        const tempDir = tmpdir();
+        const pdfPath = path.join(tempDir, `DM-Screening-Form-${Date.now()}.pdf`);
         await fs.writeFile(pdfPath, pdfBytes);
 
-        // Send the PDF via WhatsApp
-        await whatsappClient.sendMessage("91" + contactNo, name + "'s DM Screening Report", pdfPath);
+        // 3. Fix WhatsApp sending - adjust based on your WhatsApp client's API
+        await whatsappClient.sendMessage(`91${contactNo}`, {
+            document: { url: pdfPath },
+            caption: `${name}'s DM Screening Report`
+        });
 
-        // Respond to the client
+        // Clean up
+        try {
+            await fs.unlink(pdfPath);
+        } catch (cleanupError) {
+            console.error('Error cleaning up temp file:', cleanupError);
+        }
+
         res.status(200).send('PDF generated and sent via WhatsApp');
     } catch (error) {
         console.error('Error generating or sending PDF:', error);
-        res.status(500).send('An error occurred while generating or sending the PDF.');
+        res.status(500).send(`An error occurred: ${error.message}`);
     }
-
 });
 
 

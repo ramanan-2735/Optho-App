@@ -1,33 +1,15 @@
-2025/04/01-19:32:41.101 1bfa Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/04/01-19:32:41.102 1bfa Recovering log #1218
-2025/04/01-19:32:41.124 1bfa Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/001218.log 
-2025/04/01-19:32:43.699 1c09 Level-0 table #1232: started
-2025/04/01-19:32:43.747 1c09 Level-0 table #1232: 174524 bytes OK
-2025/04/01-19:32:43.782 1c09 Delete type=0 #1218
-2025/04/01-19:32:43.788 1c09 Manual compaction at level-0 from '\x00H\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00I\x00\x00\x00' @ 0 : 0; will stop at '\x00H\x00\x00\x05' @ 3648547 : 1
-2025/04/01-19:32:43.789 1c09 Compacting 1@0 + 1@1 files
-2025/04/01-19:32:43.856 1c09 Generated table #1233@0: 3897 keys, 79591 bytes
-2025/04/01-19:32:43.906 1c09 Generated table #1234@0: 2760 keys, 55510 bytes
-2025/04/01-19:32:43.906 1c09 Compacted 1@0 + 1@1 files => 135101 bytes
-2025/04/01-19:32:43.940 1c09 compacted to: files[ 0 2 18 0 0 0 0 ]
-2025/04/01-19:32:43.940 1c09 Delete type=2 #1232
-2025/04/01-19:32:43.944 1c09 Manual compaction at level-0 from '\x00H\x00\x00\x05' @ 3648547 : 1 .. '\x00I\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/04/01-19:32:48.997 1c09 Compacting 1@1 + 7@2 files
-2025/04/01-19:32:49.410 1c09 Generated table #1235@1: 60868 keys, 2221428 bytes
-2025/04/01-19:32:49.859 1c09 Generated table #1236@1: 39383 keys, 2198997 bytes
-2025/04/01-19:32:50.017 1c09 Generated table #1237@1: 1390 keys, 2141108 bytes
-2025/04/01-19:32:50.185 1c09 Generated table #1238@1: 2101 keys, 2156964 bytes
-2025/04/01-19:32:50.360 1c09 Generated table #1239@1: 6334 keys, 2160143 bytes
-2025/04/01-19:32:50.661 1c09 Generated table #1240@1: 25140 keys, 2270577 bytes
-2025/04/01-19:32:51.019 1c09 Generated table #1241@1: 22681 keys, 2205184 bytes
-2025/04/01-19:32:51.019 1c09 Compacted 1@1 + 7@2 files => 15354401 bytes
-2025/04/01-19:32:51.049 1c09 compacted to: files[ 0 1 18 0 0 0 0 ]
-2025/04/01-19:32:51.050 1c09 Delete type=2 #1227
-2025/04/01-19:32:51.050 1c09 Delete type=2 #1226
-2025/04/01-19:32:51.050 1c09 Delete type=2 #1224
-2025/04/01-19:32:51.050 1c09 Delete type=2 #1225
-2025/04/01-19:32:51.050 1c09 Delete type=2 #1223
-2025/04/01-19:32:51.050 1c09 Delete type=2 #1233
-2025/04/01-19:32:51.050 1c09 Delete type=2 #1221
-2025/04/01-19:32:51.050 1c09 Delete type=2 #1228
-2025/04/01-19:32:51.050 1c09 Delete type=2 #1222
+2025/04/01-20:45:48.897 4d68 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/04/01-20:45:48.901 4d68 Recovering log #1300
+2025/04/01-20:45:48.960 4d68 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/001300.log 
+2025/04/01-20:45:52.579 4d98 Level-0 table #1314: started
+2025/04/01-20:45:52.637 4d98 Level-0 table #1314: 179693 bytes OK
+2025/04/01-20:45:52.664 4d98 Delete type=0 #1300
+2025/04/01-20:45:52.667 4d98 Manual compaction at level-0 from '\x00N\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00O\x00\x00\x00' @ 0 : 0; will stop at '\x00N\x00\x00\x05' @ 3690797 : 1
+2025/04/01-20:45:52.667 4d98 Compacting 1@0 + 1@1 files
+2025/04/01-20:45:52.731 4d98 Generated table #1315@0: 3860 keys, 79605 bytes
+2025/04/01-20:45:52.765 4d98 Generated table #1316@0: 152 keys, 7274 bytes
+2025/04/01-20:45:52.765 4d98 Compacted 1@0 + 1@1 files => 86879 bytes
+2025/04/01-20:45:52.788 4d98 compacted to: files[ 0 2 16 0 0 0 0 ]
+2025/04/01-20:45:52.789 4d98 Delete type=2 #1314
+2025/04/01-20:45:52.789 4d98 Manual compaction at level-0 from '\x00N\x00\x00\x05' @ 3690797 : 1 .. '\x00O\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/04/01-20:45:58.492 4d98 Compacting 1@1 + 7@2 files
