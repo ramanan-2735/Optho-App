@@ -52,7 +52,7 @@ client.on('authenticated', () => {
 client.on('ready', () => {
     isClientReady = true;
     retryCount = 0;  // Reset retry counter on successful connection
-    console.log('🚀 Client is ready!');
+    console.log('🚀 Client is ready!'); 
 });
 
 client.on('auth_failure', (msg) => {
@@ -87,7 +87,40 @@ export const initializeClient = async () => {
     }
 };
 
-export const sendMessage = async (phoneNumber, message = "Your Report", filePath = null) => {
+// export const sendMessage = async (phoneNumber, message = "Your Report", filePath = null) => {
+//     try {
+//         if (!isClientReady) {
+//             throw new Error("WhatsApp client is not ready yet!");
+//         }
+
+//         const chatId = `${phoneNumber}@c.us`;
+        
+//         if (filePath) {
+//             const fileBuffer = await fs.readFile(filePath);
+//             const fileExtension = filePath.split('.').pop() || 'file';
+//             const media = new MessageMedia(
+//                 `application/${fileExtension}`,
+//                 fileBuffer.toString('base64'),
+//                 filePath.split('/').pop() || `file.${fileExtension}`
+//             );
+//             await client.sendMessage(chatId, media, { caption: message });
+//             console.log(`📁 File sent to ${phoneNumber}`);
+//         } else {
+//             await client.sendMessage(chatId, message);
+//             console.log(`✉️ Message sent to ${phoneNumber}`);
+//         }
+//     } catch (error) {
+//         console.error(`❌ Error sending to ${phoneNumber}:`, error.message);
+//         throw error;  // Re-throw for caller to handle
+//     }
+// };
+
+export const sendMessage = async (
+    phoneNumber, 
+    message = "Your Report", 
+    fileInput = null,  // Can be filePath (string) OR Buffer
+    fileName = "file.pdf"  // Required if fileInput is a Buffer
+) => {
     try {
         if (!isClientReady) {
             throw new Error("WhatsApp client is not ready yet!");
@@ -95,14 +128,30 @@ export const sendMessage = async (phoneNumber, message = "Your Report", filePath
 
         const chatId = `${phoneNumber}@c.us`;
         
-        if (filePath) {
-            const fileBuffer = await fs.readFile(filePath);
-            const fileExtension = filePath.split('.').pop() || 'file';
-            const media = new MessageMedia(
-                `application/${fileExtension}`,
-                fileBuffer.toString('base64'),
-                filePath.split('/').pop() || `file.${fileExtension}`
-            );
+        if (fileInput) {
+            let media;
+            
+            // Case 1: fileInput is a Buffer (PDF in memory)
+            if (Buffer.isBuffer(fileInput)) {
+                media = new MessageMedia(
+                    'application/pdf',
+                    fileInput.toString('base64'),
+                    fileName
+                );
+            } 
+            // Case 2: fileInput is a file path (legacy support)
+            else if (typeof fileInput === 'string') {
+                const fileBuffer = await fs.readFile(fileInput);
+                const fileExtension = fileInput.split('.').pop() || 'pdf';
+                media = new MessageMedia(
+                    `application/${fileExtension}`,
+                    fileBuffer.toString('base64'),
+                    fileInput.split('/').pop() || fileName
+                );
+            } else {
+                throw new Error("Invalid file input: must be Buffer or file path");
+            }
+
             await client.sendMessage(chatId, media, { caption: message });
             console.log(`📁 File sent to ${phoneNumber}`);
         } else {
@@ -111,7 +160,7 @@ export const sendMessage = async (phoneNumber, message = "Your Report", filePath
         }
     } catch (error) {
         console.error(`❌ Error sending to ${phoneNumber}:`, error.message);
-        throw error;  // Re-throw for caller to handle
+        throw error;
     }
 };
 

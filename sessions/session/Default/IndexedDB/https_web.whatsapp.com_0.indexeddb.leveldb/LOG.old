@@ -1,34 +1,18 @@
-2025/04/01-21:12:21.429 56ee Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/04/01-21:12:21.433 56ee Recovering log #1338
-2025/04/01-21:12:21.593 56ee Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/001338.log 
-2025/04/01-21:12:25.798 56ee Level-0 table #1352: started
-2025/04/01-21:12:25.853 56ee Level-0 table #1352: 172586 bytes OK
-2025/04/01-21:12:25.880 56ee Delete type=0 #1338
-2025/04/01-21:12:25.883 56e1 Manual compaction at level-0 from '\x00Q\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00R\x00\x00\x00' @ 0 : 0; will stop at '\x00Q\x00\x00\x05' @ 3707360 : 1
-2025/04/01-21:12:25.883 56e1 Compacting 1@0 + 1@1 files
-2025/04/01-21:12:25.945 56e1 Generated table #1353@0: 3919 keys, 78779 bytes
-2025/04/01-21:12:25.978 56e1 Generated table #1354@0: 170 keys, 8107 bytes
-2025/04/01-21:12:25.979 56e1 Compacted 1@0 + 1@1 files => 86886 bytes
-2025/04/01-21:12:26.030 56e1 compacted to: files[ 0 2 18 0 0 0 0 ]
-2025/04/01-21:12:26.031 56e1 Delete type=2 #1352
-2025/04/01-21:12:26.036 56e1 Manual compaction at level-0 from '\x00Q\x00\x00\x05' @ 3707360 : 1 .. '\x00R\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/04/01-21:12:31.846 56e1 Compacting 1@1 + 7@2 files
-2025/04/01-21:12:32.315 56e1 Generated table #1355@1: 65444 keys, 2226628 bytes
-2025/04/01-21:12:32.666 56e1 Generated table #1356@1: 41078 keys, 2199302 bytes
-2025/04/01-21:12:32.790 56e1 Generated table #1357@1: 1347 keys, 2140523 bytes
-2025/04/01-21:12:32.999 56e1 Generated table #1358@1: 2135 keys, 2154778 bytes
-2025/04/01-21:12:33.158 56e1 Generated table #1359@1: 4133 keys, 2153256 bytes
-2025/04/01-21:12:33.459 56e1 Generated table #1360@1: 27384 keys, 2268519 bytes
-2025/04/01-21:12:33.685 56e1 Generated table #1361@1: 22262 keys, 2203583 bytes
-2025/04/01-21:12:33.725 56e1 Generated table #1362@1: 41 keys, 13672 bytes
-2025/04/01-21:12:33.725 56e1 Compacted 1@1 + 7@2 files => 15360261 bytes
-2025/04/01-21:12:33.755 56e1 compacted to: files[ 0 1 19 0 0 0 0 ]
-2025/04/01-21:12:33.755 56e1 Delete type=2 #1348
-2025/04/01-21:12:33.755 56e1 Delete type=2 #1342
-2025/04/01-21:12:33.755 56e1 Delete type=2 #1341
-2025/04/01-21:12:33.755 56e1 Delete type=2 #1343
-2025/04/01-21:12:33.755 56e1 Delete type=2 #1345
-2025/04/01-21:12:33.755 56e1 Delete type=2 #1347
-2025/04/01-21:12:33.755 56e1 Delete type=2 #1344
-2025/04/01-21:12:33.755 56e1 Delete type=2 #1346
-2025/04/01-21:12:33.755 56e1 Delete type=2 #1353
+2025/04/01-21:37:07.683 6602 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/04/01-21:37:07.683 6602 Recovering log #327
+2025/04/01-21:37:07.686 6602 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000327.log 
+2025/04/01-21:37:11.372 6600 Level-0 table #339: started
+2025/04/01-21:37:11.432 6600 Level-0 table #339: 34818 bytes OK
+2025/04/01-21:37:11.469 6600 Delete type=0 #327
+2025/04/01-21:37:11.473 65fb Manual compaction at level-0 from '\x004\x00\x00\x00' @ 72057594037927935 : 1 .. '\x005\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/04/01-21:37:17.662 65fb Compacting 1@1 + 8@2 files
+2025/04/01-21:37:17.988 65fb Generated table #340@1: 52824 keys, 2213442 bytes
+2025/04/01-21:37:18.188 65fb Generated table #341@1: 5661 keys, 2157354 bytes
+2025/04/01-21:37:18.358 65fb Generated table #342@1: 1829 keys, 2152567 bytes
+2025/04/01-21:37:18.500 65fb Generated table #343@1: 2625 keys, 2152659 bytes
+2025/04/01-21:37:18.733 65fb Generated table #344@1: 19026 keys, 2225129 bytes
+2025/04/01-21:37:18.975 65fb Generated table #345@1: 35801 keys, 2258308 bytes
+2025/04/01-21:37:19.191 65fb Generated table #346@1: 47662 keys, 2185137 bytes
+2025/04/01-21:37:19.575 65fb Generated table #347@1: 87450 keys, 1966544 bytes
+2025/04/01-21:37:19.575 65fb Compacted 1@1 + 8@2 files => 17311140 bytes
+2025/04/01-21:37:19.633 65fb compacted to: files[ 0 0 8 0 0 0 0 ]

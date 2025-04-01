@@ -875,7 +875,7 @@ app.post('/generate-pdf', async (req, res) => {
             throw new Error('PDF template not found or is empty');
         }
 
-        // 3. Generate PDF
+        // 3. Generate PDF in memory
         const pdfDoc = await PDFDocument.load(pdfTemplate);
         
         if (pdfDoc.getPageCount() === 0) {
@@ -917,27 +917,18 @@ app.post('/generate-pdf', async (req, res) => {
         page.drawText(treatmentAdvice || '', { x: 235, y: 180, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
         page.drawText(followUp || '', { x: 55, y: 95, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
 
-         // 4. Get PDF as a buffer
-         const pdfBytes = await pdfDoc.save();
+         // Inside your /generate-pdf endpoint:
+         const pdfBytes = Buffer.from(await pdfDoc.save()); // Force conversion to Buffer
+// console.log("PDF Buffer Type:", typeof pdfBytes); // Should be 'object'
+// console.log("Is Buffer?", Buffer.isBuffer(pdfBytes)); // Should be true
 
-         // 5. Save temporarily (since your `sendMessage` expects a file path)
-         const tempDir = tmpdir();
-         const pdfPath = path.join(tempDir, `${name}_DM_Screening_Report.pdf`);
-         await fs.writeFile(pdfPath, pdfBytes);
- 
-         // 6. Send via WhatsApp using your existing `sendMessage`
-         await whatsappClient.sendMessage(
-             `91${contactNo}`, // Phone number (with country code)
-             `${name}'s Diabetes Screening Report`, // Caption
-             pdfPath // PDF file path
-         );
- 
-         // 7. Clean up the temp file
-         try {
-             await fs.unlink(pdfPath);
-         } catch (cleanupError) {
-             console.error('Error cleaning up temp file:', cleanupError);
-         }
+// Then call sendMessage
+await whatsappClient.sendMessage(
+    `91${contactNo}`,
+    `${name}'s Diabetes Screening Report`,
+    pdfBytes, // Make sure this is a Buffer
+    `${name}_DM_Screening_Report.pdf`
+);
  
          res.status(200).json({ success: true, message: "PDF sent via WhatsApp!" });
      } catch (error) {

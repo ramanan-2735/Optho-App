@@ -1,43 +1,37 @@
-2025/04/01-21:12:57.661 5844 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/04/01-21:12:57.670 5844 Recovering log #1351
-2025/04/01-21:12:57.709 5844 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/001351.log 
-2025/04/01-21:13:00.114 5846 Level-0 table #1365: started
-2025/04/01-21:13:00.169 5846 Level-0 table #1365: 160784 bytes OK
-2025/04/01-21:13:00.195 5846 Delete type=0 #1351
-2025/04/01-21:13:00.196 5846 Manual compaction at level-0 from '\x00R\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00S\x00\x00\x00' @ 0 : 0; will stop at '\x00R\x00\x00\x05' @ 3714376 : 1
-2025/04/01-21:13:00.196 5846 Compacting 1@0 + 1@1 files
-2025/04/01-21:13:00.286 5846 Generated table #1366@0: 3699 keys, 73890 bytes
-2025/04/01-21:13:00.319 5846 Generated table #1367@0: 181 keys, 11291 bytes
-2025/04/01-21:13:00.320 5846 Compacted 1@0 + 1@1 files => 85181 bytes
-2025/04/01-21:13:00.346 5846 compacted to: files[ 0 2 19 0 0 0 0 ]
-2025/04/01-21:13:00.350 5846 Manual compaction at level-0 from '\x00R\x00\x00\x05' @ 3714376 : 1 .. '\x00S\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/04/01-21:13:06.487 5846 Compacting 1@1 + 7@2 files
-2025/04/01-21:13:07.060 5846 Generated table #1368@1: 66002 keys, 2226882 bytes
-2025/04/01-21:13:07.478 5846 Generated table #1369@1: 41242 keys, 2201786 bytes
-2025/04/01-21:13:07.662 5846 Generated table #1370@1: 1342 keys, 2140193 bytes
-2025/04/01-21:13:07.882 5846 Generated table #1371@1: 2136 keys, 2152951 bytes
-2025/04/01-21:13:08.241 5846 Generated table #1372@1: 3966 keys, 2153154 bytes
-2025/04/01-21:13:08.749 5846 Generated table #1373@1: 27563 keys, 2279806 bytes
-2025/04/01-21:13:09.041 5846 Generated table #1374@1: 22262 keys, 2203528 bytes
-2025/04/01-21:13:09.041 5846 Compacted 1@1 + 7@2 files => 15358300 bytes
-2025/04/01-21:13:09.069 5846 compacted to: files[ 0 1 19 0 0 0 0 ]
-2025/04/01-21:13:09.070 5846 Delete type=2 #1359
-2025/04/01-21:13:09.070 5846 Delete type=2 #1361
-2025/04/01-21:13:09.070 5846 Delete type=2 #1365
-2025/04/01-21:13:09.070 5846 Delete type=2 #1358
-2025/04/01-21:13:09.070 5846 Delete type=2 #1360
-2025/04/01-21:13:09.070 5846 Delete type=2 #1354
-2025/04/01-21:13:09.070 5846 Delete type=2 #1366
-2025/04/01-21:13:09.070 5846 Delete type=2 #1355
-2025/04/01-21:13:09.070 5846 Delete type=2 #1357
-2025/04/01-21:13:09.070 5846 Delete type=2 #1356
-2025/04/01-21:13:25.348 5845 Compacting 1@1 + 3@2 files
-2025/04/01-21:13:25.787 5845 Generated table #1375@1: 104157 keys, 2255874 bytes
-2025/04/01-21:13:26.179 5845 Generated table #1376@1: 104162 keys, 2255449 bytes
-2025/04/01-21:13:26.423 5845 Generated table #1377@1: 84777 keys, 1856548 bytes
-2025/04/01-21:13:26.423 5845 Compacted 1@1 + 3@2 files => 6367871 bytes
-2025/04/01-21:13:26.452 5845 compacted to: files[ 0 0 19 0 0 0 0 ]
-2025/04/01-21:13:26.453 5845 Delete type=2 #1257
-2025/04/01-21:13:26.453 5845 Delete type=2 #1367
-2025/04/01-21:13:26.453 5845 Delete type=2 #1256
-2025/04/01-21:13:26.453 5845 Delete type=2 #1255
+2025/04/01-21:37:51.875 678f Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/04/01-21:37:51.875 678f Recovering log #338
+2025/04/01-21:37:52.187 678f Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000338.log 
+2025/04/01-21:37:52.190 678f Delete type=2 #333
+2025/04/01-21:37:52.190 678f Delete type=2 #332
+2025/04/01-21:37:52.190 678f Delete type=2 #336
+2025/04/01-21:37:52.190 678f Delete type=2 #329
+2025/04/01-21:37:52.190 678f Delete type=2 #339
+2025/04/01-21:37:52.190 678f Delete type=2 #334
+2025/04/01-21:37:52.190 678f Delete type=2 #331
+2025/04/01-21:37:52.190 678f Delete type=2 #335
+2025/04/01-21:37:52.190 678f Delete type=2 #330
+2025/04/01-21:37:54.366 67c0 Level-0 table #350: started
+2025/04/01-21:37:54.488 67c0 Level-0 table #350: 686307 bytes OK
+2025/04/01-21:37:54.525 67c0 Delete type=0 #338
+2025/04/01-21:37:54.529 67bf Manual compaction at level-0 from '\x005\x00\x00\x00' @ 72057594037927935 : 1 .. '\x006\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/04/01-21:37:59.984 678a Compacting 1@1 + 8@2 files
+2025/04/01-21:38:00.483 678a Generated table #351@1: 53354 keys, 2213677 bytes
+2025/04/01-21:38:00.654 678a Generated table #352@1: 6721 keys, 2146135 bytes
+2025/04/01-21:38:00.844 678a Generated table #353@1: 1809 keys, 2149721 bytes
+2025/04/01-21:38:01.044 678a Generated table #354@1: 2512 keys, 2152875 bytes
+2025/04/01-21:38:01.337 678a Generated table #355@1: 18346 keys, 2221099 bytes
+2025/04/01-21:38:01.629 678a Generated table #356@1: 35231 keys, 2260553 bytes
+2025/04/01-21:38:02.029 678a Generated table #357@1: 42824 keys, 2178808 bytes
+2025/04/01-21:38:02.412 678a Generated table #358@1: 100884 keys, 2252328 bytes
+2025/04/01-21:38:02.496 678a Generated table #359@1: 1096 keys, 27908 bytes
+2025/04/01-21:38:02.496 678a Compacted 1@1 + 8@2 files => 17603104 bytes
+2025/04/01-21:38:02.579 678a compacted to: files[ 0 0 9 0 0 0 0 ]
+2025/04/01-21:38:02.581 678a Delete type=2 #342
+2025/04/01-21:38:02.581 678a Delete type=2 #345
+2025/04/01-21:38:02.581 678a Delete type=2 #343
+2025/04/01-21:38:02.581 678a Delete type=2 #347
+2025/04/01-21:38:02.581 678a Delete type=2 #344
+2025/04/01-21:38:02.581 678a Delete type=2 #341
+2025/04/01-21:38:02.581 678a Delete type=2 #346
+2025/04/01-21:38:02.581 678a Delete type=2 #340
+2025/04/01-21:38:02.581 678a Delete type=2 #350
