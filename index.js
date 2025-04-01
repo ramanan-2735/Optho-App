@@ -837,7 +837,6 @@ app.post('/whatsapp-message', async (req, res) => {
 });
 
 app.post('/generate-pdf', async (req, res) => {
-    
     const {
         name,
         registrationNo,
@@ -863,7 +862,12 @@ app.post('/generate-pdf', async (req, res) => {
     } = req.body;
 
     try {
-        // 1. Fix template path loading
+        // 1. Validate required fields
+        if (!name || !contactNo) {
+            return res.status(400).json({ error: "Name and contact number are required" });
+        }
+
+        // 2. Load PDF template
         const templatePath = path.join(__dirname, 'public', 'templates', 'DM screening Form.pdf');
         const pdfTemplate = await fs.readFile(templatePath);
         
@@ -871,7 +875,13 @@ app.post('/generate-pdf', async (req, res) => {
             throw new Error('PDF template not found or is empty');
         }
 
+        // 3. Generate PDF
         const pdfDoc = await PDFDocument.load(pdfTemplate);
+        
+        if (pdfDoc.getPageCount() === 0) {
+            throw new Error('PDF template has no pages');
+        }
+        
         const page = pdfDoc.getPages()[0];
         const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
         const fontSize = 10;
@@ -907,32 +917,34 @@ app.post('/generate-pdf', async (req, res) => {
         page.drawText(treatmentAdvice || '', { x: 235, y: 180, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
         page.drawText(followUp || '', { x: 55, y: 95, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
 
-        const pdfBytes = await pdfDoc.save();
+         // 4. Get PDF as a buffer
+         const pdfBytes = await pdfDoc.save();
 
-        // 2. Create temp file path properly
-        const tempDir = tmpdir();
-        const pdfPath = path.join(tempDir, `DM-Screening-Form-${Date.now()}.pdf`);
-        await fs.writeFile(pdfPath, pdfBytes);
-
-        // 3. Fix WhatsApp sending - adjust based on your WhatsApp client's API
-        await whatsappClient.sendMessage(`91${contactNo}`, {
-            document: { url: pdfPath },
-            caption: `${name}'s DM Screening Report`
-        });
-
-        // Clean up
-        try {
-            await fs.unlink(pdfPath);
-        } catch (cleanupError) {
-            console.error('Error cleaning up temp file:', cleanupError);
-        }
-
-        res.status(200).send('PDF generated and sent via WhatsApp');
-    } catch (error) {
-        console.error('Error generating or sending PDF:', error);
-        res.status(500).send(`An error occurred: ${error.message}`);
-    }
-});
+         // 5. Save temporarily (since your `sendMessage` expects a file path)
+         const tempDir = tmpdir();
+         const pdfPath = path.join(tempDir, `${name}_DM_Screening_Report.pdf`);
+         await fs.writeFile(pdfPath, pdfBytes);
+ 
+         // 6. Send via WhatsApp using your existing `sendMessage`
+         await whatsappClient.sendMessage(
+             `91${contactNo}`, // Phone number (with country code)
+             `${name}'s Diabetes Screening Report`, // Caption
+             pdfPath // PDF file path
+         );
+ 
+         // 7. Clean up the temp file
+         try {
+             await fs.unlink(pdfPath);
+         } catch (cleanupError) {
+             console.error('Error cleaning up temp file:', cleanupError);
+         }
+ 
+         res.status(200).json({ success: true, message: "PDF sent via WhatsApp!" });
+     } catch (error) {
+         console.error("Error:", error);
+         res.status(500).json({ error: error.message });
+     }
+ });
 
 
 app.post("/login", passport.authenticate("local", {
