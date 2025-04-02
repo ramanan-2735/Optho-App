@@ -1,37 +1,23 @@
-2025/04/01-21:37:51.875 678f Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/04/01-21:37:51.875 678f Recovering log #338
-2025/04/01-21:37:52.187 678f Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000338.log 
-2025/04/01-21:37:52.190 678f Delete type=2 #333
-2025/04/01-21:37:52.190 678f Delete type=2 #332
-2025/04/01-21:37:52.190 678f Delete type=2 #336
-2025/04/01-21:37:52.190 678f Delete type=2 #329
-2025/04/01-21:37:52.190 678f Delete type=2 #339
-2025/04/01-21:37:52.190 678f Delete type=2 #334
-2025/04/01-21:37:52.190 678f Delete type=2 #331
-2025/04/01-21:37:52.190 678f Delete type=2 #335
-2025/04/01-21:37:52.190 678f Delete type=2 #330
-2025/04/01-21:37:54.366 67c0 Level-0 table #350: started
-2025/04/01-21:37:54.488 67c0 Level-0 table #350: 686307 bytes OK
-2025/04/01-21:37:54.525 67c0 Delete type=0 #338
-2025/04/01-21:37:54.529 67bf Manual compaction at level-0 from '\x005\x00\x00\x00' @ 72057594037927935 : 1 .. '\x006\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/04/01-21:37:59.984 678a Compacting 1@1 + 8@2 files
-2025/04/01-21:38:00.483 678a Generated table #351@1: 53354 keys, 2213677 bytes
-2025/04/01-21:38:00.654 678a Generated table #352@1: 6721 keys, 2146135 bytes
-2025/04/01-21:38:00.844 678a Generated table #353@1: 1809 keys, 2149721 bytes
-2025/04/01-21:38:01.044 678a Generated table #354@1: 2512 keys, 2152875 bytes
-2025/04/01-21:38:01.337 678a Generated table #355@1: 18346 keys, 2221099 bytes
-2025/04/01-21:38:01.629 678a Generated table #356@1: 35231 keys, 2260553 bytes
-2025/04/01-21:38:02.029 678a Generated table #357@1: 42824 keys, 2178808 bytes
-2025/04/01-21:38:02.412 678a Generated table #358@1: 100884 keys, 2252328 bytes
-2025/04/01-21:38:02.496 678a Generated table #359@1: 1096 keys, 27908 bytes
-2025/04/01-21:38:02.496 678a Compacted 1@1 + 8@2 files => 17603104 bytes
-2025/04/01-21:38:02.579 678a compacted to: files[ 0 0 9 0 0 0 0 ]
-2025/04/01-21:38:02.581 678a Delete type=2 #342
-2025/04/01-21:38:02.581 678a Delete type=2 #345
-2025/04/01-21:38:02.581 678a Delete type=2 #343
-2025/04/01-21:38:02.581 678a Delete type=2 #347
-2025/04/01-21:38:02.581 678a Delete type=2 #344
-2025/04/01-21:38:02.581 678a Delete type=2 #341
-2025/04/01-21:38:02.581 678a Delete type=2 #346
-2025/04/01-21:38:02.581 678a Delete type=2 #340
-2025/04/01-21:38:02.581 678a Delete type=2 #350
+2025/04/02-20:53:24.974 35eb Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/04/02-20:53:24.974 35eb Recovering log #87
+2025/04/02-20:53:24.983 35eb Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000087.log 
+2025/04/02-20:53:27.466 35dd Level-0 table #93: started
+2025/04/02-20:53:27.508 35dd Level-0 table #93: 34055 bytes OK
+2025/04/02-20:53:27.539 35dd Delete type=0 #87
+2025/04/02-20:53:27.541 35dd Manual compaction at level-0 from '\x00 \x00\x00\x00' @ 72057594037927935 : 1 .. '\x00!\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/04/02-20:53:32.001 35dd Compacting 1@1 + 2@2 files
+2025/04/02-20:53:32.369 35dd Generated table #94@1: 34027 keys, 2192246 bytes
+2025/04/02-20:53:32.561 35dd Generated table #95@1: 42574 keys, 1343682 bytes
+2025/04/02-20:53:32.561 35dd Compacted 1@1 + 2@2 files => 3535928 bytes
+2025/04/02-20:53:32.596 35dd compacted to: files[ 0 0 2 0 0 0 0 ]
+2025/04/02-20:53:32.597 35dd Delete type=2 #89
+2025/04/02-20:53:32.597 35dd Delete type=2 #93
+2025/04/02-20:53:32.597 35dd Delete type=2 #90
+2025/04/02-20:54:00.363 3613 Level-0 table #97: started
+2025/04/02-20:54:00.571 3613 Level-0 table #97: 1124168 bytes OK
+2025/04/02-20:54:00.604 3613 Delete type=0 #92
+2025/04/02-20:54:01.617 3613 Compacting 1@1 + 2@2 files
+2025/04/02-20:54:01.880 3613 Generated table #98@1: 34487 keys, 2197172 bytes
+2025/04/02-20:54:02.247 3613 Generated table #99@1: 60093 keys, 1841485 bytes
+2025/04/02-20:54:02.247 3613 Compacted 1@1 + 2@2 files => 4038657 bytes
+2025/04/02-20:54:02.279 3613 compacted to: files[ 0 0 2 0 0 0 0 ]

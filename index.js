@@ -861,81 +861,85 @@ app.post('/generate-pdf', async (req, res) => {
         followUp,
     } = req.body;
 
-    try {
-        // 1. Validate required fields
-        if (!name || !contactNo) {
-            return res.status(400).json({ error: "Name and contact number are required" });
-        }
+//     try {
+//         // 1. Validate required fields
+//         if (!name || !contactNo) {
+//             return res.status(400).json({ error: "Name and contact number are required" });
+//         }
 
-        // 2. Load PDF template
-        const templatePath = path.join(__dirname, 'public', 'templates', 'DM screening Form.pdf');
-        const pdfTemplate = await fs.readFile(templatePath);
+//         // 2. Load PDF template
+//         const templatePath = path.join(__dirname, 'public', 'templates', 'DM screening Form.pdf');
+//         const pdfTemplate = await fs.readFile(templatePath);
         
-        if (!pdfTemplate) {
-            throw new Error('PDF template not found or is empty');
-        }
+//         if (!pdfTemplate) {
+//             throw new Error('PDF template not found or is empty');
+//         }
 
-        // 3. Generate PDF in memory
-        const pdfDoc = await PDFDocument.load(pdfTemplate);
+//         // 3. Generate PDF in memory
+//         const pdfDoc = await PDFDocument.load(pdfTemplate);
         
-        if (pdfDoc.getPageCount() === 0) {
-            throw new Error('PDF template has no pages');
-        }
+//         if (pdfDoc.getPageCount() === 0) {
+//             throw new Error('PDF template has no pages');
+//         }
         
-        const page = pdfDoc.getPages()[0];
-        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-        const fontSize = 10;
+//         const page = pdfDoc.getPages()[0];
+//         const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+//         const fontSize = 10;
 
-        // Fill in the blank fields
-        page.drawText(name || '', { x: 120, y: 595, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(registrationNo || '', { x: 450, y: 595, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${age || ''}`, { x: 145, y: 570, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(sex || '', { x: 255, y: 570, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(contactNo || '', { x: 400, y: 570, size: fontSize, font, color: rgb(0, 0, 0) });
+//         // Fill in the blank fields
+//         page.drawText(name || '', { x: 120, y: 595, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(registrationNo || '', { x: 450, y: 595, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${age || ''}`, { x: 145, y: 570, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(sex || '', { x: 255, y: 570, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(contactNo || '', { x: 400, y: 570, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(" - " + diabetesType || '', { x: 315, y: 545, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(" - " + diabetesType || '', { x: 315, y: 545, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(insulin ? 'Yes' : 'No', { x: 190, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${noOfOHA || ''}`, { x: 410, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${hba1c || ''}`, { x: 505, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(insulin ? 'Yes' : 'No', { x: 190, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${noOfOHA || ''}`, { x: 410, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${hba1c || ''}`, { x: 505, y: 520, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${bcvar || 'Nil'}`, { x: 385, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${bcval || 'Nil'}`, { x: 285, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${bcvar || 'Nil'}`, { x: 385, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${bcval || 'Nil'}`, { x: 285, y: 415, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${iopr || 'Nil'}`, { x: 385, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${iopl || 'Nil'}`, { x: 285, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${iopr || 'Nil'}`, { x: 385, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${iopl || 'Nil'}`, { x: 285, y: 385, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${drr || 'Nil'}`, { x: 250, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${drl || 'Nil'}`, { x: 250, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${drr || 'Nil'}`, { x: 250, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${drl || 'Nil'}`, { x: 250, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${mer || 'Nil'}`, { x: 385, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${mel || 'Nil'}`, { x: 385, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${mer || 'Nil'}`, { x: 385, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${mel || 'Nil'}`, { x: 385, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(`${octr || 'Nil'}`, { x: 495, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
-        page.drawText(`${octl || 'Nil'}`, { x: 495, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${octr || 'Nil'}`, { x: 495, y: 268, size: fontSize, font, color: rgb(0, 0, 0) });
+//         page.drawText(`${octl || 'Nil'}`, { x: 495, y: 240, size: fontSize, font, color: rgb(0, 0, 0) });
 
-        page.drawText(treatmentAdvice || '', { x: 235, y: 180, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
-        page.drawText(followUp || '', { x: 55, y: 95, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
+//         page.drawText(treatmentAdvice || '', { x: 235, y: 180, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
+//         page.drawText(followUp || '', { x: 55, y: 95, size: fontSize, font, color: rgb(0, 0, 0), lineHeight: 14 });
 
-         // Inside your /generate-pdf endpoint:
-         const pdfBytes = Buffer.from(await pdfDoc.save()); // Force conversion to Buffer
-// console.log("PDF Buffer Type:", typeof pdfBytes); // Should be 'object'
-// console.log("Is Buffer?", Buffer.isBuffer(pdfBytes)); // Should be true
+//          // Inside your /generate-pdf endpoint:
+//          const pdfBytes = Buffer.from(await pdfDoc.save()); // Force conversion to Buffer
+// // console.log("PDF Buffer Type:", typeof pdfBytes); // Should be 'object'
+// // console.log("Is Buffer?", Buffer.isBuffer(pdfBytes)); // Should be true
 
-// Then call sendMessage
+// // Then call sendMessage
+// await whatsappClient.sendMessage(
+//     `91${contactNo}`,
+//     `${name}'s Diabetes Screening Report`,
+//     pdfBytes, // Make sure this is a Buffer
+//     `${name}_DM_Screening_Report.pdf`
+// );
+
 await whatsappClient.sendMessage(
-    `91${contactNo}`,
-    `${name}'s Diabetes Screening Report`,
-    pdfBytes, // Make sure this is a Buffer
-    `${name}_DM_Screening_Report.pdf`
+    `91${contactNo}`
 );
  
-         res.status(200).json({ success: true, message: "PDF sent via WhatsApp!" });
-     } catch (error) {
-         console.error("Error:", error);
-         res.status(500).json({ error: error.message });
-     }
- });
+//          res.status(200).json({ success: true, message: "PDF sent via WhatsApp!" });
+//      } catch (error) {
+//          console.error("Error:", error);
+//          res.status(500).json({ error: error.message });
+//      }
+  });
 
 
 app.post("/login", passport.authenticate("local", {

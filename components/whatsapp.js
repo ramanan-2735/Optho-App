@@ -119,7 +119,7 @@ export const sendMessage = async (
     phoneNumber, 
     message = "Your Report", 
     fileInput = null,  // Can be filePath (string) OR Buffer
-    fileName = "file.pdf"  // Required if fileInput is a Buffer
+    fileName = "file.pdf" || null // Required if fileInput is a Buffer
 ) => {
     try {
         if (!isClientReady) {
