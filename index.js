@@ -12,8 +12,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import GoogleStrategy from "passport-google-oauth2";
 import dotenv from 'dotenv';
-import { sendEmail } from './components/mailer.js';
-import whatsappClient from './components/whatsapp.js';
+// import { sendEmail } from './components/mailer.js';
+// import whatsappClient from './components/whatsapp.js';
 import { createLog, loadLog } from './components/databaseMechanism.js';
 import { searchPat } from './components/search.js';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
@@ -72,7 +72,7 @@ const db = new pg.Pool({
 });
 
 db.connect();
-whatsappClient.initializeClient;
+// whatsappClient.initializeClient;
 
 
 
@@ -441,48 +441,126 @@ app.get("/auth/google/home", passport.authenticate("google", {
 
 
 // POST
-app.post("/addPat", async (req, res) => {
-    const det = req.body;
+// app.post("/addPat", async (req, res) => {
+//     const det = req.body;
 
+//     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
+//     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
+
+//     let reason="";
+//     if(req.body.quen2 === "Others"){
+//          reason = "Others - "+ req.body.other_reason;
+//     }
+
+//     console.log("Received Data:", det);
+
+//     let formattedTreatments = [];
+
+//     // **Fixed Treatment-to-Date & Specification Mapping**
+//     const treatmentDateFields = {
+//         "Intravitreal injection": { dateKey: "injection_date", specKey: "injection_spec" },
+//         "PRP": { dateKey: "prp_date", specKey: "prp_spec" },
+//         "Retinal surgery": { dateKey: "surgery_date", specKey: "retinal_spec" },
+//         "None": { dateKey: "none_date", specKey: null } // "None" doesn't have a spec
+//     };
+
+//     // **Iterate through selected treatments**
+//     treatment.forEach(treat => {
+//         let dateKey = treatmentDateFields[treat]?.dateKey;
+//         let specKey = treatmentDateFields[treat]?.specKey;
+
+//         let date = req.body[dateKey] || "Not known"; // Default to "Not known" if empty
+//         let spec = specKey ? req.body[specKey] || "Not Mentioned" : null; // Default "Not known" if empty
+
+//         // Construct formatted treatment string
+//         let treatmentStr = treat;
+//         if (spec) treatmentStr += ` - (${spec})`; // Add specification if available
+//         if (date) treatmentStr += ` - ${date}`; // Add date if available
+
+//         formattedTreatments.push(treatmentStr);
+//     });
+
+//     let formattedAdvice = [];
+
+//     // **Fixed Treatment Advice to Specification Mapping**
+//     const treatmentAdviceFields = {
+//         "Continue same treatment": "continue_advspec",
+//         "Start new medications": "medication_advspec",
+//         "PRP": "prp_advspec",
+//         "Intravitreal injection": "injection_advspec",
+//         "Vitreoretinal Surgery": "surgery_advspec"
+//     };
+
+//     // **Iterate through selected treatment advice**
+//     advice.forEach(advice => {
+//         let specKey = treatmentAdviceFields[advice]; // Get the specification field name
+//         let spec = specKey ? req.body[specKey] || "Not Mentioned" : "Not Mentioned"; // Default to "Not known" if empty
+
+//         // Construct formatted advice string
+//         let adviceStr = advice;
+//         if (spec) adviceStr += ` - (${spec})`; // Add specification if available
+
+//         formattedAdvice.push(adviceStr);
+//     });
+
+//     console.log("Formatted Treatments:", formattedTreatments);
+//     console.log("Formatted Treatment Advice:", formattedAdvice);
+//     cl(reason);
+
+
+//     try {
+//         await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp, quen1, quen2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24,$25,$26)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, formattedAdvice, det.fllwp,det.quen1,reason]);
+
+//         try {
+//             await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, formattedAdvice, det.fllwp);
+//         } catch (e) {
+//             console.log(e.message); 
+//             res.redirect("/addPat");
+//         }
+//     } catch (e) {
+//         console.log(e);
+//         res.redirect("/addPat");
+//     }
+//     res.redirect("/home");
+//     // res.redirect("/addPat")
+
+// });
+
+// Helper functions
+function processFormData(det) {
+    // Process treatments
+    const formattedTreatments = processTreatments(det);
+    
+    // Process advice
+    const formattedAdvice = processAdvice(det);
+    
+    return { formattedTreatments, formattedAdvice };
+}
+
+function processTreatments(det) {
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
-    const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
-
-    let reason="";
-    if(req.body.quen2 === "Others"){
-         reason = "Others - "+ req.body.other_reason;
-    }
-
-    console.log("Received Data:", det);
-
-    let formattedTreatments = [];
-
-    // **Fixed Treatment-to-Date & Specification Mapping**
     const treatmentDateFields = {
         "Intravitreal injection": { dateKey: "injection_date", specKey: "injection_spec" },
         "PRP": { dateKey: "prp_date", specKey: "prp_spec" },
         "Retinal surgery": { dateKey: "surgery_date", specKey: "retinal_spec" },
-        "None": { dateKey: "none_date", specKey: null } // "None" doesn't have a spec
+        "None": { dateKey: "none_date", specKey: null }
     };
 
-    // **Iterate through selected treatments**
-    treatment.forEach(treat => {
-        let dateKey = treatmentDateFields[treat]?.dateKey;
-        let specKey = treatmentDateFields[treat]?.specKey;
+    return treatment.map(treat => {
+        const { dateKey, specKey } = treatmentDateFields[treat] || {};
+        const date = det[dateKey] || "Not known";
+        const spec = specKey ? (det[specKey] || "Not Mentioned") : null;
 
-        let date = req.body[dateKey] || "Not known"; // Default to "Not known" if empty
-        let spec = specKey ? req.body[specKey] || "Not Mentioned" : null; // Default "Not known" if empty
-
-        // Construct formatted treatment string
         let treatmentStr = treat;
-        if (spec) treatmentStr += ` - (${spec})`; // Add specification if available
-        if (date) treatmentStr += ` - ${date}`; // Add date if available
-
-        formattedTreatments.push(treatmentStr);
+        if (spec) treatmentStr += ` - (${spec})`;
+        if (date) treatmentStr += ` - ${date}`;
+        
+        return treatmentStr;
     });
+}
 
-    let formattedAdvice = [];
-
-    // **Fixed Treatment Advice to Specification Mapping**
+function processAdvice(det) {
+    const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
     const treatmentAdviceFields = {
         "Continue same treatment": "continue_advspec",
         "Start new medications": "medication_advspec",
@@ -491,40 +569,71 @@ app.post("/addPat", async (req, res) => {
         "Vitreoretinal Surgery": "surgery_advspec"
     };
 
-    // **Iterate through selected treatment advice**
-    advice.forEach(advice => {
-        let specKey = treatmentAdviceFields[advice]; // Get the specification field name
-        let spec = specKey ? req.body[specKey] || "Not Mentioned" : "Not Mentioned"; // Default to "Not known" if empty
-
-        // Construct formatted advice string
-        let adviceStr = advice;
-        if (spec) adviceStr += ` - (${spec})`; // Add specification if available
-
-        formattedAdvice.push(adviceStr);
+    return advice.map(adv => {
+        const specKey = treatmentAdviceFields[adv];
+        const spec = specKey ? (det[specKey] || "Not Mentioned") : null;
+        
+        return spec ? `${adv} - (${spec})` : adv;
     });
+}
 
-    console.log("Formatted Treatments:", formattedTreatments);
-    console.log("Formatted Treatment Advice:", formattedAdvice);
-    cl(reason);
+async function insertPatientDetails(det, treatments, advice, reason) {
+    const query = `
+        INSERT INTO details(
+            name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, 
+            HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, 
+            octr, octl, advice, fllwp, quen1, quen2
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 
+                  $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, 
+                  $21, $22, $23, $24, $25, $26)
+    `;
+    
+    const values = [
+        det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, 
+        det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatments, 
+        det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, 
+        det.mer, det.mel, det.octr, det.octl, advice, det.fllwp, 
+        det.quen1, reason
+    ];
+    
+    await db.query(query, values);
+}
 
+async function createLogEntry(det, treatments, advice) {    
+    createLog(1, det.reg ,det.dtype,det.ddur,det.insulin,det.oha,det.HBA1c,treatments,det.bcvar,det.bcval,det.iopr,det.iopl,det.drr,det.drl,det.mer,det.mel,det.octr,det.octl,advice,det.fllwp);
+}
 
+app.post("/addPat", async (req, res) => {
     try {
-        await db.query("INSERT INTO details(name, reg, age, sex, contact, beneficiary, dtype, ddur, insulin, oha, HBA1c, treatment, bcvar, bcval, iopr, iopl, drr, drl, mer, mel, octr, octl, advice, fllwp, quen1, quen2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,$23, $24,$25,$26)", [det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, formattedAdvice, det.fllwp,det.quen1,reason]);
-
-        try {
-            await createLog(1,det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, formattedAdvice, det.fllwp);
-        } catch (e) {
-            console.log(e.message); 
-            res.redirect("/addPat");
+        const det = req.body;
+        
+        // Validate required fields
+        if (!det.reg) {
+            throw new Error("Registration number is required");
         }
-    } catch (e) {
-        console.log(e);
+
+        // Format treatments and advice
+        const { formattedTreatments, formattedAdvice } = processFormData(det);
+        
+        // Handle special case for "Others" reason
+        const reason = det.quen2 === "Others" 
+            ? `Others - ${det.other_reason || 'Not specified'}` 
+            : det.quen2 || '';
+
+        // Insert patient details
+        await insertPatientDetails(det, formattedTreatments, formattedAdvice, reason);
+        
+        // Create log entry
+        await createLogEntry(det, formattedTreatments, formattedAdvice);
+        
+        res.redirect("/home");
+    } catch (error) {
+        console.error("Error in /addPat:", error.message);
         res.redirect("/addPat");
     }
-    res.redirect("/home");
-    // res.redirect("/addPat")
-
 });
+
+
 
 app.get("/deletePat/:id", async (req, res) => {
     const delReg = (req.params.id);
@@ -673,26 +782,26 @@ app.post("/register", async (req, res) => {
 })
 
 // Email API endpoint
-app.post('/send-email', async (req, res) => {
-    const { recipient, subject, templateData } = req.body;
+// app.post('/send-email', async (req, res) => {
+//     const { recipient, subject, templateData } = req.body;
 
-    // Generate dynamic email content
-    const emailTemplate = `
-        <h1>Hello ${templateData.name}!</h1>
-        <p>${templateData.message.greet}</p>
-        <p>That your ETDRS grade for right eye is ${templateData.message.drr}</p>
-        <p>That your ETDRS grade for left eye is ${templateData.message.drl}</p>
-        <p>That your Macular Edema for right eye is ${templateData.message.mer}</p>
-        <p>That your Macular Edema for left eye is ${templateData.message.mel}</p>
-        <p>That your OCT Finding for right eye is ${templateData.message.octr}</p>
-        <p>That your OCT Finding for left eye is ${templateData.message.octl}</p>
+//     // Generate dynamic email content
+//     const emailTemplate = `
+//         <h1>Hello ${templateData.name}!</h1>
+//         <p>${templateData.message.greet}</p>
+//         <p>That your ETDRS grade for right eye is ${templateData.message.drr}</p>
+//         <p>That your ETDRS grade for left eye is ${templateData.message.drl}</p>
+//         <p>That your Macular Edema for right eye is ${templateData.message.mer}</p>
+//         <p>That your Macular Edema for left eye is ${templateData.message.mel}</p>
+//         <p>That your OCT Finding for right eye is ${templateData.message.octr}</p>
+//         <p>That your OCT Finding for left eye is ${templateData.message.octl}</p>
         
-        <p>Thank you for using our service.</p>
-    `;
+//         <p>Thank you for using our service.</p>
+//     `;
 
-    const result = await sendEmail(recipient, subject, emailTemplate);
-    res.status(result.success ? 200 : 500).json(result);
-});
+//     const result = await sendEmail(recipient, subject, emailTemplate);
+//     res.status(result.success ? 200 : 500).json(result);
+// });
 
 
 // SMS Endpoint
@@ -742,18 +851,18 @@ app.post('/send-email', async (req, res) => {
 let latestQrUrl = '';
 
 // Update the stored QR URL when generated
-whatsappClient.qrCodeEmitter.on('qrCodeGenerated', (url) => {
-    latestQrUrl = url;
-    console.log('QR Code updated');
-});
+// whatsappClient.qrCodeEmitter.on('qrCodeGenerated', (url) => {
+//     latestQrUrl = url;
+//     console.log('QR Code updated');
+// });
 
-app.get('/get-qr-code', (req, res) => {
-    if (latestQrUrl) {
-        res.json({ success: true, qrCodeUrl: latestQrUrl });
-    } else {
-        res.json({ success: false, message: 'QR code not generated yet.' });
-    }
-});
+// app.get('/get-qr-code', (req, res) => {
+//     if (latestQrUrl) {
+//         res.json({ success: true, qrCodeUrl: latestQrUrl });
+//     } else {
+//         res.json({ success: false, message: 'QR code not generated yet.' });
+//     }
+// });
 
 
 // //For Logout
@@ -819,22 +928,22 @@ app.get('/get-qr-code', (req, res) => {
 
 
 // Route to send a WhatsApp message
-app.post('/whatsapp-message', async (req, res) => {
-    const { phoneNumber, message } = req.body;
+// app.post('/whatsapp-message', async (req, res) => {
+//     const { phoneNumber, message } = req.body;
 
-    // Validate input data
-    if (!phoneNumber || !message) {
-        return res.status(400).json({ error: 'Phone number and message are required.' });
-    }
+//     // Validate input data
+//     if (!phoneNumber || !message) {
+//         return res.status(400).json({ error: 'Phone number and message are required.' });
+//     }
 
-    try {
-        await whatsappClient.sendMessage(phoneNumber, message); // Send the message using sendMessage
-        res.status(200).json({ message: 'Message sent successfully!' });
-    } catch (error) {
-        console.error('Error sending WhatsApp message:', error);
-        res.status(500).json({ error: 'Failed to send the message. Please try again later.' });
-    }
-});
+//     try {
+//         await whatsappClient.sendMessage(phoneNumber, message); // Send the message using sendMessage
+//         res.status(200).json({ message: 'Message sent successfully!' });
+//     } catch (error) {
+//         console.error('Error sending WhatsApp message:', error);
+//         res.status(500).json({ error: 'Failed to send the message. Please try again later.' });
+//     }
+// });
 
 app.post('/generate-pdf', async (req, res) => {
     const {
@@ -930,9 +1039,9 @@ app.post('/generate-pdf', async (req, res) => {
 //     `${name}_DM_Screening_Report.pdf`
 // );
 
-await whatsappClient.sendMessage(
-    `91${contactNo}`
-);
+// await whatsappClient.sendMessage(
+//     `91${contactNo}`
+// );
  
 //          res.status(200).json({ success: true, message: "PDF sent via WhatsApp!" });
 //      } catch (error) {

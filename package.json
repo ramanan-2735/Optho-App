@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
-  "scripts": {
+  "type": "module"
+,  "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
   "engines": {
-  "node": "18.19.1"
+  "node": "18.20.8"
 },
   "author": "Ram",
   "license": "ISC",
