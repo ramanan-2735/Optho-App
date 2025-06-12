@@ -3,6 +3,8 @@
 .wwebjs_auth/session/
 .wwebjs_cache/
 
+package-lock.json
+
 
 # Logs
 logs

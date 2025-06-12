@@ -1,15 +1,28 @@
-2025/04/02-20:53:10.600 3546 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/04/02-20:53:10.600 3546 Recovering log #82
-2025/04/02-20:53:10.616 3546 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000082.log 
-2025/04/02-20:53:13.168 354f Level-0 table #88: started
-2025/04/02-20:53:13.205 354f Level-0 table #88: 33520 bytes OK
-2025/04/02-20:53:13.247 354f Delete type=0 #82
-2025/04/02-20:53:13.252 354f Manual compaction at level-0 from '\x00\x1f\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00 \x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/04/02-20:53:18.428 354b Compacting 1@1 + 2@2 files
-2025/04/02-20:53:18.816 354b Generated table #89@1: 34079 keys, 2192872 bytes
-2025/04/02-20:53:19.175 354b Generated table #90@1: 42177 keys, 1329744 bytes
-2025/04/02-20:53:19.175 354b Compacted 1@1 + 2@2 files => 3522616 bytes
-2025/04/02-20:53:19.206 354b compacted to: files[ 0 0 2 0 0 0 0 ]
-2025/04/02-20:53:19.207 354b Delete type=2 #84
-2025/04/02-20:53:19.207 354b Delete type=2 #85
-2025/04/02-20:53:19.207 354b Delete type=2 #88
+2025/06/12-20:56:59.632 aac6 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/06/12-20:56:59.634 aac6 Recovering log #602
+2025/06/12-20:56:59.646 aac6 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000602.log 
+2025/06/12-20:57:02.300 aae9 Level-0 table #615: started
+2025/06/12-20:57:02.331 aae9 Level-0 table #615: 40504 bytes OK
+2025/06/12-20:57:02.359 aae9 Delete type=0 #602
+2025/06/12-20:57:02.360 aac6 Manual compaction at level-0 from '\x00W\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00X\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/06/12-20:57:06.990 aac6 Compacting 1@1 + 9@2 files
+2025/06/12-20:57:07.431 aac6 Generated table #616@1: 56908 keys, 2213570 bytes
+2025/06/12-20:57:07.657 aac6 Generated table #617@1: 31431 keys, 2184321 bytes
+2025/06/12-20:57:07.783 aac6 Generated table #618@1: 2195 keys, 2151086 bytes
+2025/06/12-20:57:08.000 aac6 Generated table #619@1: 8832 keys, 2171032 bytes
+2025/06/12-20:57:08.235 aac6 Generated table #620@1: 31897 keys, 2235938 bytes
+2025/06/12-20:57:08.426 aac6 Generated table #621@1: 9376 keys, 2165182 bytes
+2025/06/12-20:57:08.768 aac6 Generated table #622@1: 99453 keys, 2249857 bytes
+2025/06/12-20:57:09.085 aac6 Generated table #623@1: 90163 keys, 2005198 bytes
+2025/06/12-20:57:09.085 aac6 Compacted 1@1 + 9@2 files => 17376184 bytes
+2025/06/12-20:57:09.135 aac6 compacted to: files[ 0 0 8 0 0 0 0 ]
+2025/06/12-20:57:09.135 aac6 Delete type=2 #604
+2025/06/12-20:57:09.135 aac6 Delete type=2 #608
+2025/06/12-20:57:09.135 aac6 Delete type=2 #605
+2025/06/12-20:57:09.135 aac6 Delete type=2 #609
+2025/06/12-20:57:09.135 aac6 Delete type=2 #611
+2025/06/12-20:57:09.135 aac6 Delete type=2 #612
+2025/06/12-20:57:09.136 aac6 Delete type=2 #607
+2025/06/12-20:57:09.136 aac6 Delete type=2 #601
+2025/06/12-20:57:09.136 aac6 Delete type=2 #606
+2025/06/12-20:57:09.136 aac6 Delete type=2 #615

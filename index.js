@@ -13,10 +13,12 @@ import { fileURLToPath } from 'url';
 import GoogleStrategy from "passport-google-oauth2";
 import dotenv from 'dotenv';
 // import { sendEmail } from './components/mailer.js';
-// import whatsappClient from './components/whatsapp.js';
+import whatsappClient from './components/whatsapp.js';
 import { createLog, loadLog } from './components/databaseMechanism.js';
 import { searchPat } from './components/search.js';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import './components/cleaner.js'; // this auto-runs the cleanup task
+
 import { resolveObjectURL } from 'buffer';
 import rateLimit from 'express-rate-limit';
 import {tmpdir} from "os";
@@ -851,18 +853,18 @@ app.post("/register", async (req, res) => {
 let latestQrUrl = '';
 
 // Update the stored QR URL when generated
-// whatsappClient.qrCodeEmitter.on('qrCodeGenerated', (url) => {
-//     latestQrUrl = url;
-//     console.log('QR Code updated');
-// });
+whatsappClient.qrCodeEmitter.on('qrCodeGenerated', (url) => {
+    latestQrUrl = url;
+    console.log('QR Code updated');
+});
 
-// app.get('/get-qr-code', (req, res) => {
-//     if (latestQrUrl) {
-//         res.json({ success: true, qrCodeUrl: latestQrUrl });
-//     } else {
-//         res.json({ success: false, message: 'QR code not generated yet.' });
-//     }
-// });
+app.get('/get-qr-code', (req, res) => {
+    if (latestQrUrl) {
+        res.json({ success: true, qrCodeUrl: latestQrUrl });
+    } else {
+        res.json({ success: false, message: 'QR code not generated yet.' });
+    }
+});
 
 
 // //For Logout
@@ -945,30 +947,30 @@ let latestQrUrl = '';
 //     }
 // });
 
-app.post('/generate-pdf', async (req, res) => {
-    const {
-        name,
-        registrationNo,
-        age,
-        sex,
-        contactNo,
-        diabetesType,
-        insulin,
-        noOfOHA,
-        hba1c,
-        bcvar,
-        bcval,
-        iopr,
-        iopl,
-        drr,
-        drl,
-        mer,
-        mel,
-        octr,
-        octl,
-        treatmentAdvice,
-        followUp,
-    } = req.body;
+// app.post('/generate-pdf', async (req, res) => {
+//     const {
+//         name,
+//         registrationNo,
+//         age,
+//         sex,
+//         contactNo,
+//         diabetesType,
+//         insulin,
+//         noOfOHA,
+//         hba1c,
+//         bcvar,
+//         bcval,
+//         iopr,
+//         iopl,
+//         drr,
+//         drl,
+//         mer,
+//         mel,
+//         octr,
+//         octl,
+//         treatmentAdvice,
+//         followUp,
+//     } = req.body;
 
 //     try {
 //         // 1. Validate required fields
@@ -1048,7 +1050,97 @@ app.post('/generate-pdf', async (req, res) => {
 //          console.error("Error:", error);
 //          res.status(500).json({ error: error.message });
 //      }
-  });
+//   });
+
+app.post('/generate-pdf', async (req, res) => {
+    const {
+        name, registrationNo, age, sex, contactNo,
+        diabetesType, insulin, noOfOHA, hba1c,
+        bcvar, bcval, iopr, iopl,
+        drr, drl, mer, mel,
+        octr, octl, treatmentAdvice, followUp
+    } = req.body;
+
+    try {
+        if (!name || !contactNo) {
+            return res.status(400).json({ error: "Name and contact number are required" });
+        }
+
+        const templatePath = path.join(__dirname, 'public', 'templates', 'DM screening Form.pdf');
+        const pdfTemplate = await fs.readFile(templatePath);
+
+        if (!pdfTemplate || pdfTemplate.length === 0) {
+            throw new Error('PDF template not found or is empty');
+        }
+
+        const pdfDoc = await PDFDocument.load(pdfTemplate);
+        const page = pdfDoc.getPage(0);
+        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+        const fontSize = 10;
+
+        // Draw data to the PDF
+        const drawField = (text, x, y) => {
+            page.drawText(String(text ?? ''), {
+                x, y, size: fontSize, font, color: rgb(0, 0, 0)
+            });
+        };
+
+        drawField(name, 120, 595);
+        drawField(registrationNo, 450, 595);
+        drawField(age, 145, 570);
+        drawField(sex, 255, 570);
+        drawField(contactNo, 400, 570);
+        drawField(` - ${diabetesType || ''}`, 315, 545);
+
+        drawField(insulin ? 'Yes' : 'No', 190, 520);
+        drawField(noOfOHA, 410, 520);
+        drawField(hba1c, 505, 520);
+
+        drawField(bcval || 'Nil', 285, 415);
+        drawField(bcvar || 'Nil', 385, 415);
+
+        drawField(iopl || 'Nil', 285, 385);
+        drawField(iopr || 'Nil', 385, 385);
+
+        drawField(drr || 'Nil', 250, 268);
+        drawField(drl || 'Nil', 250, 240);
+
+        drawField(mer || 'Nil', 385, 268);
+        drawField(mel || 'Nil', 385, 240);
+
+        drawField(octr || 'Nil', 495, 268);
+        drawField(octl || 'Nil', 495, 240);
+
+        drawField(treatmentAdvice, 235, 180);
+        drawField(followUp, 55, 95);
+
+        // Save PDF to file
+       
+        const fileName = `${name.replace(/\s+/g, '_')}_DM_Screening_Report.pdf`;
+        const filePath = path.join(__dirname, 'tmpPDF', fileName);
+        const pdfBytes = await pdfDoc.save();
+        await fs.writeFile(filePath, pdfBytes);
+
+        // Optional: send via WhatsApp
+       
+        await whatsappClient.sendMessage(
+            `91${contactNo}`,
+            `${name}'s Diabetes Screening Report`,
+            Buffer.from(pdfBytes),
+            fileName
+        );
+
+        res.status(200).json({
+            success: true,
+            message: 'PDF generated and saved successfully.',
+            filePath: `/tmpPDF/${fileName}`
+        });
+
+    } catch (error) {
+        console.error("PDF generation error:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 
 app.post("/login", passport.authenticate("local", {

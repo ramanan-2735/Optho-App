@@ -1,23 +1,7 @@
-2025/04/02-20:53:24.974 35eb Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/04/02-20:53:24.974 35eb Recovering log #87
-2025/04/02-20:53:24.983 35eb Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000087.log 
-2025/04/02-20:53:27.466 35dd Level-0 table #93: started
-2025/04/02-20:53:27.508 35dd Level-0 table #93: 34055 bytes OK
-2025/04/02-20:53:27.539 35dd Delete type=0 #87
-2025/04/02-20:53:27.541 35dd Manual compaction at level-0 from '\x00 \x00\x00\x00' @ 72057594037927935 : 1 .. '\x00!\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/04/02-20:53:32.001 35dd Compacting 1@1 + 2@2 files
-2025/04/02-20:53:32.369 35dd Generated table #94@1: 34027 keys, 2192246 bytes
-2025/04/02-20:53:32.561 35dd Generated table #95@1: 42574 keys, 1343682 bytes
-2025/04/02-20:53:32.561 35dd Compacted 1@1 + 2@2 files => 3535928 bytes
-2025/04/02-20:53:32.596 35dd compacted to: files[ 0 0 2 0 0 0 0 ]
-2025/04/02-20:53:32.597 35dd Delete type=2 #89
-2025/04/02-20:53:32.597 35dd Delete type=2 #93
-2025/04/02-20:53:32.597 35dd Delete type=2 #90
-2025/04/02-20:54:00.363 3613 Level-0 table #97: started
-2025/04/02-20:54:00.571 3613 Level-0 table #97: 1124168 bytes OK
-2025/04/02-20:54:00.604 3613 Delete type=0 #92
-2025/04/02-20:54:01.617 3613 Compacting 1@1 + 2@2 files
-2025/04/02-20:54:01.880 3613 Generated table #98@1: 34487 keys, 2197172 bytes
-2025/04/02-20:54:02.247 3613 Generated table #99@1: 60093 keys, 1841485 bytes
-2025/04/02-20:54:02.247 3613 Compacted 1@1 + 2@2 files => 4038657 bytes
-2025/04/02-20:54:02.279 3613 compacted to: files[ 0 0 2 0 0 0 0 ]
+2025/06/12-20:57:24.131 ab95 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/06/12-20:57:24.132 ab95 Recovering log #614
+2025/06/12-20:57:24.216 ab95 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000614.log 
+2025/06/12-20:57:26.471 ab86 Level-0 table #626: started
+2025/06/12-20:57:26.562 ab86 Level-0 table #626: 493711 bytes OK
+2025/06/12-20:57:26.592 ab86 Delete type=0 #614
+2025/06/12-20:57:26.595 ab86 Manual compaction at level-0 from '\x00X\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00Y\x00\x00\x00' @ 0 : 0; will stop at (end)

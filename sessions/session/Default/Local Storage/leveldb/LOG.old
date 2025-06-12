@@ -1,3 +1,3 @@
-2025/04/02-20:53:09.487 3546 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/Local Storage/leveldb/MANIFEST-000001
-2025/04/02-20:53:09.501 3546 Recovering log #3
-2025/04/02-20:53:09.502 3546 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/Local Storage/leveldb/000003.log 
+2025/06/12-20:56:58.882 aac5 Reusing MANIFEST /home/ramanan/Desktop/Optho-App/sessions/session/Default/Local Storage/leveldb/MANIFEST-000001
+2025/06/12-20:56:58.882 aac5 Recovering log #4
+2025/06/12-20:56:58.882 aac5 Reusing old log /home/ramanan/Desktop/Optho-App/sessions/session/Default/Local Storage/leveldb/000004.log 
