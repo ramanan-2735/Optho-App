@@ -1063,6 +1063,9 @@ app.post('/generate-pdf', async (req, res) => {
         octr, octl, treatmentAdvice, followUp
     } = req.body;
 
+    console.log("Saving PDF to:", filePath);
+console.log("Sending PDF to WhatsApp number:", contactNo);
+
     try {
         if (!name || !contactNo) {
             return res.status(400).json({ error: "Name and contact number are required" });
@@ -1124,6 +1127,8 @@ app.post('/generate-pdf', async (req, res) => {
         await fs.writeFile(filePath, pdfBytes);
 
         // Optional: send via WhatsApp
+console.log("Saving PDF to:", filePath);
+console.log("Sending PDF to WhatsApp number:", contactNo);
 
         await whatsappClient.sendMessage(
             `91${contactNo}`,
