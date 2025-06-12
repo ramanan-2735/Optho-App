@@ -1135,7 +1135,7 @@ app.post('/generate-pdf', async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'PDF generated and saved successfully.',
-            filePath: `app/tmpPDF/${fileName}`
+            filePath: `tmpPDF/${fileName}`
         });
 
     } catch (error) {
