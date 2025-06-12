@@ -21,7 +21,7 @@ import './components/cleaner.js'; // this auto-runs the cleanup task
 
 import { resolveObjectURL } from 'buffer';
 import rateLimit from 'express-rate-limit';
-import {tmpdir} from "os";
+import { tmpdir } from "os";
 
 dotenv.config();
 if (!process.env.UNAME) {
@@ -40,6 +40,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const saltRounds = 5;
 const cl = console.log;
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public/'));
@@ -70,7 +71,7 @@ const connectionString = process.env.DB_URL || 'postgres://postgres:123456@local
 
 const db = new pg.Pool({
     connectionString: connectionString,
-    ssl:{rejectUnauthorized: false}
+    ssl: { rejectUnauthorized: false }
 });
 
 db.connect();
@@ -98,6 +99,7 @@ app.get('/home', async (req, res) => {
     name = await pats();
     const currentUrl = req.get("host");
     cl(currentUrl);
+    cl(__dirname)
     searchPat(name);
     res.render("index.ejs", { name: name.rows });
     // } else {
@@ -532,10 +534,10 @@ app.get("/auth/google/home", passport.authenticate("google", {
 function processFormData(det) {
     // Process treatments
     const formattedTreatments = processTreatments(det);
-    
+
     // Process advice
     const formattedAdvice = processAdvice(det);
-    
+
     return { formattedTreatments, formattedAdvice };
 }
 
@@ -556,7 +558,7 @@ function processTreatments(det) {
         let treatmentStr = treat;
         if (spec) treatmentStr += ` - (${spec})`;
         if (date) treatmentStr += ` - ${date}`;
-        
+
         return treatmentStr;
     });
 }
@@ -574,7 +576,7 @@ function processAdvice(det) {
     return advice.map(adv => {
         const specKey = treatmentAdviceFields[adv];
         const spec = specKey ? (det[specKey] || "Not Mentioned") : null;
-        
+
         return spec ? `${adv} - (${spec})` : adv;
     });
 }
@@ -589,26 +591,26 @@ async function insertPatientDetails(det, treatments, advice, reason) {
                   $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, 
                   $21, $22, $23, $24, $25, $26)
     `;
-    
+
     const values = [
-        det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary, 
-        det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatments, 
-        det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, 
-        det.mer, det.mel, det.octr, det.octl, advice, det.fllwp, 
+        det.name, det.reg, det.age, det.sex, det.contact, det.beneficiary,
+        det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatments,
+        det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl,
+        det.mer, det.mel, det.octr, det.octl, advice, det.fllwp,
         det.quen1, reason
     ];
-    
+
     await db.query(query, values);
 }
 
-async function createLogEntry(det, treatments, advice) {    
-    createLog(1, det.reg ,det.dtype,det.ddur,det.insulin,det.oha,det.HBA1c,treatments,det.bcvar,det.bcval,det.iopr,det.iopl,det.drr,det.drl,det.mer,det.mel,det.octr,det.octl,advice,det.fllwp);
+async function createLogEntry(det, treatments, advice) {
+    createLog(1, det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, treatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, advice, det.fllwp);
 }
 
 app.post("/addPat", async (req, res) => {
     try {
         const det = req.body;
-        
+
         // Validate required fields
         if (!det.reg) {
             throw new Error("Registration number is required");
@@ -616,18 +618,18 @@ app.post("/addPat", async (req, res) => {
 
         // Format treatments and advice
         const { formattedTreatments, formattedAdvice } = processFormData(det);
-        
+
         // Handle special case for "Others" reason
-        const reason = det.quen2 === "Others" 
-            ? `Others - ${det.other_reason || 'Not specified'}` 
+        const reason = det.quen2 === "Others"
+            ? `Others - ${det.other_reason || 'Not specified'}`
             : det.quen2 || '';
 
         // Insert patient details
         await insertPatientDetails(det, formattedTreatments, formattedAdvice, reason);
-        
+
         // Create log entry
         await createLogEntry(det, formattedTreatments, formattedAdvice);
-        
+
         res.redirect("/home");
     } catch (error) {
         console.error("Error in /addPat:", error.message);
@@ -657,10 +659,10 @@ app.get("/deletePat/:id", async (req, res) => {
     res.redirect("/home");
 });
 
-app.get("/deleteLog/:reg/:id", async (req,res) => {
+app.get("/deleteLog/:reg/:id", async (req, res) => {
     cl(req.params);
 
-    await db.query("delete from patientlog where reg = ($1) AND visit = ($2)",[req.params.reg, req.params.id]);
+    await db.query("delete from patientlog where reg = ($1) AND visit = ($2)", [req.params.reg, req.params.id]);
 
     res.redirect("/home");
 })
@@ -673,9 +675,9 @@ app.post("/updatePat/:reg", async (req, res) => {
     const treatment = Array.isArray(det.treatment) ? det.treatment : [det.treatment];
     const advice = Array.isArray(det.advice) ? det.advice : [det.advice];
 
-    let reason="";
-    if(req.body.quen2 === "Others"){
-         reason = "Others - "+ req.body.other_reason;
+    let reason = "";
+    if (req.body.quen2 === "Others") {
+        reason = "Others - " + req.body.other_reason;
     }
     let formattedTreatments = [];
 
@@ -738,7 +740,7 @@ app.post("/updatePat/:reg", async (req, res) => {
         await createLog(last_visit, det.reg, det.dtype, det.ddur, det.insulin, det.oha, det.HBA1c, formattedTreatments, det.bcvar, det.bcval, det.iopr, det.iopl, det.drr, det.drl, det.mer, det.mel, det.octr, det.octl, formattedAdvice, det.fllwp);
     } catch (e) {
         console.log(e.message);
-    res.redirect(`/patientDet/${req.params.reg}/${last_visit - 1}`);
+        res.redirect(`/patientDet/${req.params.reg}/${last_visit - 1}`);
 
     }
 
@@ -797,7 +799,7 @@ app.post("/register", async (req, res) => {
 //         <p>That your Macular Edema for left eye is ${templateData.message.mel}</p>
 //         <p>That your OCT Finding for right eye is ${templateData.message.octr}</p>
 //         <p>That your OCT Finding for left eye is ${templateData.message.octl}</p>
-        
+
 //         <p>Thank you for using our service.</p>
 //     `;
 
@@ -873,7 +875,7 @@ app.get('/get-qr-code', (req, res) => {
 //     try {
 //       // Destroy current session
 //       await client.destroy();
-      
+
 //       // Clear local session files
 //       const sessionPath = path.join(__dirname, '.wwebjs_auth');
 //       try {
@@ -881,22 +883,22 @@ app.get('/get-qr-code', (req, res) => {
 //       } catch (err) {
 //         console.log('No session files to delete');
 //       }
-      
+
 //       // Reinitialize client to generate new QR
 //       await client.initialize();
-      
+
 //       res.json({ success: true });
 //     } catch (error) {
 //       res.status(500).json({ success: false, error: error.message });
 //     }
 //   });
-  
+
 //   app.use((req, res, next) => {
 //     req.whatsappClient = client;
 //     next();
 //   });
 
-  
+
 //   // Now in routes
 //   app.get('/login-status', (req, res) => {
 //     res.json({
@@ -908,7 +910,7 @@ app.get('/get-qr-code', (req, res) => {
 //     windowMs: 15 * 60 * 1000, // 15 minutes
 //     max: 3 // Allow 3 logout attempts per window
 //   });
-  
+
 //   app.use('/force-logout', logoutLimiter); 
 
 // Add this anywhere after client initialization
@@ -917,7 +919,7 @@ app.get('/get-qr-code', (req, res) => {
 //       isAuthenticated: client.pupPage !== null  // Checks if WhatsApp is logged in
 //     });
 //   });
-  
+
 //   app.post('/force-reauth', async (req, res) => {
 //     try {
 //       await client.destroy();  // Destroy current session
@@ -981,18 +983,18 @@ app.get('/get-qr-code', (req, res) => {
 //         // 2. Load PDF template
 //         const templatePath = path.join(__dirname, 'public', 'templates', 'DM screening Form.pdf');
 //         const pdfTemplate = await fs.readFile(templatePath);
-        
+
 //         if (!pdfTemplate) {
 //             throw new Error('PDF template not found or is empty');
 //         }
 
 //         // 3. Generate PDF in memory
 //         const pdfDoc = await PDFDocument.load(pdfTemplate);
-        
+
 //         if (pdfDoc.getPageCount() === 0) {
 //             throw new Error('PDF template has no pages');
 //         }
-        
+
 //         const page = pdfDoc.getPages()[0];
 //         const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 //         const fontSize = 10;
@@ -1044,7 +1046,7 @@ app.get('/get-qr-code', (req, res) => {
 // await whatsappClient.sendMessage(
 //     `91${contactNo}`
 // );
- 
+
 //          res.status(200).json({ success: true, message: "PDF sent via WhatsApp!" });
 //      } catch (error) {
 //          console.error("Error:", error);
@@ -1115,14 +1117,14 @@ app.post('/generate-pdf', async (req, res) => {
         drawField(followUp, 55, 95);
 
         // Save PDF to file
-       
+
         const fileName = `${name.replace(/\s+/g, '_')}_DM_Screening_Report.pdf`;
-        const filePath = path.join(__dirname, 'app/tmpPDF', fileName);
+        const filePath = path.join(__dirname, 'tmpPDF', fileName);
         const pdfBytes = await pdfDoc.save();
         await fs.writeFile(filePath, pdfBytes);
 
         // Optional: send via WhatsApp
-       
+
         await whatsappClient.sendMessage(
             `91${contactNo}`,
             `${name}'s Diabetes Screening Report`,
