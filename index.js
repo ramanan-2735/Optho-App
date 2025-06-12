@@ -1063,8 +1063,7 @@ app.post('/generate-pdf', async (req, res) => {
         octr, octl, treatmentAdvice, followUp
     } = req.body;
 
-    console.log("Saving PDF to:", filePath);
-console.log("Sending PDF to WhatsApp number:", contactNo);
+    cl("making pdf")
 
     try {
         if (!name || !contactNo) {
@@ -1126,9 +1125,9 @@ console.log("Sending PDF to WhatsApp number:", contactNo);
         const pdfBytes = await pdfDoc.save();
         await fs.writeFile(filePath, pdfBytes);
 
+        cl("made pdf")
         // Optional: send via WhatsApp
-console.log("Saving PDF to:", filePath);
-console.log("Sending PDF to WhatsApp number:", contactNo);
+        cl("now sending pdf")
 
         await whatsappClient.sendMessage(
             `91${contactNo}`,
