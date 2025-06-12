@@ -701,7 +701,7 @@
                 followUp: '<%= logs[0].fllwp %>',
             };
 
-            const apiUrl = `${window.location.protocol}//${window.location.hostname}:15021`;
+            const apiUrl = `${window.location.protocol}//${window.location.hostname}`;
             console.log(apiUrl)
            const response =  await axios.post(`${apiUrl}/generate-pdf`, data);
 
