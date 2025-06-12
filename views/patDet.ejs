@@ -793,7 +793,10 @@
                 followUp: '<%= hstry[0].fllwp %>',
             };
 
-            const response = await axios.post('http://localhost:3000/generate-pdf',data);
+            const apiUrl = `${window.location.protocol}//${window.location.hostname}:15021`;
+            console.log(apiUrl)
+           const response =  await axios.post(`${apiUrl}/generate-pdf`, data);
+
 
             console.log(response)
             
