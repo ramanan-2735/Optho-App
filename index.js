@@ -1117,7 +1117,7 @@ app.post('/generate-pdf', async (req, res) => {
         // Save PDF to file
        
         const fileName = `${name.replace(/\s+/g, '_')}_DM_Screening_Report.pdf`;
-        const filePath = path.join(__dirname, 'tmpPDF', fileName);
+        const filePath = path.join(__dirname, 'app/tmpPDF', fileName);
         const pdfBytes = await pdfDoc.save();
         await fs.writeFile(filePath, pdfBytes);
 
@@ -1133,7 +1133,7 @@ app.post('/generate-pdf', async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'PDF generated and saved successfully.',
-            filePath: `/tmpPDF/${fileName}`
+            filePath: `app/tmpPDF/${fileName}`
         });
 
     } catch (error) {

@@ -3,8 +3,6 @@
 .wwebjs_auth/session/
 .wwebjs_cache/
 
-package-lock.json
-
 
 # Logs
 logs
@@ -137,3 +135,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+package-lock.json
