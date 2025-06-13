@@ -91,16 +91,16 @@ app.get('/', (req, res) => {
 })
 
 app.get('/home', async (req, res) => {
-    if (req.isAuthenticated()) {
+    // if (req.isAuthenticated()) {
     name = await pats();
     const currentUrl = req.get("host");
     cl(currentUrl);
     cl(__dirname)
     searchPat(name);
     res.render("index.ejs", { name: name.rows });
-    } else {
-        res.redirect("/login");
-    }
+    // } else {
+    //     res.redirect("/login");
+    // }
 
 })
 
