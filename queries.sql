@@ -2,7 +2,7 @@
 
 --ALL PATIENTS TABLE
 CREATE TABLE details (
-    id serial,
+    id INT GENERATED ALWAYS AS IDENTITY,
     name text not NULL,
     reg text PRIMARY KEY,
     age text NULL,
@@ -33,7 +33,7 @@ CREATE TABLE details (
 
 -- PATIENTS LOG TABLE
 CREATE TABLE PatientLog (
-    log_id serial PRIMARY KEY,
+    log_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     visit int null,
     reg text NOT NULL,
     dtype text NULL,
@@ -61,7 +61,7 @@ CREATE TABLE PatientLog (
 
 -- USERS
 CREATE TABLE users(
-    id serial PRIMARY KEY,
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100)
 );
@@ -69,7 +69,7 @@ CREATE TABLE users(
 
 -- IMAGES
 CREATE TABLE images (
-    id serial NOT NULL,
+    id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
     reg text not null,
     filename character varying(255),
     data bytea,
